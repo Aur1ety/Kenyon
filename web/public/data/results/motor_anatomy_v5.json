@@ -1,0 +1,35 @@
+{
+ "graph": {
+  "path": "subgraph_v5.npz",
+  "n_nodes": 138968,
+  "n_edges": 4639332,
+  "readout_type": "MBON11"
+ },
+ "dn_selection": {
+  "n_DN": 1312,
+  "rule": "dynamic nodes with superclass == descending_neuron",
+  "n_readout_set": 36,
+  "n_readout_set_among_DN": 34,
+  "n_type_prefix_DN": 1322,
+  "prefix_DN_but_not_descending": {
+   "DN1pA": 8,
+   "DN1a": 4,
+   "DNx02": 4,
+   "DN1pB": 4,
+   "DNd01": 4,
+   "DNx01": 2,
+   "DNg28": 1,
+   "DNES3": 1
+  },
+  "descending_without_DN_prefix": {
+   "MDN": 4,
+   "": 4,
+   "pIP1": 2,
+   "aSP22": 2,
+   "pMP2": 2,
+   "CB0429": 2,
+   "pIP10": 2
+  }
+ },
+ "direct_contacts_readout_type_to_DN": []
+}

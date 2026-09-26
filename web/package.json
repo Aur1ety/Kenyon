@@ -1,0 +1,31 @@
+{
+  "name": "kenyon-web",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Kenyon in the browser: the feedforward mushroom-body model of docs/RESULTS.md sections 1 and 2, run on the exported MaleCNS wiring. A model of the wiring, not a recording of a fly.",
+  "type": "module",
+  "engines": {
+    "node": "^22.12.0 || >=24.0.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "check": "vitest run && vite build",
+    "sync-results": "node scripts/sync_results.mjs"
+  },
+  "dependencies": {
+    "@fontsource/ibm-plex-mono": "^5.3.0",
+    "@fontsource/ibm-plex-sans": "^5.3.0",
+    "@fontsource/space-grotesk": "^5.3.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "three": "^0.186.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.1.1",
+    "vite": "^8.3.1",
+    "vitest": "^5.0.2"
+  }
+}

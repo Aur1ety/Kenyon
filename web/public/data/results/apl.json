@@ -1,0 +1,143 @@
+{
+ "n_APL": 2,
+ "n_KC": 4064,
+ "n_seeds": 10,
+ "matched_density_mean_sd": {
+  "kwta": [
+   0.0463,
+   0.0
+  ],
+  "real": [
+   0.0464,
+   0.001
+  ],
+  "uniform": [
+   0.0457,
+   0.0012
+  ],
+  "shuffled": [
+   0.0468,
+   0.0011
+  ]
+ },
+ "cross_odour_cos_mean_sd_over_seeds": {
+  "kwta_pure_drive": [
+   0.1,
+   0.015
+  ],
+  "uniform_APL": [
+   0.1074,
+   0.0141
+  ],
+  "real_APL": [
+   0.13,
+   0.0158
+  ],
+  "shuffled_APL": [
+   0.1794,
+   0.0156
+  ]
+ },
+ "support_fractions": {
+  "uniform_le_real": 0.9,
+  "shuffled_worse_than_real": 1.0,
+  "kwta_most_distinct": 1.0
+ },
+ "distinctness_from_PN_KC_drive_not_APL_weights": true,
+ "convergence": {
+  "converged": true,
+  "max_iters_used": 63,
+  "iter_cap": 500,
+  "max_final_delta": 9.97248728040745e-10
+ },
+ "example_seed": 0,
+ "example_seed_gain_sweep": {
+  "8": {
+   "active_frac": 0.251,
+   "cross_odour_cos_mean": 0.3376,
+   "cross_odour_cos_max": 0.529
+  },
+  "16": {
+   "active_frac": 0.1814,
+   "cross_odour_cos_mean": 0.2717,
+   "cross_odour_cos_max": 0.4644
+  },
+  "32": {
+   "active_frac": 0.125,
+   "cross_odour_cos_mean": 0.2165,
+   "cross_odour_cos_max": 0.4139
+  },
+  "48": {
+   "active_frac": 0.0989,
+   "cross_odour_cos_mean": 0.1921,
+   "cross_odour_cos_max": 0.3787
+  },
+  "64": {
+   "active_frac": 0.082,
+   "cross_odour_cos_mean": 0.1765,
+   "cross_odour_cos_max": 0.3735
+  },
+  "80": {
+   "active_frac": 0.071,
+   "cross_odour_cos_mean": 0.1649,
+   "cross_odour_cos_max": 0.3527
+  },
+  "96": {
+   "active_frac": 0.064,
+   "cross_odour_cos_mean": 0.1571,
+   "cross_odour_cos_max": 0.3483
+  },
+  "112": {
+   "active_frac": 0.0581,
+   "cross_odour_cos_mean": 0.1509,
+   "cross_odour_cos_max": 0.3532
+  },
+  "128": {
+   "active_frac": 0.0531,
+   "cross_odour_cos_mean": 0.1432,
+   "cross_odour_cos_max": 0.3403
+  },
+  "144": {
+   "active_frac": 0.0495,
+   "cross_odour_cos_mean": 0.1381,
+   "cross_odour_cos_max": 0.345
+  },
+  "160": {
+   "active_frac": 0.0454,
+   "cross_odour_cos_mean": 0.1309,
+   "cross_odour_cos_max": 0.3224
+  },
+  "176": {
+   "active_frac": 0.042,
+   "cross_odour_cos_mean": 0.1264,
+   "cross_odour_cos_max": 0.3343
+  },
+  "192": {
+   "active_frac": 0.0397,
+   "cross_odour_cos_mean": 0.1217,
+   "cross_odour_cos_max": 0.319
+  },
+  "224": {
+   "active_frac": 0.0354,
+   "cross_odour_cos_mean": 0.117,
+   "cross_odour_cos_max": 0.2926
+  },
+  "256": {
+   "active_frac": 0.033,
+   "cross_odour_cos_mean": 0.1138,
+   "cross_odour_cos_max": 0.2973
+  },
+  "384": {
+   "active_frac": 0.025,
+   "cross_odour_cos_mean": 0.1063,
+   "cross_odour_cos_max": 0.3163
+  },
+  "512": {
+   "active_frac": 0.0204,
+   "cross_odour_cos_mean": 0.0978,
+   "cross_odour_cos_max": 0.3129
+  }
+ },
+ "verdict": "Across 10 seeds (fresh odour sets + fresh APL->KC shuffles), at density matched to the kWTA baseline (~0.0463), cross-odour cosine (lower = more distinct, mean+-sd over seeds): pure PN->KC drive top-k [0.1, 0.015], uniform APL threshold [0.1074, 0.0141], real per-cell APL->KC [0.13, 0.0158], shuffled APL->KC [0.1794, 0.0156]. The per-cell APL weights do NOT create the odour identity: a structureless uniform threshold is as distinct as the real weights on 90% of seeds, and the pure feedforward top-k (no APL at all) is the MOST distinct on 100% of seeds. The real weights are not random -- shuffling them is worse on 100% of seeds -- but 'beats random' is not 'creates the code': the real-vs-uniform gap (0.0226) is small and within seed spread. This is a DIRECTION supported across seeds, not a proven point estimate. Mechanistically it is near-foreordained: the loop's inhibition is rank<=2 (only 2 APL cell(s)), a near-global modulation that cannot do rich per-cell winner selection. Honest conclusion: the PN->KC wiring gives the odour identity; the APL loop sets only the sparseness level. Settling converged (yes, <= 1.0e-09 residual in <= 63 iters).",
+ "elapsed_s": 15.2
+}

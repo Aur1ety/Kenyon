@@ -1,0 +1,380 @@
+{
+ "format": "kenyon-web-manifest/1",
+ "generated_utc": "2026-09-26T02:39:20Z",
+ "generator": "web/scripts/export_web_data.py",
+ "inputs": {
+  "mb_wiring.npz": {
+   "sha256": "fc79599b042ae1c306542eb84ea759bfe8dd4624f45d3cf66ddde4ad937c1b6e",
+   "build": {
+    "build_time": "2026-09-19T15:14:04",
+    "build_source_sha": "c82e39b4017c"
+   }
+  },
+  "neurons.parquet": {
+   "sha256": "5990a2a24c247dad27be805aab00d8e1255603a7e7a8255b498dfb8aca4d520f"
+  },
+  "body-annotations-male-cns-v1.0-minconf-0.5.feather": {
+   "sha256": "2177e246113e4cfbf1e7772ec37c6da1955ff22e8063d0b1f833101f99a9a3b2",
+   "matches_release_SHA256SUMS": true
+  },
+  "connectome-weights-male-cns-v1.0-minconf-0.5.feather": {
+   "sha256": "e35da783d1c686b2b58b3b87cd6a403ae43bfcfba8bff28e08ef752c1a56afc1",
+   "matches_release_SHA256SUMS": true
+  }
+ },
+ "cell_order_check": {
+  "method": "every cached submatrix rebuilt from the weights table in the recovered order; exact equality required",
+  "checks": {
+   "pn_kc": true,
+   "vpn_kc": true,
+   "kc_mbon": true,
+   "dan_mbon": true,
+   "kc_apl": true,
+   "apl_kc": true
+  },
+  "weights_rows_read": 151856684
+ },
+ "position_fallbacks": {
+  "pn": {
+   "n": 220,
+   "somaLocation": 216,
+   "tosomaLocation": 4,
+   "type_side_mean": 0,
+   "type_mean": 0,
+   "population_mean": 0
+  },
+  "vpn": {
+   "n": 252,
+   "somaLocation": 252,
+   "tosomaLocation": 0,
+   "type_side_mean": 0,
+   "type_mean": 0,
+   "population_mean": 0
+  },
+  "kc": {
+   "n": 4064,
+   "somaLocation": 4050,
+   "tosomaLocation": 4,
+   "type_side_mean": 10,
+   "type_mean": 0,
+   "population_mean": 0
+  },
+  "mbon": {
+   "n": 97,
+   "somaLocation": 96,
+   "tosomaLocation": 0,
+   "type_side_mean": 0,
+   "type_mean": 1,
+   "population_mean": 0
+  },
+  "dan": {
+   "n": 332,
+   "somaLocation": 332,
+   "tosomaLocation": 0,
+   "type_side_mean": 0,
+   "type_mean": 0,
+   "population_mean": 0
+  },
+  "apl": {
+   "n": 2,
+   "somaLocation": 2,
+   "tosomaLocation": 0,
+   "type_side_mean": 0,
+   "type_mean": 0,
+   "population_mean": 0
+  }
+ },
+ "reference_engine_check": {
+  "what": "fixtures replayed by an independent float64 NumPy engine that reads only circuit.json and fixtures.json",
+  "kc_set_mismatches": 0,
+  "kc_sets_checked": 124,
+  "mbon_before_max_abs": 0.0,
+  "mbon_after_max_rel": 1.7109207463639439e-06,
+  "drop_max_abs": 6.561394071888382e-07,
+  "score_max_abs": 1.31653264304199e-07,
+  "P_max_abs": 2.2670124849577533e-07,
+  "PI_max_abs": 2.085404420260062e-07,
+  "W_sum_max_rel": 6.287942102985868e-10,
+  "scenarios": 21,
+  "suggested_js_tolerance": {
+   "kc_sets": "exact",
+   "drops_scores_P_PI": 1e-05,
+   "mbon_drive_relative": 1e-05
+  }
+ },
+ "crosscheck": {
+  "olfactory_seed0_vs_olf5_binary": {
+   "fields_compared": [
+    "circuit",
+    "kc_code",
+    "rule",
+    "drop_vs_pairings_MBON11",
+    "one_memory",
+    "generalisation",
+    "dan_alone_no_KC_drop_A",
+    "reward_memory",
+    "coexistence"
+   ],
+   "mismatches": []
+  },
+  "visual_seed0_vs_vis5_binary": {
+   "mismatches": []
+  },
+  "behaviour_seed0_vs_beh5_olf": {
+   "mismatches": []
+  },
+  "behaviour_shufdan_vs_beh5_olf_shufdan": {
+   "mismatches": []
+  },
+  "recall_vs_recall_json": {
+   "mismatches": []
+  },
+  "lesion_vs_lesion_json": {
+   "mismatches": []
+  },
+  "olfactory_10_draws_vs_mb_seeds": {
+   "mismatches": [],
+   "rerun": {
+    "paired_A_MBON11": {
+     "mean": 0.9,
+     "sd": 0.0,
+     "min": 0.9,
+     "max": 0.9,
+     "n": 10
+    },
+    "unpaired_MBON11_mean": {
+     "mean": 0.0929,
+     "sd": 0.0257,
+     "min": 0.0507,
+     "max": 0.1303,
+     "n": 10
+    },
+    "share_of_depression_in_MBON11": {
+     "mean": 0.9637,
+     "sd": 0.0053,
+     "min": 0.9578,
+     "max": 0.977,
+     "n": 10
+    },
+    "same_compartment_A_retained_fraction": {
+     "mean": 0.1894,
+     "sd": 0.0635,
+     "min": 0.1276,
+     "max": 0.3114,
+     "n": 10
+    },
+    "coexist_A_punish_C_reward_A_MBON11": {
+     "mean": 0.8538,
+     "sd": 0.0039,
+     "min": 0.85,
+     "max": 0.8627,
+     "n": 10
+    },
+    "coexist_A_punish_C_reward_C_compartments": {
+     "mean": 0.6995,
+     "sd": 0.014,
+     "min": 0.6784,
+     "max": 0.7336,
+     "n": 10
+    },
+    "ladder": {
+     "shared_5_of_6": 0.5952,
+     "shared_4_of_6": 0.4137,
+     "shared_3_of_6": 0.2907,
+     "shared_1_of_6": 0.118,
+     "shared_0_of_6": 0.0484
+    }
+   }
+  },
+  "fixtures_vs_results": {
+   "S02 paired drop A (calibrated)": {
+    "fixture": 0.899999976,
+    "olf5_binary": 0.9,
+    "README": 0.9
+   },
+   "S02 unpaired drops B..H": {
+    "fixture": [
+     0.0645,
+     0.0586,
+     0.1233,
+     0.2076,
+     0.0733,
+     0.0901,
+     0.2951
+    ],
+    "olf5_binary": [
+     0.0645,
+     0.0586,
+     0.1233,
+     0.2076,
+     0.0733,
+     0.0901,
+     0.2951
+    ]
+   },
+   "S02 unpaired mean": {
+    "fixture": 0.1303,
+    "olf5_binary": 0.1303,
+    "README_ten_draws": "0.09 +- 0.03 (seed-0 draw is 0.13)"
+   },
+   "S02 share of lost drive on MBON11 (odour A)": {
+    "fixture": 0.966663496,
+    "olf5_binary": 0.9667,
+    "README_ten_draws": "0.96 +- 0.01"
+   },
+   "S05 A at MBON11 / C in reward compartments": {
+    "fixture": [
+     0.851822972,
+     0.69161272
+    ],
+    "olf5_binary": [
+     0.8518,
+     0.6916
+    ],
+    "README": "0.85 / 0.70 (ten draws)"
+   },
+   "S06 A after B / B": {
+    "fixture": [
+     0.153570056,
+     0.906446099
+    ],
+    "olf5_binary": [
+     0.1536,
+     0.9064
+    ],
+    "README": "A keeps 0.19 +- 0.06 of its memory (ten draws); seed-0 draw 0.17"
+   },
+   "S09 ladder, fixture's own 20 odours per level (seed-0 odour A)": {
+    "fixture": [
+     0.574964467,
+     0.437868553,
+     0.27195335,
+     0.12018472,
+     0.0629629254
+    ],
+    "olf5_binary_seed0": [
+     0.5855,
+     0.4012,
+     0.283,
+     0.1083,
+     0.0582
+    ],
+    "README_ten_draws": [
+     0.6,
+     0.41,
+     0.29,
+     0.12,
+     0.05
+    ]
+   },
+   "S09 single-odour ladder (one odour per level)": {
+    "fixture": [
+     0.66940999,
+     0.461284637,
+     0.288888931,
+     0.135676324,
+     0.0724576712
+    ],
+    "note": "one odour each; seed specific"
+   },
+   "S11 T-maze PI by beta": {
+    "fixture": {
+     "1": 0.0462954044,
+     "2": 0.0923925638,
+     "4": 0.183219492,
+     "8": 0.354526192,
+     "16": 0.629829757,
+     "32": 0.901806494
+    },
+    "beh5_olf": {
+     "1": 0.0463,
+     "2": 0.0924,
+     "4": 0.1832,
+     "8": 0.3545,
+     "16": 0.6298,
+     "32": 0.9018
+    },
+    "README": "0.34 +- 0.03 at beta 8 over ten pairs; seed-0 pair 0.35"
+   },
+   "S15 shuffled-map PI at beta 8": {
+    "fixture": 0.0203405023,
+    "beh5_olf_shufdan": 0.0203,
+    "README": "0.35 -> 0.02"
+   },
+   "S19 visual unpaired drops": {
+    "fixture": [
+     0.0336,
+     0.0166,
+     0.0636,
+     0.0,
+     0.0,
+     0.0313,
+     0.0
+    ],
+    "vis5_binary": [
+     0.0336,
+     0.0166,
+     0.0636,
+     0.0,
+     0.0,
+     0.0313,
+     0.0
+    ]
+   },
+   "S12_walkthrough_punish_A vs lesion.json[none]": {
+    "fixture": {
+     "unpaired_mean": 0.0821,
+     "mbon11_drive_to_A": 2605,
+     "avoid_A_before": 0.502,
+     "avoid_A_after": 0.6789
+    },
+    "lesion_json": {
+     "unpaired_mean": 0.0821,
+     "mbon11_drive_to_A": 2605.0,
+     "avoid_A_before": 0.502,
+     "avoid_A_after": 0.6789
+    }
+   },
+   "S17_lesion_APL_dense_code vs lesion.json[APL_disinhibited]": {
+    "fixture": {
+     "unpaired_mean": 0.4123,
+     "mbon11_drive_to_A": 16313,
+     "avoid_A_before": 0.5491,
+     "avoid_A_after": 0.6152
+    },
+    "lesion_json": {
+     "unpaired_mean": 0.4123,
+     "mbon11_drive_to_A": 16313.0,
+     "avoid_A_before": 0.5491,
+     "avoid_A_after": 0.6152
+    }
+   },
+   "S18_lesion_KCgm_silenced vs lesion.json[KCg-m_silenced]": {
+    "fixture": {
+     "unpaired_mean": 0.0221,
+     "mbon11_drive_to_A": 644,
+     "avoid_A_before": 0.4344,
+     "avoid_A_after": 0.5803
+    },
+    "lesion_json": {
+     "unpaired_mean": 0.0221,
+     "mbon11_drive_to_A": 644.0,
+     "avoid_A_before": 0.4344,
+     "avoid_A_after": 0.5803
+    }
+   }
+  },
+  "seconds": 24.2
+ },
+ "files": {
+  "circuit.json": {
+   "bytes": 859932,
+   "sha256": "161d618098308b418193bf94f3d5e6d2ef8aea67248f58e1fc87cc24a2afc1f6"
+  },
+  "fixtures.json": {
+   "bytes": 372216,
+   "sha256": "7376ec10ff8ade3ad82af788ebb9073f49542c2e35cd7d90e0655dee1335d5a2"
+  }
+ },
+ "seconds": 100.8
+}

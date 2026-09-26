@@ -137,6 +137,28 @@ The video needs `imageio-ffmpeg` and the Doom graph (for the cell positions): `p
 
 `python -m pytest` runs the tests in about a minute on a laptop CPU. They use small synthetic circuits, so they need no data; the few that check a real import skip when it isn't there.
 
+## Website
+
+`web/` is an interactive 3D version of sections 1 and 2 of [docs/RESULTS.md](docs/RESULTS.md): the same feedforward model, re-implemented in JavaScript and run in the browser on the exported MaleCNS wiring. Every cell is drawn at its scanned cell-body position, except 11 with no scanned cell body (drawn at their type's mean, as hollow rings) and 8 drawn at a scanned point on the neurite. Its tests replay the Python model's own outputs (`web/public/data/fixtures.json`). Almost every number it doesn't compute itself is read from the files in `results/`, copied verbatim into `web/public/data/results`. The exceptions are typed into the code and all come from docs/RESULTS.md: Hige's 90% target, the motor gains β 8 and 11, the body section's 0.5% and 5% cut-offs and five-synapse threshold, and the check that the three descending neurons it lists are the largest movers by share of rate (that needs `results/motor2_full.npz`, which the page doesn't read). It is a model of the wiring, not a recording of a fly.
+
+```bash
+cd web
+npm ci                  # Node 22.12+ or 24+
+npm run dev             # local server
+npm run check           # the engine tests, then a production build into web/dist
+npm run preview         # serve web/dist
+npm run sync-results    # after regenerating results/ or the video, refresh the copies the site ships
+```
+
+To deploy on Vercel, import the repository and set **Root Directory** to `web`; pick Node 22 or 24. `web/vercel.json` makes the build command `npm run check`, so a deploy fails if the engine tests or the result copies fail, and serves `dist`. If Root Directory is left at the repository root, the root `vercel.json` does the same from there.
+
+The site's data (`circuit.json`, `fixtures.json` and `manifest.json` in `web/public/data`) was exported by `web/scripts/export_web_data.py`. It needs PyTorch, the two build outputs above (`$KENYON_OUT/mb/mb_wiring.npz` and `$KENYON_OUT/graph/neurons.parquet`) and two of the MaleCNS Feather files (the annotations and the weights):
+
+```bash
+python web/scripts/export_web_data.py                 # writes web/public/data/
+python web/scripts/export_web_data.py --crosscheck    # also re-runs the result modules and compares with results/
+```
+
 ## Where things are
 
 - `kenyon/connectome` – reading the scan, cutting the subgraphs, the mushroom-body wiring cache
@@ -147,6 +169,7 @@ The video needs `imageio-ffmpeg` and the Doom graph (for the cell positions): `p
 - `configs/readout_v1.json` – DOOM-x-Fly's frozen 36-cell readout set, which the subgraph builder uses to mark output cells
 - `docs/` – the write-up (`RESULTS.md`) and the file formats (`CONTRACTS.md`)
 - `scripts/dnp52_trace.py` – the anatomy trace behind the DNp52 cautions in 4.8
+- `web/` – the website: the browser engine (`web/src/engine`), the 3D view (`web/src/scene`) and the page (`web/src/ui`)
 
 ## Credits
 

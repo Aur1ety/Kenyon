@@ -1,0 +1,56 @@
+{
+ "graph": {
+  "path": "subgraph_full.npz",
+  "n_nodes": 144981,
+  "n_edges": 19513953,
+  "readout_type": "MBON11"
+ },
+ "dn_selection": {
+  "n_DN": 1314,
+  "rule": "dynamic nodes with superclass == descending_neuron",
+  "n_readout_set": 36,
+  "n_readout_set_among_DN": 34,
+  "n_type_prefix_DN": 1337,
+  "prefix_DN_but_not_descending": {
+   "DN1pA": 8,
+   "DNES1": 5,
+   "DNg28": 4,
+   "DN1a": 4,
+   "DNx02": 4,
+   "DN1pB": 4,
+   "DNES3": 4,
+   "DNd01": 4,
+   "DNx01": 2,
+   "DNES2": 2
+  },
+  "descending_without_DN_prefix": {
+   "MDN": 4,
+   "": 4,
+   "pIP1": 2,
+   "aSP22": 2,
+   "pMP2": 2,
+   "CB0429": 2,
+   "pIP10": 2
+  }
+ },
+ "direct_contacts_readout_type_to_DN": [
+  {
+   "DN_type": "DNp52",
+   "DN_side": "L",
+   "from_side": "L",
+   "synapses": 4
+  },
+  {
+   "DN_type": "DNp52",
+   "DN_side": "L",
+   "from_side": "R",
+   "synapses": 4
+  },
+  {
+   "DN_type": "DNp62",
+   "DN_side": "R",
+   "from_side": "R",
+   "synapses": 1
+  }
+ ]
+}

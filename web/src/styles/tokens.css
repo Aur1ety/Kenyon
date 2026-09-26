@@ -1,0 +1,60 @@
+/* Design tokens. Dark connectome-viewer palette; every text colour below passes WCAG AA (4.5:1) on every
+   background token (checked with the WCAG contrast formula; the lowest pair is --punish on --bg-4, 5.9:1). */
+:root {
+  color-scheme: dark;
+
+  --bg-0: #03050a;          /* the 3D canvas */
+  --bg-1: #06090f;          /* page */
+  --bg-2: #0b1019;          /* panels */
+  --bg-3: #111827;          /* raised controls */
+  --bg-4: #172033;          /* hover */
+  --line: #1c2535;
+  --line-2: #2a3649;
+  --line-3: #3a4a62;
+
+  --text-1: #eaf0f7;
+  --text-2: #b7c3d1;
+  --text-3: #93a1b3;
+
+  /* cell classes (same hues as the 3D view and the video) */
+  --kc: #5fd4f0;
+  --kc-shared: #ffe066;
+  --pn: #ffa94d;
+  --vpn: #b197fc;
+  --mbon: #f1f3f5;
+  --punish: #ff6b6b;
+  --reward: #69db7c;
+  --apl: #adb5bd;
+
+  /* status labels */
+  --st-calibration: #ffd43b;
+  --st-wiring: #5fd4f0;
+  --st-negative: #ff8787;
+  --st-fitted: #ffc078;
+  --st-control: #ced4da;
+  --st-rule: #b197fc;
+  --st-quoted: #a5d8ff;
+  --st-choice: #ffc078;
+
+  --focus: #8ce2ff;
+
+  --font-display: 'Space Grotesk', 'IBM Plex Sans', system-ui, sans-serif;
+  --font-body: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+
+  --radius-s: 6px;
+  --radius: 10px;
+  --radius-l: 16px;
+  --header-h: 56px;
+  --shadow: 0 1px 0 rgba(255, 255, 255, 0.03) inset, 0 12px 40px rgba(0, 0, 0, 0.45);
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --t-fast: 140ms;
+  --t-med: 260ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --t-fast: 0ms;
+    --t-med: 0ms;
+  }
+}
