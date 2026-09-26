@@ -1,0 +1,47 @@
+{
+ "w0": 0.0082924214830722,
+ "n_KC": 4064,
+ "n_glomeruli": 59,
+ "n_PN": 272,
+ "n_APL": 2,
+ "odours": 6,
+ "glom_per_odour": 6,
+ "reps_per_odour": 5,
+ "pn_rate_jitter": 0.25,
+ "kc_vrest": -10.0,
+ "decoder_self_check": {
+  "separable_code_acc": 1.0,
+  "shuffled_labels_acc": 0.3,
+  "chance": 0.1667
+ },
+ "with_APL": {
+  "kc_frac_active_mean": 0.0,
+  "kc_frac_active_min_max": [
+   0.0,
+   0.0
+  ],
+  "kc_mean_rate": 0.0,
+  "cross_odour_cos_mean": 0.9989,
+  "cross_odour_cos_max": 0.9995,
+  "within_odour_cos_mean": 0.9999,
+  "loo_nearest_centroid_acc": 1.0,
+  "chance": 0.1667,
+  "centroid_separation_over_within_scatter": 6.1281
+ },
+ "APL_ablated": {
+  "kc_frac_active_mean": 0.0,
+  "kc_frac_active_min_max": [
+   0.0,
+   0.0
+  ],
+  "kc_mean_rate": 0.0,
+  "cross_odour_cos_mean": 0.9989,
+  "cross_odour_cos_max": 0.9995,
+  "within_odour_cos_mean": 0.9999,
+  "loo_nearest_centroid_acc": 1.0,
+  "chance": 0.1667,
+  "centroid_separation_over_within_scatter": 5.7557
+ },
+ "verdict_note": "sparse (kc_frac_active ~0.05-0.15) and decodable (loo_nearest_centroid_acc >> chance) with APL = olfactory learning viable; APL ablation should raise frac_active if APL is sparsening; frac_active ~1 or ~0 at every threshold with decoding at chance = the rate model cannot code odours. The decoder is scored on held-out presentations; the earlier one-presentation nearest-neighbour test was identically 0 and is gone.",
+ "elapsed_s": 2775.1
+}

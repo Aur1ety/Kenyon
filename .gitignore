@@ -1,0 +1,30 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+*.egg-info/
+build/
+dist/
+
+# data and run outputs live outside the repo ($KENYON_DATA, $KENYON_OUT)
+/data/
+outputs/
+scratch/
+videos/
+*.parquet
+*.feather
+*.pt
+*.ckpt
+*.log
+*.npz
+!results/*.npz
+
+# LaTeX build files
+*.aux
+*.out
+*.toc
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+
+.DS_Store

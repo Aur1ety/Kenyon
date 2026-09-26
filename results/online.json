@@ -1,0 +1,225 @@
+{
+ "protocol": {
+  "odour_dur_s": 5.0,
+  "pulses": 4,
+  "da_onset_s": 0.2,
+  "da_freq_hz": 2.0,
+  "da_width_s": 0.05,
+  "tau_elig_s": 0.8,
+  "tau_forget_s": 1000000000.0,
+  "dt_s": 0.01,
+  "eta_anchored": 17.0172,
+  "anchor_target": 0.9,
+  "delta_MBON11": 1.0,
+  "rule": "trace-gated multiplicative depression dW = -eta*dt*DA(t)*delta_j*e_i(t)*W_ij on KC->MBON; NOT the Gkanias 2022 rule of sections 7-9 (no silent-KC recovery term)"
+ },
+ "standard_forward": {
+  "paired_A_MBON11": 0.9,
+  "unpaired_B_MBON11": 0.0645,
+  "note": "unpaired is the wiring-dependent number (Kenyon overlap at MBON11); paired is anchored"
+ },
+ "timing_MBON11": {
+  "-2.0": {
+   "drop_MBON11": 0.0,
+   "closed_form_MBON11": 0.0,
+   "train_s": [
+    -3.55,
+    -2.0
+   ],
+   "pulses_in_odour": 0,
+   "relation_to_odour": "before odour"
+  },
+  "-1.0": {
+   "drop_MBON11": 0.0,
+   "closed_form_MBON11": 0.0,
+   "train_s": [
+    -2.55,
+    -1.0
+   ],
+   "pulses_in_odour": 0,
+   "relation_to_odour": "before odour"
+  },
+  "-0.5": {
+   "drop_MBON11": 0.0,
+   "closed_form_MBON11": 0.0,
+   "train_s": [
+    -2.05,
+    -0.5
+   ],
+   "pulses_in_odour": 0,
+   "relation_to_odour": "before odour"
+  },
+  "0.0": {
+   "drop_MBON11": 0.8527,
+   "closed_form_MBON11": 0.8527,
+   "train_s": [
+    0.0,
+    1.55
+   ],
+   "pulses_in_odour": 4,
+   "relation_to_odour": "during odour"
+  },
+  "0.2": {
+   "drop_MBON11": 0.9,
+   "closed_form_MBON11": 0.9,
+   "train_s": [
+    0.2,
+    1.75
+   ],
+   "pulses_in_odour": 4,
+   "relation_to_odour": "during odour"
+  },
+  "0.5": {
+   "drop_MBON11": 0.9355,
+   "closed_form_MBON11": 0.9355,
+   "train_s": [
+    0.5,
+    2.05
+   ],
+   "pulses_in_odour": 4,
+   "relation_to_odour": "during odour"
+  },
+  "1.0": {
+   "drop_MBON11": 0.9594,
+   "closed_form_MBON11": 0.9594,
+   "train_s": [
+    1.0,
+    2.55
+   ],
+   "pulses_in_odour": 4,
+   "relation_to_odour": "during odour"
+  },
+  "2.0": {
+   "drop_MBON11": 0.9726,
+   "closed_form_MBON11": 0.9726,
+   "train_s": [
+    2.0,
+    3.55
+   ],
+   "pulses_in_odour": 4,
+   "relation_to_odour": "during odour"
+  },
+  "5.2": {
+   "drop_MBON11": 0.735,
+   "closed_form_MBON11": 0.735,
+   "train_s": [
+    5.2,
+    6.75
+   ],
+   "pulses_in_odour": 0,
+   "relation_to_odour": "after odour"
+  },
+  "6.0": {
+   "drop_MBON11": 0.3774,
+   "closed_form_MBON11": 0.3774,
+   "train_s": [
+    6.0,
+    7.55
+   ],
+   "pulses_in_odour": 0,
+   "relation_to_odour": "after odour"
+  },
+  "7.0": {
+   "drop_MBON11": 0.1255,
+   "closed_form_MBON11": 0.1255,
+   "train_s": [
+    7.0,
+    8.55
+   ],
+   "pulses_in_odour": 0,
+   "relation_to_odour": "after odour"
+  }
+ },
+ "training_amount_MBON11": {
+  "0": {
+   "drop_MBON11": 0.0,
+   "closed_form_MBON11": 0.0,
+   "train_s": null,
+   "pulses_in_odour": 0,
+   "relation_to_odour": "no dopamine"
+  },
+  "1": {
+   "drop_MBON11": 0.1963,
+   "closed_form_MBON11": 0.1963,
+   "train_s": [
+    0.2,
+    0.25
+   ],
+   "pulses_in_odour": 1,
+   "relation_to_odour": "during odour"
+  },
+  "2": {
+   "drop_MBON11": 0.5319,
+   "closed_form_MBON11": 0.5319,
+   "train_s": [
+    0.2,
+    0.75
+   ],
+   "pulses_in_odour": 2,
+   "relation_to_odour": "during odour"
+  },
+  "4": {
+   "drop_MBON11": 0.9,
+   "closed_form_MBON11": 0.9,
+   "train_s": [
+    0.2,
+    1.75
+   ],
+   "pulses_in_odour": 4,
+   "relation_to_odour": "during odour"
+  },
+  "8": {
+   "drop_MBON11": 0.9974,
+   "closed_form_MBON11": 0.9974,
+   "train_s": [
+    0.2,
+    3.75
+   ],
+   "pulses_in_odour": 8,
+   "relation_to_odour": "during odour"
+  },
+  "16": {
+   "drop_MBON11": 0.9999,
+   "closed_form_MBON11": 0.9999,
+   "train_s": [
+    0.2,
+    7.75
+   ],
+   "pulses_in_odour": 10,
+   "relation_to_odour": "straddles odour edge"
+  }
+ },
+ "mechanism_controls": {
+  "dopamine_alone_no_odour": 0.0,
+  "odour_alone_no_dopamine": 0.0,
+  "note": "both are zero by the mechanism (no trace without odour; no depression without dopamine)"
+ },
+ "behaviour_from_timed_teaching": {
+  "beta": 8.0,
+  "P_avoid_A": {
+   "untrained": 0.502,
+   "forward_taught": 0.6757,
+   "backward_taught": 0.502
+  },
+  "T_maze_PI": {
+   "forward_taught": 0.3452,
+   "backward_taught": 0.0
+  },
+  "backward_train_s": [
+   -3.75,
+   -2.2
+  ],
+  "note": "forward teaching (dopamine during the odour) yields avoidance through the valence map; a train that ends before the odour starts yields none, which is zero by construction of the trace, not a measured timing curve. wild-type performance index 0.44-0.53.",
+  "P_avoid_A_vs_pulses": {
+   "0": 0.502,
+   "1": 0.5422,
+   "2": 0.6091,
+   "4": 0.6757,
+   "8": 0.6856,
+   "16": 0.6797
+  }
+ },
+ "note": "eta is anchored once (standard protocol -> anchor_target at MBON11). With a binary code the MBON11 timing and dose values are closed forms of (eta, tau_elig, dt, schedule) and carry no connectome information; closed_form_MBON11 is reported next to each and coincides. Wiring-dependent: the unpaired-odour drop, the compartment pattern outside MBON11, and the behavioural readout through the published valence map.",
+ "ground_truth": "Hige 2015: forward pairing depresses, backward does not, more training more memory. Tully & Quinn: T-maze PI 0.44-0.53.",
+ "elapsed_s": 87.5
+}

@@ -1,0 +1,267 @@
+{
+ "n_seeds": 10,
+ "seeds": [
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9
+ ],
+ "per_modality": {
+  "olfactory": {
+   "kc_active_frac": {
+    "mean": 0.0463,
+    "sd": 0.0,
+    "min": 0.0463,
+    "max": 0.0463,
+    "n": 10
+   },
+   "kc_cross_odour_cos_mean": {
+    "mean": 0.1,
+    "sd": 0.0148,
+    "min": 0.0756,
+    "max": 0.1227,
+    "n": 10
+   },
+   "paired_A_MBON11": {
+    "mean": 0.9,
+    "sd": 0.0,
+    "min": 0.9,
+    "max": 0.9,
+    "n": 10
+   },
+   "unpaired_MBON11_mean": {
+    "mean": 0.0929,
+    "sd": 0.0257,
+    "min": 0.0507,
+    "max": 0.1303,
+    "n": 10
+   },
+   "unpaired_MBON11_worst_odour": {
+    "mean": 0.2084,
+    "sd": 0.0591,
+    "min": 0.0985,
+    "max": 0.2951,
+    "n": 10
+   },
+   "share_of_depression_in_MBON11": {
+    "mean": 0.9637,
+    "sd": 0.0053,
+    "min": 0.9578,
+    "max": 0.977,
+    "n": 10
+   },
+   "reward_C_reward_compartments": {
+    "mean": 0.6993,
+    "sd": 0.0141,
+    "min": 0.6782,
+    "max": 0.7335,
+    "n": 10
+   },
+   "reward_C_at_MBON11": {
+    "mean": 0.0578,
+    "sd": 0.0,
+    "min": 0.0578,
+    "max": 0.0578,
+    "n": 10
+   },
+   "coexist_A_punish_C_reward_A_MBON11": {
+    "mean": 0.8538,
+    "sd": 0.0039,
+    "min": 0.85,
+    "max": 0.8627,
+    "n": 10
+   },
+   "coexist_A_punish_C_reward_C_compartments": {
+    "mean": 0.6995,
+    "sd": 0.014,
+    "min": 0.6784,
+    "max": 0.7336,
+    "n": 10
+   },
+   "same_compartment_A_retained_fraction": {
+    "mean": 0.1894,
+    "sd": 0.0635,
+    "min": 0.1276,
+    "max": 0.3114,
+    "n": 10
+   },
+   "generalisation_drop_MBON11": {
+    "shared_5_of_6": {
+     "mean": 0.5952,
+     "sd": 0.0367,
+     "min": 0.5272,
+     "max": 0.6494,
+     "n": 10
+    },
+    "shared_4_of_6": {
+     "mean": 0.4137,
+     "sd": 0.0356,
+     "min": 0.3512,
+     "max": 0.4858,
+     "n": 10
+    },
+    "shared_3_of_6": {
+     "mean": 0.2907,
+     "sd": 0.0245,
+     "min": 0.2515,
+     "max": 0.3224,
+     "n": 10
+    },
+    "shared_1_of_6": {
+     "mean": 0.118,
+     "sd": 0.0176,
+     "min": 0.084,
+     "max": 0.1441,
+     "n": 10
+    },
+    "shared_0_of_6": {
+     "mean": 0.0484,
+     "sd": 0.0074,
+     "min": 0.0306,
+     "max": 0.0582,
+     "n": 10
+    }
+   },
+   "circuit": {
+    "n_input": 220,
+    "n_channels": 50,
+    "n_KC": 4064,
+    "n_drivable_KC": 3755,
+    "kwta_k": 188,
+    "n_MBON": 97
+   }
+  },
+  "visual": {
+   "kc_active_frac": {
+    "mean": 0.004,
+    "sd": 0.0004,
+    "min": 0.003,
+    "max": 0.0042,
+    "n": 10
+   },
+   "kc_cross_odour_cos_mean": {
+    "mean": 0.1141,
+    "sd": 0.0391,
+    "min": 0.0645,
+    "max": 0.1933,
+    "n": 10
+   },
+   "paired_A_MBON11": {
+    "mean": 0.9,
+    "sd": 0.0,
+    "min": 0.9,
+    "max": 0.9,
+    "n": 10
+   },
+   "unpaired_MBON11_mean": {
+    "mean": 0.1849,
+    "sd": 0.1182,
+    "min": 0.0207,
+    "max": 0.3914,
+    "n": 10
+   },
+   "unpaired_MBON11_worst_odour": {
+    "mean": 0.4181,
+    "sd": 0.244,
+    "min": 0.0636,
+    "max": 0.869,
+    "n": 10
+   },
+   "share_of_depression_in_MBON11": {
+    "mean": 0.9539,
+    "sd": 0.0039,
+    "min": 0.9464,
+    "max": 0.9602,
+    "n": 10
+   },
+   "reward_C_reward_compartments": {
+    "mean": 0.6503,
+    "sd": 0.0001,
+    "min": 0.6502,
+    "max": 0.6505,
+    "n": 10
+   },
+   "reward_C_at_MBON11": {
+    "mean": 0.0578,
+    "sd": 0.0,
+    "min": 0.0578,
+    "max": 0.0578,
+    "n": 10
+   },
+   "coexist_A_punish_C_reward_A_MBON11": {
+    "mean": 0.8577,
+    "sd": 0.0108,
+    "min": 0.848,
+    "max": 0.8786,
+    "n": 10
+   },
+   "coexist_A_punish_C_reward_C_compartments": {
+    "mean": 0.6507,
+    "sd": 0.0005,
+    "min": 0.6502,
+    "max": 0.652,
+    "n": 10
+   },
+   "same_compartment_A_retained_fraction": {
+    "mean": 0.2738,
+    "sd": 0.1909,
+    "min": 0.1,
+    "max": 0.7531,
+    "n": 10
+   },
+   "generalisation_drop_MBON11": {
+    "shared_5_of_6": {
+     "mean": 0.7107,
+     "sd": 0.0671,
+     "min": 0.617,
+     "max": 0.8213,
+     "n": 10
+    },
+    "shared_4_of_6": {
+     "mean": 0.5446,
+     "sd": 0.1212,
+     "min": 0.403,
+     "max": 0.8431,
+     "n": 10
+    },
+    "shared_3_of_6": {
+     "mean": 0.38,
+     "sd": 0.117,
+     "min": 0.1921,
+     "max": 0.575,
+     "n": 10
+    },
+    "shared_1_of_6": {
+     "mean": 0.2199,
+     "sd": 0.1163,
+     "min": 0.063,
+     "max": 0.4078,
+     "n": 10
+    },
+    "shared_0_of_6": {
+     "mean": 0.1375,
+     "sd": 0.083,
+     "min": 0.0328,
+     "max": 0.2635,
+     "n": 10
+    }
+   },
+   "circuit": {
+    "n_input": 252,
+    "n_channels": 101,
+    "n_KC": 4064,
+    "n_drivable_KC": 332,
+    "kwta_k": 17,
+    "n_MBON": 97
+   }
+  }
+ },
+ "note": "each seed is a fresh draw of eight synthetic stimuli (six channels each); paired_A_MBON11 is calibrated and should sit at the target in every seed; the wiring-dependent numbers are the unpaired drops (mean AND worst single odour), the compartment share, the generalisation curve and the coexistence rows",
+ "elapsed_s": 386.3
+}

@@ -1,0 +1,532 @@
+{
+ "graph": {
+  "path": "subgraph_full.npz",
+  "n_nodes": 144981,
+  "n_edges": 19513953,
+  "n_KC": 4064,
+  "n_plastic_KC_MBON_edges": 61210,
+  "readout_type": "MBON11",
+  "n_readout_cells": 2,
+  "readout_sign": [
+   -1,
+   -1
+  ]
+ },
+ "dn_selection": {
+  "n_DN": 1314,
+  "rule": "dynamic nodes with superclass == descending_neuron",
+  "n_readout_set": 36,
+  "n_readout_set_among_DN": 34,
+  "n_type_prefix_DN": 1337,
+  "prefix_DN_but_not_descending": {
+   "DN1pA": 8,
+   "DNES1": 5,
+   "DNg28": 4,
+   "DN1a": 4,
+   "DNx02": 4,
+   "DN1pB": 4,
+   "DNES3": 4,
+   "DNd01": 4,
+   "DNx01": 2,
+   "DNES2": 2
+  },
+  "descending_without_DN_prefix": {
+   "MDN": 4,
+   "": 4,
+   "pIP1": 2,
+   "aSP22": 2,
+   "pMP2": 2,
+   "CB0429": 2,
+   "pIP10": 2
+  }
+ },
+ "direct_contacts_readout_type_to_DN": [
+  {
+   "DN_type": "DNp52",
+   "DN_side": "L",
+   "from_side": "L",
+   "synapses": 4
+  },
+  {
+   "DN_type": "DNp52",
+   "DN_side": "L",
+   "from_side": "R",
+   "synapses": 4
+  },
+  {
+   "DN_type": "DNp62",
+   "DN_side": "R",
+   "from_side": "R",
+   "synapses": 1
+  }
+ ],
+ "direct_contacts_cut": {
+  "applied": true,
+  "n_edges": 3,
+  "synapses": 9
+ },
+ "operating_point": {
+  "op_point": "rest",
+  "g_star": 0.95,
+  "w0_matched": 0.006756450661686183,
+  "w0_scale": 1.0,
+  "w0_used": 0.006756450661686183,
+  "relaxed_report_at_clamped_level_1_NOT_the_measurement_condition": {
+   "mean_rate_dynamic": 0.7723767757415771,
+   "frac_saturated": 0.028139382600784302,
+   "frac_silent": 0.0021301775705069304,
+   "gain_at_fixed_point": 0.8728534858377448
+  },
+  "measurement_condition": "all sensory inputs at zero, Kenyon cells pinned to the code every substep",
+  "centre_factor": 1.7742334880328674,
+  "r_max": 5.0,
+  "idle_rate_softplus0": 0.6931,
+  "kc_rate": 1.0,
+  "decisions": 30
+ },
+ "rule": {
+  "lr_requested": 0.9,
+  "lr_cap_rule_valid": 1.0,
+  "lr_auto": false,
+  "template": "counts",
+  "target_drop": null,
+  "lr_used": 0.9,
+  "note": "the SYNAPTIC change is the calibrated quantity (lr 0.9 = the feedforward model's one Hige pairing); the MBON11 RATE drop inside the recurrent brain is an outcome and plateaus near 0.6",
+  "dose_by_MBON_type_top": {
+   "MBON11": 1.0,
+   "MBON30": 0.0437,
+   "MBON20": 0.04024,
+   "MBON25": 0.03029,
+   "MBON35": 0.02077,
+   "MBON25-like": 0.009736,
+   "MBON05": 0.009087,
+   "MBON32": 0.008222,
+   "MBON29": 0.001731,
+   "MBON33": 0.001731
+  }
+ },
+ "per_seed": [
+  {
+   "seed": 0,
+   "state_dark_plus_trained_odour": {
+    "frac_dynamic_at_ceiling": 0.001552,
+    "frac_dynamic_silent": 0.03414,
+    "mean_rate_dynamic": 0.5846,
+    "frac_MBON_at_ceiling": 0.0,
+    "frac_DN_at_ceiling": 0.0,
+    "frac_DN_silent": 0.0,
+    "mean_rate_DN": 0.5645
+   },
+   "paired_drop_MBON11": 0.5937,
+   "unpaired_drop_MBON11_mean": 0.05787,
+   "paired_drop_MBON11_when_only_MBON11_is_dosed": 0.5942,
+   "depression": {
+    "n_live_plastic_edges": 2945,
+    "removed_drive_total": 3.081,
+    "share_in_readout_type": 0.9505,
+    "share_by_MBON_type_top": {
+     "MBON11": 0.9505,
+     "MBON30": 0.0198,
+     "MBON20": 0.009433,
+     "MBON05": 0.006241,
+     "MBON35": 0.004071,
+     "MBON32": 0.003313,
+     "MBON25": 0.002493,
+     "MBON12": 0.001121
+    },
+    "removed_drive_matched_nulls": [
+     2.4,
+     2.403
+    ],
+    "removed_drive_weight_space_null": 0.1583,
+    "removed_drive_MBON11_only": 2.929
+   },
+   "odour_itself_MB_route_only": {
+    "pooled_L1_rel_change_vs_dark": 0.0007392,
+    "max_abs_change_vs_dark": 0.02624,
+    "n_DN_changed_gt_5pct_of_rate": 0
+   },
+   "memory": {
+    "pooled_L1_rel_change": 0.0001016,
+    "max_abs_change": 0.001399,
+    "max_frac_of_own_rate": 0.002394,
+    "median_frac_of_own_rate": 2.708e-05,
+    "p95_frac_of_own_rate": 0.0006261,
+    "max_frac_of_dynamic_range": 0.0002798,
+    "n_DN_changed_gt_1pct_of_rate": 0,
+    "n_DN_changed_gt_5pct_of_rate": 0,
+    "frac_DN_change_positive": 0.4072,
+    "left_right": {
+     "n_bilateral_types": 471,
+     "sum_abs_common_mode": 0.03004,
+     "sum_abs_right_minus_left": 0.01057,
+     "right_minus_left_over_common": 0.3518
+    },
+    "readout_set_only": {
+     "pooled_L1_rel_change": 0.0005477,
+     "max_abs_change": 0.001287,
+     "max_frac_of_own_rate": 0.00163,
+     "median_frac_of_own_rate": 0.0003712,
+     "p95_frac_of_own_rate": 0.001393,
+     "max_frac_of_dynamic_range": 0.0002573,
+     "n_DN_changed_gt_1pct_of_rate": 0,
+     "n_DN_changed_gt_5pct_of_rate": 0,
+     "frac_DN_change_positive": 0.3529
+    },
+    "memory_over_odour_MB_route": 0.1375,
+    "transfer_pooled_DN_change_per_unit_MBON11_rate_change": 0.04127,
+    "MBON11_abs_rate_change": 1.827,
+    "named_mean_abs": {
+     "DNa02": 0.0006529,
+     "DNa03": 0.0001399
+    },
+    "named_sum_abs": {
+     "DNa02": 0.001306,
+     "DNa03": 0.0002798
+    },
+    "named_n_cells": {
+     "DNa02": 2,
+     "DNa03": 2
+    }
+   },
+   "memory_MBON11_only": {
+    "pooled_L1_rel_change": 0.0001069,
+    "max_abs_change": 0.001645,
+    "max_frac_of_own_rate": 0.002379,
+    "median_frac_of_own_rate": 2.827e-05,
+    "p95_frac_of_own_rate": 0.000641,
+    "max_frac_of_dynamic_range": 0.0003291,
+    "n_DN_changed_gt_1pct_of_rate": 0,
+    "n_DN_changed_gt_5pct_of_rate": 0,
+    "frac_DN_change_positive": 0.4102,
+    "cos_with_full_memory": 0.987,
+    "pooled_share_of_full_memory": 1.052
+   },
+   "generalisation_to_untouched_odours": {
+    "note": "deterministic sim: this is the same memory scaled by Kenyon-cell overlap, not noise",
+    "kc_overlap_with_trained": [
+     0.05319,
+     0.05319,
+     0.1277
+    ],
+    "pooled_L1_rel_change": [
+     7.461e-06,
+     6.644e-06,
+     1.425e-05
+    ],
+    "cos_with_trained_pattern": [
+     0.9996,
+     0.9875,
+     0.998
+    ]
+   },
+   "matched_null_same_cells_random_outputs": {
+    "pooled_L1_rel_change": [
+     2.992e-05,
+     3.125e-05
+    ],
+    "max_abs_change": [
+     0.0008507,
+     0.0009415
+    ],
+    "cos_with_trained_pattern": [
+     -0.04305,
+     0.1021
+    ],
+    "paired_drop_MBON11": [
+     0.0433,
+     0.05823
+    ]
+   },
+   "weight_space_null_mostly_silent_cells": {
+    "pooled_L1_rel_change": 5.232e-06,
+    "max_abs_change": 0.0001369,
+    "max_frac_of_own_rate": 0.000315,
+    "median_frac_of_own_rate": 8.859e-07,
+    "p95_frac_of_own_rate": 2.917e-05,
+    "max_frac_of_dynamic_range": 2.737e-05,
+    "n_DN_changed_gt_1pct_of_rate": 0,
+    "n_DN_changed_gt_5pct_of_rate": 0,
+    "frac_DN_change_positive": 0.4079
+   },
+   "top_DNs_by_abs_change": [
+    {
+     "type": "DNg104",
+     "side": "R",
+     "change": -0.001399,
+     "base_rate": 0.5843,
+     "change_when_only_MBON11_dosed": -0.00139
+    },
+    {
+     "type": "DNge151",
+     "side": "other",
+     "change": -0.001298,
+     "base_rate": 1.069,
+     "change_when_only_MBON11_dosed": -0.0013
+    },
+    {
+     "type": "DNb05",
+     "side": "R",
+     "change": -0.001287,
+     "base_rate": 2.803,
+     "change_when_only_MBON11_dosed": -0.001645
+    },
+    {
+     "type": "DNb05",
+     "side": "L",
+     "change": -0.001161,
+     "base_rate": 3.294,
+     "change_when_only_MBON11_dosed": -0.001441
+    },
+    {
+     "type": "DNge149",
+     "side": "other",
+     "change": -0.001138,
+     "base_rate": 1.376,
+     "change_when_only_MBON11_dosed": -0.001146
+    },
+    {
+     "type": "DNpe053",
+     "side": "R",
+     "change": 0.001026,
+     "base_rate": 3.044,
+     "change_when_only_MBON11_dosed": 0.0009243
+    },
+    {
+     "type": "",
+     "side": "L",
+     "change": -0.000946,
+     "base_rate": 0.5577,
+     "change_when_only_MBON11_dosed": -0.0009314
+    },
+    {
+     "type": "DNae001",
+     "side": "L",
+     "change": -0.0008755,
+     "base_rate": 0.5176,
+     "change_when_only_MBON11_dosed": -0.0008721
+    }
+   ]
+  }
+ ],
+ "aggregate": {
+  "note": "spread over odour draws on ONE graph, gain and rule: odour-draw variability, not the uncertainty of the claim",
+  "paired_drop_MBON11": {
+   "mean": 0.5937,
+   "sd": null,
+   "min": 0.5937,
+   "max": 0.5937,
+   "n": 1
+  },
+  "unpaired_drop_MBON11": {
+   "mean": 0.05787,
+   "sd": null,
+   "min": 0.05787,
+   "max": 0.05787,
+   "n": 1
+  },
+  "share_of_depression_in_readout_type": {
+   "mean": 0.9505,
+   "sd": null,
+   "min": 0.9505,
+   "max": 0.9505,
+   "n": 1
+  },
+  "memory_pooled_L1": {
+   "mean": 0.0001016,
+   "sd": null,
+   "min": 0.0001016,
+   "max": 0.0001016,
+   "n": 1
+  },
+  "memory_pooled_L1_readout_set_only": {
+   "mean": 0.0005477,
+   "sd": null,
+   "min": 0.0005477,
+   "max": 0.0005477,
+   "n": 1
+  },
+  "memory_max_frac_of_own_rate_readout_set_only": {
+   "mean": 0.00163,
+   "sd": null,
+   "min": 0.00163,
+   "max": 0.00163,
+   "n": 1
+  },
+  "memory_MBON11_only_pooled_L1": {
+   "mean": 0.0001069,
+   "sd": null,
+   "min": 0.0001069,
+   "max": 0.0001069,
+   "n": 1
+  },
+  "MBON11_only_share_of_full_memory": {
+   "mean": 1.052,
+   "sd": null,
+   "min": 1.052,
+   "max": 1.052,
+   "n": 1
+  },
+  "MBON11_only_cos_with_full_memory": {
+   "mean": 0.987,
+   "sd": null,
+   "min": 0.987,
+   "max": 0.987,
+   "n": 1
+  },
+  "untouched_pooled_L1": {
+   "mean": 9.452e-06,
+   "sd": 4.176e-06,
+   "min": 6.644e-06,
+   "max": 1.425e-05,
+   "n": 3
+  },
+  "matched_null_pooled_L1": {
+   "mean": 3.058e-05,
+   "sd": 9.405e-07,
+   "min": 2.992e-05,
+   "max": 3.125e-05,
+   "n": 2
+  },
+  "matched_null_cos_with_trained_pattern": {
+   "mean": 0.02952,
+   "sd": 0.1026,
+   "min": -0.04305,
+   "max": 0.1021,
+   "n": 2
+  },
+  "weight_space_null_pooled_L1": {
+   "mean": 5.232e-06,
+   "sd": null,
+   "min": 5.232e-06,
+   "max": 5.232e-06,
+   "n": 1
+  },
+  "memory_max_abs_change": {
+   "mean": 0.001399,
+   "sd": null,
+   "min": 0.001399,
+   "max": 0.001399,
+   "n": 1
+  },
+  "memory_max_frac_of_own_rate": {
+   "mean": 0.002394,
+   "sd": null,
+   "min": 0.002394,
+   "max": 0.002394,
+   "n": 1
+  },
+  "memory_p95_frac_of_own_rate": {
+   "mean": 0.0006261,
+   "sd": null,
+   "min": 0.0006261,
+   "max": 0.0006261,
+   "n": 1
+  },
+  "memory_max_frac_of_dynamic_range": {
+   "mean": 0.0002798,
+   "sd": null,
+   "min": 0.0002798,
+   "max": 0.0002798,
+   "n": 1
+  },
+  "n_DN_gt_1pct": {
+   "mean": 0.0,
+   "sd": null,
+   "min": 0.0,
+   "max": 0.0,
+   "n": 1
+  },
+  "n_DN_gt_5pct": {
+   "mean": 0.0,
+   "sd": null,
+   "min": 0.0,
+   "max": 0.0,
+   "n": 1
+  },
+  "frac_DN_change_positive": {
+   "mean": 0.4072,
+   "sd": null,
+   "min": 0.4072,
+   "max": 0.4072,
+   "n": 1
+  },
+  "right_minus_left_over_common": {
+   "mean": 0.3518,
+   "sd": null,
+   "min": 0.3518,
+   "max": 0.3518,
+   "n": 1
+  },
+  "odour_itself_MB_route_pooled_L1_vs_dark": {
+   "mean": 0.0007392,
+   "sd": null,
+   "min": 0.0007392,
+   "max": 0.0007392,
+   "n": 1
+  },
+  "memory_over_odour_MB_route": {
+   "mean": 0.1375,
+   "sd": null,
+   "min": 0.1375,
+   "max": 0.1375,
+   "n": 1
+  },
+  "transfer_pooled_DN_change_per_unit_MBON11_rate_change": {
+   "mean": 0.04127,
+   "sd": null,
+   "min": 0.04127,
+   "max": 0.04127,
+   "n": 1
+  },
+  "cross_draw_cosine_of_DN_pattern": {
+   "mean": null,
+   "sd": null,
+   "min": null,
+   "max": null,
+   "n": 0
+  },
+  "named_DN_mean_abs_change": {
+   "DNa02": {
+    "mean": 0.0006529,
+    "sd": null,
+    "min": 0.0006529,
+    "max": 0.0006529,
+    "n": 1
+   },
+   "DNa03": {
+    "mean": 0.0001399,
+    "sd": null,
+    "min": 0.0001399,
+    "max": 0.0001399,
+    "n": 1
+   }
+  },
+  "most_consistent_top5_types": [
+   [
+    "DNb05",
+    2
+   ],
+   [
+    "DNg104",
+    1
+   ],
+   [
+    "DNge151",
+    1
+   ],
+   [
+    "DNge149",
+    1
+   ]
+  ]
+ },
+ "flags": {
+  "odour_specific_trained_gt_2x_untouched": true,
+  "memory_over_matched_null_pooled": 3.322,
+  "compartment_matters_ratio_outside_0.5_to_2": true,
+  "material_at_least_1pct_of_DNs_shift_gt_5pct_of_rate": false
+ },
+ "elapsed_s": 1024.6,
+ "verdict": "Graph subgraph_full.npz: 144,981 nodes, 19,513,953 edges, 1,314 descending neurons (by superclass). Size first: one pairing at lr 0.9 (dose from counts) changes the pooled DN rate by 0.0001016; the largest single cell moves 0.001399 = 0.002394 of its rate; 0.0 DNs per draw move more than 1% and 0.0 more than 5%. Material (>= 1% of DNs shifting by > 5%): no. The MBON11 rate drops 0.5937 (unpaired 0.05787); 0.9505 of the removed drive is in MBON11, and dosing MBON11 alone reproduces 1.052 of the DN change (pattern cosine 0.987). Untouched odours change by 9.452e-06 (the same memory through Kenyon-cell overlap, not noise): odour-specific yes. The matched null (same cells, random output cells) gives 3.058e-05, so memory/null = 3.322 before allowing for the null removing a little less drive (see removed_drive_* per draw). The DN pattern is one fixed footprint across odour draws (cosine None) and is 0.4072 positive; its right-minus-left part is 0.3518 of its common mode (a bilateral memory on a perfectly left-right symmetric brain would give 0; the asymmetry is the wiring's, e.g. one-sided contacts, not a learned turn signal). Direct MBON11 -> DN contacts in this graph: 3 connections, 9 synapses (largest: DNp52 L, 4). THOSE 3 EDGES (9 synapses) WERE SILENCED IN THIS RUN: compare against the intact graph. For scale, the odour itself reaches the DNs through the mushroom-body route by only 0.0007392 pooled (the lateral-horn route is not driven), and the memory is 0.1375 of that. In the measured state 0.0 of DNs and 0.001552 of all dynamic cells sit at the rate ceiling."
+}

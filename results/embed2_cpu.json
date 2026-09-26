@@ -1,0 +1,57 @@
+{
+ "embedding": "feedforward KC code injected into the full recurrent core; learned synapses on the core's own KC->MBON edges",
+ "circuit": {
+  "n_nodes": 138968,
+  "n_edges": 4639332,
+  "n_KC": 4064,
+  "n_MBON": 97,
+  "n_plastic_KC_MBON_edges": 33496,
+  "n_DN": 1322,
+  "MBON11_cells": 2,
+  "MBON11_input_frac_from_KC_subgraph": 0.8858,
+  "subgraph": "subgraph_v5.npz"
+ },
+ "rule": {
+  "lr": 8.0,
+  "lr_calibrated_ok": false,
+  "lr_capped_at_ceiling": true,
+  "target_drop": 0.9,
+  "pairings": 1,
+  "note": "paired_A_MBON11 magnitude is set by lr (calibrated), not by the wiring; the wiring-derived claims are the unpaired specificity and the DN readout. Any lr>=~1 zeroes the MBON11 KC synapses, so the drop plateaus."
+ },
+ "kc_code": {
+  "active_frac": 0.046
+ },
+ "WIRING_DERIVED_specificity": {
+  "unpaired_MBON11_mean": 0.0981,
+  "unpaired_MBON11_each": [
+   0.0571,
+   0.0543,
+   0.1086,
+   0.2005,
+   0.0699
+  ],
+  "paired_over_unpaired_ratio": 6.97
+ },
+ "calibrated_paired_A_MBON11": {
+  "value": 0.6837,
+  "max_achievable_drop_plateau": 0.6837,
+  "note": "calibrated/tuning-dependent, not wiring evidence"
+ },
+ "dn_readout_through_recurrent_brain": {
+  "n_DN_driven": 1322,
+  "trained_A": {
+   "rel_change_DN_population": 0.0003,
+   "rel_change_whole_brain": 0.0004,
+   "max_abs_rate_change": 0.0063,
+   "n_DN_changed_gt_1pct_of_max": 0,
+   "named_DN_abs_change": {
+    "DNa02": 0.0052,
+    "DNa03": 0.0076
+   }
+  },
+  "untouched_mean_rel_change_DN_population": 0.0,
+  "note": "the max single-DN rate change is the honest test of whether the memory reaches steering; the L1 ratio pooled over the DN population (and even more the whole-brain one) dilutes it"
+ },
+ "elapsed_s": 3958.0
+}

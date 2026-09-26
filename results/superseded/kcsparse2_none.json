@@ -1,0 +1,47 @@
+{
+ "w0": 0.008281646312746067,
+ "n_KC": 4064,
+ "n_glomeruli": 59,
+ "n_PN": 272,
+ "n_APL": 2,
+ "odours": 6,
+ "glom_per_odour": 6,
+ "with_APL": {
+  "kc_frac_active": [
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "kc_frac_active_mean": 1.0,
+  "kc_mean_rate": 0.6747,
+  "cross_odour_cos_mean": 0.9995,
+  "cross_odour_cos_max": 0.9997,
+  "cross_odour_cos_centered_mean": -0.1978,
+  "cross_odour_cos_centered_max": 0.253,
+  "nearest_neighbour_odour_id_acc": 0.0,
+  "chance": 0.1667
+ },
+ "APL_ablated": {
+  "kc_frac_active": [
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "kc_frac_active_mean": 1.0,
+  "kc_mean_rate": 0.8491,
+  "cross_odour_cos_mean": 0.9996,
+  "cross_odour_cos_max": 0.9998,
+  "cross_odour_cos_centered_mean": -0.1978,
+  "cross_odour_cos_centered_max": 0.2533,
+  "nearest_neighbour_odour_id_acc": 0.0,
+  "chance": 0.1667
+ },
+ "verdict_note": "sparse (kc_frac_active ~0.05-0.15) and distinct (cross_odour_cos low) with APL = olfactory learning viable; APL ablation should raise frac_active if APL is sparsening; frac_active ~1 even with APL = rate model cannot code odours",
+ "elapsed_s": 7.0
+}

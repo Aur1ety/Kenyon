@@ -1,0 +1,358 @@
+{
+ "full": {
+  "MBON11_nodes": [
+   [
+    10704,
+    "L"
+   ],
+   [
+    11402,
+    "R"
+   ]
+  ],
+  "targets": [
+   {
+    "body": 11121,
+    "side": "L",
+    "total_input_synapses": 1829.0,
+    "direct_from_MBON11": 8.0,
+    "two_hop_sum_products": 3909.0,
+    "two_hop_top": [
+     {
+      "relay": "MBON29",
+      "side": "L",
+      "MBON11_to_relay": 419.0,
+      "relay_to_target": 6.0,
+      "relay_sign": 1.0,
+      "relay_total_input": 4552.0
+     },
+     {
+      "relay": "MBON11",
+      "side": "L",
+      "MBON11_to_relay": 74.0,
+      "relay_to_target": 4.0,
+      "relay_sign": -1.0,
+      "relay_total_input": 19135.0
+     },
+     {
+      "relay": "MBON11",
+      "side": "R",
+      "MBON11_to_relay": 53.0,
+      "relay_to_target": 4.0,
+      "relay_sign": -1.0,
+      "relay_total_input": 27730.0
+     },
+     {
+      "relay": "MBON34",
+      "side": "R",
+      "MBON11_to_relay": 8.0,
+      "relay_to_target": 21.0,
+      "relay_sign": -1.0,
+      "relay_total_input": 788.0
+     },
+     {
+      "relay": "MBON21",
+      "side": "R",
+      "MBON11_to_relay": 13.0,
+      "relay_to_target": 10.0,
+      "relay_sign": 1.0,
+      "relay_total_input": 6513.0
+     },
+     {
+      "relay": "MBON30",
+      "side": "L",
+      "MBON11_to_relay": 23.0,
+      "relay_to_target": 5.0,
+      "relay_sign": -1.0,
+      "relay_total_input": 10296.0
+     }
+    ],
+    "three_hop_sum": 9130652.0,
+    "three_hop_top_last_relay": [
+     {
+      "relay": "MBON11",
+      "side": "R",
+      "to_target": 4.0,
+      "sign": -1.0
+     },
+     {
+      "relay": "MBON11",
+      "side": "L",
+      "to_target": 4.0,
+      "sign": -1.0
+     },
+     {
+      "relay": "DPM",
+      "side": "L",
+      "to_target": 1.0,
+      "sign": 1.0
+     },
+     {
+      "relay": "PPL103",
+      "side": "R",
+      "to_target": 4.0,
+      "sign": 1.0
+     },
+     {
+      "relay": "PPL103",
+      "side": "L",
+      "to_target": 3.0,
+      "sign": 1.0
+     },
+     {
+      "relay": "CRE075",
+      "side": "L",
+      "to_target": 21.0,
+      "sign": -1.0
+     }
+    ]
+   },
+   {
+    "body": 15833,
+    "side": "R",
+    "total_input_synapses": 1431.0,
+    "direct_from_MBON11": 0.0,
+    "two_hop_sum_products": 1214.0,
+    "two_hop_top": [
+     {
+      "relay": "MBON29",
+      "side": "R",
+      "MBON11_to_relay": 476.0,
+      "relay_to_target": 1.0,
+      "relay_sign": 1.0,
+      "relay_total_input": 4651.0
+     },
+     {
+      "relay": "MBON34",
+      "side": "R",
+      "MBON11_to_relay": 8.0,
+      "relay_to_target": 26.0,
+      "relay_sign": -1.0,
+      "relay_total_input": 788.0
+     },
+     {
+      "relay": "CRE080_d",
+      "side": "R",
+      "MBON11_to_relay": 147.0,
+      "relay_to_target": 1.0,
+      "relay_sign": 1.0,
+      "relay_total_input": 1043.0
+     },
+     {
+      "relay": "MBON30",
+      "side": "R",
+      "MBON11_to_relay": 32.0,
+      "relay_to_target": 2.0,
+      "relay_sign": -1.0,
+      "relay_total_input": 8717.0
+     },
+     {
+      "relay": "MBON21",
+      "side": "R",
+      "MBON11_to_relay": 13.0,
+      "relay_to_target": 4.0,
+      "relay_sign": 1.0,
+      "relay_total_input": 6513.0
+     },
+     {
+      "relay": "MBON01",
+      "side": "R",
+      "MBON11_to_relay": 46.0,
+      "relay_to_target": 1.0,
+      "relay_sign": -1.0,
+      "relay_total_input": 24389.0
+     }
+    ],
+    "three_hop_sum": 5096836.0,
+    "three_hop_top_last_relay": [
+     {
+      "relay": "DPM",
+      "side": "R",
+      "to_target": 1.0,
+      "sign": 1.0
+     },
+     {
+      "relay": "CRE075",
+      "side": "R",
+      "to_target": 13.0,
+      "sign": -1.0
+     },
+     {
+      "relay": "LAL159",
+      "side": "L",
+      "to_target": 9.0,
+      "sign": 1.0
+     },
+     {
+      "relay": "MBON01",
+      "side": "R",
+      "to_target": 1.0,
+      "sign": -1.0
+     },
+     {
+      "relay": "MBON35",
+      "side": "R",
+      "to_target": 8.0,
+      "sign": 1.0
+     },
+     {
+      "relay": "PPL102",
+      "side": "L",
+      "to_target": 6.0,
+      "sign": 1.0
+     }
+    ]
+   }
+  ]
+ },
+ "v5": {
+  "MBON11_nodes": [
+   [
+    10704,
+    "L"
+   ],
+   [
+    11402,
+    "R"
+   ]
+  ],
+  "targets": [
+   {
+    "body": 11121,
+    "side": "L",
+    "total_input_synapses": 1395.0,
+    "direct_from_MBON11": 0.0,
+    "two_hop_sum_products": 2907.0,
+    "two_hop_top": [
+     {
+      "relay": "MBON29",
+      "side": "L",
+      "MBON11_to_relay": 419.0,
+      "relay_to_target": 6.0,
+      "relay_sign": 1.0,
+      "relay_total_input": 2534.0
+     },
+     {
+      "relay": "MBON34",
+      "side": "R",
+      "MBON11_to_relay": 8.0,
+      "relay_to_target": 21.0,
+      "relay_sign": -1.0,
+      "relay_total_input": 548.0
+     },
+     {
+      "relay": "MBON30",
+      "side": "L",
+      "MBON11_to_relay": 23.0,
+      "relay_to_target": 5.0,
+      "relay_sign": -1.0,
+      "relay_total_input": 9444.0
+     },
+     {
+      "relay": "MBON21",
+      "side": "R",
+      "MBON11_to_relay": 11.0,
+      "relay_to_target": 10.0,
+      "relay_sign": 1.0,
+      "relay_total_input": 5235.0
+     }
+    ],
+    "three_hop_sum": 2041397.0,
+    "three_hop_top_last_relay": [
+     {
+      "relay": "CRE075",
+      "side": "L",
+      "to_target": 21.0,
+      "sign": -1.0
+     },
+     {
+      "relay": "LAL159",
+      "side": "R",
+      "to_target": 13.0,
+      "sign": 1.0
+     },
+     {
+      "relay": "MBON29",
+      "side": "L",
+      "to_target": 6.0,
+      "sign": 1.0
+     },
+     {
+      "relay": "MBON35",
+      "side": "L",
+      "to_target": 18.0,
+      "sign": 1.0
+     },
+     {
+      "relay": "MBON30",
+      "side": "L",
+      "to_target": 5.0,
+      "sign": -1.0
+     },
+     {
+      "relay": "MBON25",
+      "side": "L",
+      "to_target": 11.0,
+      "sign": -1.0
+     }
+    ]
+   },
+   {
+    "body": 15833,
+    "side": "R",
+    "total_input_synapses": 1050.0,
+    "direct_from_MBON11": 0.0,
+    "two_hop_sum_products": 208.0,
+    "two_hop_top": [
+     {
+      "relay": "MBON34",
+      "side": "R",
+      "MBON11_to_relay": 8.0,
+      "relay_to_target": 26.0,
+      "relay_sign": -1.0,
+      "relay_total_input": 548.0
+     }
+    ],
+    "three_hop_sum": 1719733.0,
+    "three_hop_top_last_relay": [
+     {
+      "relay": "CRE075",
+      "side": "R",
+      "to_target": 13.0,
+      "sign": -1.0
+     },
+     {
+      "relay": "LAL159",
+      "side": "L",
+      "to_target": 9.0,
+      "sign": 1.0
+     },
+     {
+      "relay": "MBON35",
+      "side": "R",
+      "to_target": 8.0,
+      "sign": 1.0
+     },
+     {
+      "relay": "PPL102",
+      "side": "L",
+      "to_target": 6.0,
+      "sign": 1.0
+     },
+     {
+      "relay": "LAL160",
+      "side": "L",
+      "to_target": 8.0,
+      "sign": 1.0
+     },
+     {
+      "relay": "MBON25",
+      "side": "L",
+      "to_target": 8.0,
+      "sign": -1.0
+     }
+    ]
+   }
+  ]
+ }
+}

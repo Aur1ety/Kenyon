@@ -1,0 +1,208 @@
+{
+ "modality": "visual",
+ "mbon_valence_counts": {
+  "approach": 71,
+  "avoid": 26,
+  "unknown": 0
+ },
+ "n_DN": 1314,
+ "binary_code": true,
+ "pairings": 1,
+ "shuffle": null,
+ "valence_table_source": "connectome consensus transmitter per MBON type (unanimous for all 37 types in MaleCNS); GABA / acetylcholine -> approach, glutamate -> avoid (Aso et al. 2014)",
+ "punish_compartment_types": [
+  "MBON11"
+ ],
+ "reward_compartment_types": [
+  "MBON03",
+  "MBON05",
+  "MBON06"
+ ],
+ "wiring_build": {
+  "build_time": "2026-09-19T15:14:04",
+  "build_source_sha": "c82e39b4017c"
+ },
+ "rule": {
+  "lr": 0.9,
+  "lr_calibrated": true,
+  "recover_rate": 1.0
+ },
+ "baseline_scores": [
+  0.321,
+  0.4978,
+  0.5186,
+  0.336
+ ],
+ "tmaze_PI_by_beta": {
+  "1": {
+   "PI_trained": 0.0478,
+   "innate_bias_A_vs_B": -0.0441,
+   "P_choose_punished_A_vs_B": 0.4384
+  },
+  "2": {
+   "PI_trained": 0.0937,
+   "innate_bias_A_vs_B": -0.0875,
+   "P_choose_punished_A_vs_B": 0.3786
+  },
+  "4": {
+   "PI_trained": 0.1741,
+   "innate_bias_A_vs_B": -0.1698,
+   "P_choose_punished_A_vs_B": 0.2707
+  },
+  "8": {
+   "PI_trained": 0.2699,
+   "innate_bias_A_vs_B": -0.3044,
+   "P_choose_punished_A_vs_B": 0.1211
+  },
+  "16": {
+   "PI_trained": 0.2732,
+   "innate_bias_A_vs_B": -0.4442,
+   "P_choose_punished_A_vs_B": 0.0186
+  },
+  "32": {
+   "PI_trained": 0.1448,
+   "innate_bias_A_vs_B": -0.4965,
+   "P_choose_punished_A_vs_B": 0.0004
+  }
+ },
+ "learned_score_shift_example_pair": {
+  "A": 0.0758,
+  "B": 0.1262
+ },
+ "ground_truth_PI": "wild type, one training cycle: 0.44 (automated) - 0.53 (manual); Tully & Quinn design",
+ "tmaze_PI_over_seeds": {
+  "n_seeds": 10,
+  "by_beta": {
+   "1": {
+    "PI_mean_sd": [
+     0.0405,
+     0.0096
+    ],
+    "PI_min_max": [
+     0.0222,
+     0.0528
+    ],
+    "abs_innate_bias_mean_sd": [
+     0.0576,
+     0.042
+    ],
+    "corr_PI_vs_abs_innate_bias": -0.449
+   },
+   "2": {
+    "PI_mean_sd": [
+     0.0776,
+     0.0204
+    ],
+    "PI_min_max": [
+     0.0418,
+     0.1011
+    ],
+    "abs_innate_bias_mean_sd": [
+     0.1108,
+     0.0758
+    ],
+    "corr_PI_vs_abs_innate_bias": -0.62
+   },
+   "4": {
+    "PI_mean_sd": [
+     0.1362,
+     0.0489
+    ],
+    "PI_min_max": [
+     0.0352,
+     0.2001
+    ],
+    "abs_innate_bias_mean_sd": [
+     0.1974,
+     0.1125
+    ],
+    "corr_PI_vs_abs_innate_bias": -0.844
+   },
+   "8": {
+    "PI_mean_sd": [
+     0.202,
+     0.1114
+    ],
+    "PI_min_max": [
+     0.0068,
+     0.3841
+    ],
+    "abs_innate_bias_mean_sd": [
+     0.3086,
+     0.1275
+    ],
+    "corr_PI_vs_abs_innate_bias": -0.918
+   },
+   "16": {
+    "PI_mean_sd": [
+     0.2272,
+     0.1946
+    ],
+    "PI_min_max": [
+     0.0001,
+     0.6664
+    ],
+    "abs_innate_bias_mean_sd": [
+     0.4085,
+     0.1317
+    ],
+    "corr_PI_vs_abs_innate_bias": -0.883
+   },
+   "32": {
+    "PI_mean_sd": [
+     0.1882,
+     0.2656
+    ],
+    "PI_min_max": [
+     0.0,
+     0.9188
+    ],
+    "abs_innate_bias_mean_sd": [
+     0.4514,
+     0.1334
+    ],
+    "corr_PI_vs_abs_innate_bias": -0.926
+   }
+  },
+  "learned_score_shift_mean_sd": [
+   0.0965,
+   0.0304
+  ],
+  "note": "PI_mean_sd is the reciprocal index over independently drawn odour pairs; a negative corr_PI_vs_abs_innate_bias means pairs the untrained circuit already prefers cap the index. learned_score_shift is the drop in the punished odour's approach score (beta-free), the size of what the memory writes, comparable across senses."
+ },
+ "multi_memory_choices": {
+  "beta": 8,
+  "P(C_rewarded over A_punished)": {
+   "before": 0.8293,
+   "after": 0.9348
+  },
+  "P(D_untouched over A_punished)": {
+   "before": 0.5299,
+   "after": 0.6527
+  },
+  "P(C_rewarded over D_untouched)": {
+   "before": 0.8117,
+   "after": 0.8841
+  }
+ },
+ "wiring_readout": {
+  "direct_MBON_DN": {
+   "DNs_driven": 168,
+   "rel_change_trained": 0.0137
+  },
+  "two_hop_MBON_X_DN": {
+   "DNs_driven": 1256,
+   "rel_change_trained": 0.0207,
+   "rel_change_untouched": 0.0016
+  },
+  "DNa02": {
+   "direct_rel_change": 0.0067,
+   "two_hop_rel_change": 0.0113
+  },
+  "DNa03": {
+   "direct_rel_change": 0.0018,
+   "two_hop_rel_change": 0.0103
+  }
+ },
+ "elapsed_s": 15.3
+}

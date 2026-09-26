@@ -1,0 +1,102 @@
+{
+ "anchor": {
+  "lr": 0.9,
+  "target_drop_MBON11": 0.9,
+  "pairings": 1,
+  "beta": 8.0
+ },
+ "lesions": [
+  {
+   "lesion": "none",
+   "what": "intact circuit (baseline)",
+   "real_fly": "learns and avoids",
+   "applied": true,
+   "independent_wiring_test": true,
+   "memory_paired_MBON11": 0.9,
+   "memory_unpaired_MBON11": 0.0821,
+   "mbon11_drive_to_A": 2605.0,
+   "drive_loss_vs_intact": 0.0,
+   "avoid_A_before": 0.502,
+   "avoid_A_after": 0.6789,
+   "learned_shift": 0.1769,
+   "learned_shift_frac_of_intact": 1.0
+  },
+  {
+   "lesion": "PPL101_silenced",
+   "what": "silence the punishment dopamine neuron (PPL1-gamma1pedc)",
+   "real_fly": "aversive memory abolished (Aso 2010, 2012); rule identity, cannot fail",
+   "applied": true,
+   "independent_wiring_test": false,
+   "memory_paired_MBON11": 0.0,
+   "memory_unpaired_MBON11": 0.0,
+   "mbon11_drive_to_A": 2605.0,
+   "drive_loss_vs_intact": 0.0,
+   "avoid_A_before": 0.502,
+   "avoid_A_after": 0.502,
+   "learned_shift": 0.0,
+   "learned_shift_frac_of_intact": 0.0
+  },
+  {
+   "lesion": "MBON11_silenced",
+   "what": "silence the output cell MBON-gamma1pedc in the readout",
+   "real_fly": "learned avoidance lost (Aso 2014, Perisse 2016); readout identity given the compartment map, cannot fail",
+   "applied": true,
+   "independent_wiring_test": false,
+   "memory_paired_MBON11": 0.9,
+   "memory_unpaired_MBON11": 0.0821,
+   "mbon11_drive_to_A": 2605.0,
+   "drive_loss_vs_intact": 0.0,
+   "avoid_A_before": 0.5051,
+   "avoid_A_after": 0.5023,
+   "learned_shift": -0.0028,
+   "learned_shift_frac_of_intact": -0.0158
+  },
+  {
+   "lesion": "APL_disinhibited",
+   "what": "remove APL feedback so the Kenyon code is dense, not sparse",
+   "real_fly": "memory loses odour specificity (Lin 2014)",
+   "applied": true,
+   "independent_wiring_test": true,
+   "memory_paired_MBON11": 0.9,
+   "memory_unpaired_MBON11": 0.4123,
+   "mbon11_drive_to_A": 16313.0,
+   "drive_loss_vs_intact": null,
+   "avoid_A_before": 0.5491,
+   "avoid_A_after": 0.6152,
+   "learned_shift": 0.0662,
+   "learned_shift_frac_of_intact": 0.3742
+  },
+  {
+   "lesion": "KCg-m_silenced",
+   "what": "silence the main gamma Kenyon cells",
+   "real_fly": "short-term aversive memory impaired (Aso 2014)",
+   "applied": true,
+   "independent_wiring_test": true,
+   "memory_paired_MBON11": 0.9,
+   "memory_unpaired_MBON11": 0.0221,
+   "mbon11_drive_to_A": 644.0,
+   "drive_loss_vs_intact": 0.7528,
+   "avoid_A_before": 0.4344,
+   "avoid_A_after": 0.5803,
+   "learned_shift": 0.1459,
+   "learned_shift_frac_of_intact": 0.8248
+  },
+  {
+   "lesion": "KC_to_MBON_cut",
+   "what": "cut all Kenyon-cell -> MBON synapses",
+   "real_fly": "no memory can be stored (mechanistic floor); identity, cannot fail",
+   "applied": true,
+   "independent_wiring_test": false,
+   "memory_paired_MBON11": null,
+   "memory_unpaired_MBON11": null,
+   "mbon11_drive_to_A": 0.0,
+   "drive_loss_vs_intact": 1.0,
+   "avoid_A_before": 0.5,
+   "avoid_A_after": 0.5,
+   "learned_shift": 0.0,
+   "learned_shift_frac_of_intact": 0.0
+  }
+ ],
+ "note": "lr is calibrated once on the intact circuit and held fixed. The fractional memory_paired_MBON11 drop is calibration-locked under the binary code (~target when any trained KC->MBON11 edge survives, else None), so it CANNOT express graded impairment. Graded memory measure: drive_loss_vs_intact (untrained MBON11 drive to A lost to the lesion; not applicable to APL_disinhibited, where a dense code RAISES that drive). Behavioural readout: learned_shift = avoid_A_after - avoid_A_before, and its fraction of the intact shift. avoid_A_before is lesion-specific (the readout is normalised per lesioned circuit), so avoid_A_after alone must NOT be compared with 0.5; learned_shift ~0 = no learned avoidance. Rows with independent_wiring_test false are identities of the rule or readout given the dopamine->MBON compartment map, and cannot fail.",
+ "elapsed_s": 17.3
+}

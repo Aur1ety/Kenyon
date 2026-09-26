@@ -1,0 +1,51 @@
+{
+ "odour_glomeruli": 6,
+ "full_recall_MBON11": 0.9,
+ "partial_cue_by_glomeruli": {
+  "6/6": {
+   "cue_fraction": 1.0,
+   "recall_MBON11": 0.9,
+   "recall_fraction": 1.0,
+   "overlap_at_MBON11": 1.0,
+   "kc_active_frac": 0.0463
+  },
+  "5/6": {
+   "cue_fraction": 0.833,
+   "recall_MBON11": 0.725,
+   "recall_fraction": 0.806,
+   "overlap_at_MBON11": 0.8056,
+   "kc_active_frac": 0.0463
+  },
+  "4/6": {
+   "cue_fraction": 0.667,
+   "recall_MBON11": 0.5843,
+   "recall_fraction": 0.649,
+   "overlap_at_MBON11": 0.6493,
+   "kc_active_frac": 0.0463
+  },
+  "3/6": {
+   "cue_fraction": 0.5,
+   "recall_MBON11": 0.45,
+   "recall_fraction": 0.5,
+   "overlap_at_MBON11": 0.5,
+   "kc_active_frac": 0.0463
+  },
+  "2/6": {
+   "cue_fraction": 0.333,
+   "recall_MBON11": 0.3737,
+   "recall_fraction": 0.415,
+   "overlap_at_MBON11": 0.4153,
+   "kc_active_frac": 0.0463
+  },
+  "1/6": {
+   "cue_fraction": 0.167,
+   "recall_MBON11": 0.265,
+   "recall_fraction": 0.294,
+   "overlap_at_MBON11": 0.2945,
+   "kc_active_frac": 0.0418
+  }
+ },
+ "recall_vs_cue_slope": 0.832,
+ "verdict": "Partial SMELL (fewer glomeruli) gives graded recall (slope ~0.83): a smaller odour drives a different, partly-overlapping Kenyon pattern, so recall tracks the fraction of the trained code the cue re-activates. What this measures, exactly: with a binary code and one pairing, recall_fraction EQUALS the share of the cue's MBON11 drive that passes through synapses of the trained odour's Kenyon cells (overlap_at_MBON11, reported alongside), by the rule's algebra. So the curve is the connectome's partial-cue overlap, a wiring measurement, and completion (recall above that overlap) is excluded for this feedforward circuit by construction; the result is the shape of the graded curve, not a test that could have shown completion. (Silencing the odour's own Kenyon cells is NOT reported: under a binary code with uniform per-compartment dopamine every trained synapse carries the same depression, so a self-normalised recall would be constant for any subset by construction and tests nothing.)",
+ "elapsed_s": 11.9
+}

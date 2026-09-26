@@ -1,0 +1,922 @@
+{
+ "graph": {
+  "path": "subgraph_v5.npz",
+  "n_nodes": 138968,
+  "n_edges": 4639332,
+  "n_KC": 4064,
+  "n_plastic_KC_MBON_edges": 33496,
+  "n_readout_cells": 2,
+  "readout_sign": [
+   -1,
+   -1
+  ]
+ },
+ "dn_selection": {
+  "n_DN": 1312,
+  "rule": "dynamic nodes with superclass == descending_neuron",
+  "n_readout_set": 36,
+  "n_readout_set_among_DN": 34,
+  "n_type_prefix_DN": 1322,
+  "prefix_DN_but_not_descending": {
+   "DN1pA": 8,
+   "DN1a": 4,
+   "DNx02": 4,
+   "DN1pB": 4,
+   "DNd01": 4,
+   "DNx01": 2,
+   "DNg28": 1,
+   "DNES3": 1
+  },
+  "descending_without_DN_prefix": {
+   "MDN": 4,
+   "": 4,
+   "pIP1": 2,
+   "aSP22": 2,
+   "pMP2": 2,
+   "CB0429": 2,
+   "pIP10": 2
+  }
+ },
+ "operating_point": {
+  "op_point": "rest",
+  "g_star": 0.95,
+  "w0_matched": 0.0082924214830722,
+  "w0_scale": 1.0,
+  "w0_used": 0.0082924214830722,
+  "relaxed_report_at_clamped_level_1_NOT_the_measurement_condition": {
+   "mean_rate_dynamic": 0.6542783975601196,
+   "frac_saturated": 0.0027576761785894632,
+   "frac_silent": 0.0018045196775346994,
+   "gain_at_fixed_point": 0.7625574838047902
+  },
+  "measurement_condition": "all sensory inputs at zero, Kenyon cells pinned to the code every substep",
+  "centre_factor": 1.8551137823773018,
+  "r_max": 5.0,
+  "idle_rate_softplus0": 0.6931,
+  "kc_rate": 1.0,
+  "decisions": 30
+ },
+ "rule": {
+  "lr_requested": 0.9,
+  "lr_cap_rule_valid": 1.0,
+  "lr_auto": false,
+  "template": "counts",
+  "target_drop": null,
+  "lr_used": 0.9,
+  "note": "the SYNAPTIC change is the calibrated quantity (lr 0.9 = the feedforward model's one Hige pairing); the MBON11 RATE drop inside the recurrent brain is an outcome and plateaus near 0.6",
+  "dose_by_MBON_type_top": {
+   "MBON11": 1.0,
+   "MBON30": 0.0437,
+   "MBON20": 0.04024,
+   "MBON25": 0.03029,
+   "MBON35": 0.02077,
+   "MBON05": 0.009087,
+   "MBON25-like": 0.008438,
+   "MBON32": 0.006058
+  }
+ },
+ "per_seed": [
+  {
+   "seed": 0,
+   "state_dark_plus_trained_odour": {
+    "frac_dynamic_at_ceiling": 0.001675,
+    "frac_dynamic_silent": 0.03604,
+    "mean_rate_dynamic": 0.6107,
+    "frac_MBON_at_ceiling": 0.0,
+    "frac_DN_at_ceiling": 0.0,
+    "frac_DN_silent": 0.0,
+    "mean_rate_DN": 0.5706
+   },
+   "paired_drop_MBON11": 0.6626,
+   "unpaired_drop_MBON11_mean": 0.07209,
+   "paired_drop_MBON11_when_only_MBON11_is_dosed": 0.6631,
+   "depression": {
+    "n_live_plastic_edges": 1657,
+    "removed_drive_total": 3.353,
+    "share_in_readout_type": 0.9669,
+    "share_by_MBON_type_top": {
+     "MBON11": 0.9669,
+     "MBON30": 0.01983,
+     "MBON05": 0.00663,
+     "MBON20": 0.0031,
+     "MBON32": 0.002078,
+     "MBON35": 0.001416,
+     "MBON25-like": 3.365e-05
+    },
+    "removed_drive_matched_nulls": [
+     2.984,
+     3.047,
+     2.995
+    ],
+    "removed_drive_weight_space_null": 0.2156,
+    "removed_drive_MBON11_only": 3.242
+   },
+   "odour_itself_MB_route_only": {
+    "pooled_L1_rel_change_vs_dark": 0.0006022,
+    "max_abs_change_vs_dark": 0.02483,
+    "n_DN_changed_gt_5pct_of_rate": 0
+   },
+   "memory": {
+    "pooled_L1_rel_change": 0.0001108,
+    "max_abs_change": 0.002055,
+    "max_frac_of_own_rate": 0.004145,
+    "median_frac_of_own_rate": 2.261e-05,
+    "p95_frac_of_own_rate": 0.0006308,
+    "max_frac_of_dynamic_range": 0.0004111,
+    "n_DN_changed_gt_1pct_of_rate": 0,
+    "n_DN_changed_gt_5pct_of_rate": 0,
+    "frac_DN_change_positive": 0.4566,
+    "left_right": {
+     "n_bilateral_types": 470,
+     "sum_abs_common_mode": 0.03536,
+     "sum_abs_right_minus_left": 0.01018,
+     "right_minus_left_over_common": 0.288
+    },
+    "readout_set_only": {
+     "pooled_L1_rel_change": 0.0008093,
+     "max_abs_change": 0.001949,
+     "max_frac_of_own_rate": 0.003706,
+     "median_frac_of_own_rate": 0.000245,
+     "p95_frac_of_own_rate": 0.002991,
+     "max_frac_of_dynamic_range": 0.0003899,
+     "n_DN_changed_gt_1pct_of_rate": 0,
+     "n_DN_changed_gt_5pct_of_rate": 0,
+     "frac_DN_change_positive": 0.4706
+    },
+    "memory_over_odour_MB_route": 0.1839,
+    "transfer_pooled_DN_change_per_unit_MBON11_rate_change": 0.04596,
+    "MBON11_abs_rate_change": 1.804,
+    "named_mean_abs": {
+     "DNa02": 0.001156,
+     "DNa03": 0.0002408
+    },
+    "named_sum_abs": {
+     "DNa02": 0.002311,
+     "DNa03": 0.0004816
+    },
+    "named_n_cells": {
+     "DNa02": 2,
+     "DNa03": 2
+    }
+   },
+   "memory_MBON11_only": {
+    "pooled_L1_rel_change": 0.0001106,
+    "max_abs_change": 0.002061,
+    "max_frac_of_own_rate": 0.004029,
+    "median_frac_of_own_rate": 2.241e-05,
+    "p95_frac_of_own_rate": 0.0006861,
+    "max_frac_of_dynamic_range": 0.0004123,
+    "n_DN_changed_gt_1pct_of_rate": 0,
+    "n_DN_changed_gt_5pct_of_rate": 0,
+    "frac_DN_change_positive": 0.455,
+    "cos_with_full_memory": 0.9977,
+    "pooled_share_of_full_memory": 0.9988
+   },
+   "generalisation_to_untouched_odours": {
+    "note": "deterministic sim: this is the same memory scaled by Kenyon-cell overlap, not noise",
+    "kc_overlap_with_trained": [
+     0.05348,
+     0.05348,
+     0.1283
+    ],
+    "pooled_L1_rel_change": [
+     8.933e-06,
+     8.439e-06,
+     1.681e-05
+    ],
+    "cos_with_trained_pattern": [
+     0.998,
+     0.9824,
+     0.9994
+    ]
+   },
+   "matched_null_same_cells_random_outputs": {
+    "pooled_L1_rel_change": [
+     4.415e-05,
+     4.325e-05,
+     5.132e-05
+    ],
+    "max_abs_change": [
+     0.0007733,
+     0.0008883,
+     0.0009133
+    ],
+    "cos_with_trained_pattern": [
+     0.3073,
+     0.462,
+     0.3022
+    ],
+    "paired_drop_MBON11": [
+     0.07008,
+     0.06737,
+     0.07803
+    ]
+   },
+   "weight_space_null_mostly_silent_cells": {
+    "pooled_L1_rel_change": 8.657e-06,
+    "max_abs_change": 0.000371,
+    "max_frac_of_own_rate": 0.0007295,
+    "median_frac_of_own_rate": 1.281e-06,
+    "p95_frac_of_own_rate": 3.737e-05,
+    "max_frac_of_dynamic_range": 7.42e-05,
+    "n_DN_changed_gt_1pct_of_rate": 0,
+    "n_DN_changed_gt_5pct_of_rate": 0,
+    "frac_DN_change_positive": 0.4444
+   },
+   "top_DNs_by_abs_change": [
+    {
+     "type": "DNae001",
+     "side": "L",
+     "change": -0.002055,
+     "base_rate": 0.7654,
+     "change_when_only_MBON11_dosed": -0.002013
+    },
+    {
+     "type": "DNb05",
+     "side": "R",
+     "change": -0.001949,
+     "base_rate": 3.842,
+     "change_when_only_MBON11_dosed": -0.002061
+    },
+    {
+     "type": "DNae001",
+     "side": "R",
+     "change": -0.001824,
+     "base_rate": 0.6798,
+     "change_when_only_MBON11_dosed": -0.001776
+    },
+    {
+     "type": "DNge151",
+     "side": "other",
+     "change": -0.001638,
+     "base_rate": 0.9361,
+     "change_when_only_MBON11_dosed": -0.001621
+    },
+    {
+     "type": "DNpe050",
+     "side": "L",
+     "change": -0.001609,
+     "base_rate": 0.5942,
+     "change_when_only_MBON11_dosed": -0.001572
+    },
+    {
+     "type": "DNp46",
+     "side": "L",
+     "change": -0.001547,
+     "base_rate": 0.4358,
+     "change_when_only_MBON11_dosed": -0.00151
+    },
+    {
+     "type": "DNp46",
+     "side": "R",
+     "change": -0.001473,
+     "base_rate": 0.4687,
+     "change_when_only_MBON11_dosed": -0.001434
+    },
+    {
+     "type": "DNp29",
+     "side": "L",
+     "change": -0.001429,
+     "base_rate": 0.6993,
+     "change_when_only_MBON11_dosed": -0.001427
+    }
+   ]
+  },
+  {
+   "seed": 1,
+   "state_dark_plus_trained_odour": {
+    "frac_dynamic_at_ceiling": 0.001675,
+    "frac_dynamic_silent": 0.03604,
+    "mean_rate_dynamic": 0.6107,
+    "frac_MBON_at_ceiling": 0.0,
+    "frac_DN_at_ceiling": 0.0,
+    "frac_DN_silent": 0.0,
+    "mean_rate_DN": 0.5706
+   },
+   "paired_drop_MBON11": 0.6479,
+   "unpaired_drop_MBON11_mean": 0.03849,
+   "paired_drop_MBON11_when_only_MBON11_is_dosed": 0.6484,
+   "depression": {
+    "n_live_plastic_edges": 1598,
+    "removed_drive_total": 3.262,
+    "share_in_readout_type": 0.9628,
+    "share_by_MBON_type_top": {
+     "MBON11": 0.9628,
+     "MBON30": 0.02306,
+     "MBON05": 0.007086,
+     "MBON20": 0.003804,
+     "MBON32": 0.002059,
+     "MBON35": 0.001026,
+     "MBON25": 0.0001242
+    },
+    "removed_drive_matched_nulls": [
+     2.901,
+     2.811,
+     2.898
+    ],
+    "removed_drive_weight_space_null": 0.08577,
+    "removed_drive_MBON11_only": 3.141
+   },
+   "odour_itself_MB_route_only": {
+    "pooled_L1_rel_change_vs_dark": 0.0006291,
+    "max_abs_change_vs_dark": 0.02617,
+    "n_DN_changed_gt_5pct_of_rate": 0
+   },
+   "memory": {
+    "pooled_L1_rel_change": 0.000105,
+    "max_abs_change": 0.001961,
+    "max_frac_of_own_rate": 0.003952,
+    "median_frac_of_own_rate": 2.214e-05,
+    "p95_frac_of_own_rate": 0.0006126,
+    "max_frac_of_dynamic_range": 0.0003923,
+    "n_DN_changed_gt_1pct_of_rate": 0,
+    "n_DN_changed_gt_5pct_of_rate": 0,
+    "frac_DN_change_positive": 0.4581,
+    "left_right": {
+     "n_bilateral_types": 470,
+     "sum_abs_common_mode": 0.0336,
+     "sum_abs_right_minus_left": 0.009498,
+     "right_minus_left_over_common": 0.2827
+    },
+    "readout_set_only": {
+     "pooled_L1_rel_change": 0.000772,
+     "max_abs_change": 0.001775,
+     "max_frac_of_own_rate": 0.003541,
+     "median_frac_of_own_rate": 0.0002386,
+     "p95_frac_of_own_rate": 0.00285,
+     "max_frac_of_dynamic_range": 0.000355,
+     "n_DN_changed_gt_1pct_of_rate": 0,
+     "n_DN_changed_gt_5pct_of_rate": 0,
+     "frac_DN_change_positive": 0.4706
+    },
+    "memory_over_odour_MB_route": 0.1669,
+    "transfer_pooled_DN_change_per_unit_MBON11_rate_change": 0.04549,
+    "MBON11_abs_rate_change": 1.728,
+    "named_mean_abs": {
+     "DNa02": 0.001106,
+     "DNa03": 0.0002237
+    },
+    "named_sum_abs": {
+     "DNa02": 0.002213,
+     "DNa03": 0.0004474
+    },
+    "named_n_cells": {
+     "DNa02": 2,
+     "DNa03": 2
+    }
+   },
+   "memory_MBON11_only": {
+    "pooled_L1_rel_change": 0.0001049,
+    "max_abs_change": 0.001966,
+    "max_frac_of_own_rate": 0.003823,
+    "median_frac_of_own_rate": 2.129e-05,
+    "p95_frac_of_own_rate": 0.0006602,
+    "max_frac_of_dynamic_range": 0.0003932,
+    "n_DN_changed_gt_1pct_of_rate": 0,
+    "n_DN_changed_gt_5pct_of_rate": 0,
+    "frac_DN_change_positive": 0.4566,
+    "cos_with_full_memory": 0.9963,
+    "pooled_share_of_full_memory": 0.9995
+   },
+   "generalisation_to_untouched_odours": {
+    "note": "deterministic sim: this is the same memory scaled by Kenyon-cell overlap, not noise",
+    "kc_overlap_with_trained": [
+     0.05348,
+     0.02674,
+     0.03743
+    ],
+    "pooled_L1_rel_change": [
+     7.472e-06,
+     4.523e-06,
+     5.373e-06
+    ],
+    "cos_with_trained_pattern": [
+     0.9962,
+     0.9966,
+     0.9966
+    ]
+   },
+   "matched_null_same_cells_random_outputs": {
+    "pooled_L1_rel_change": [
+     5.695e-05,
+     4.78e-05,
+     4.475e-05
+    ],
+    "max_abs_change": [
+     0.001088,
+     0.001098,
+     0.0008162
+    ],
+    "cos_with_trained_pattern": [
+     0.5083,
+     0.2791,
+     0.4264
+    ],
+    "paired_drop_MBON11": [
+     0.1213,
+     0.04656,
+     0.09187
+    ]
+   },
+   "weight_space_null_mostly_silent_cells": {
+    "pooled_L1_rel_change": 2.49e-06,
+    "max_abs_change": 4.804e-05,
+    "max_frac_of_own_rate": 0.0001053,
+    "median_frac_of_own_rate": 6.131e-07,
+    "p95_frac_of_own_rate": 1.651e-05,
+    "max_frac_of_dynamic_range": 9.608e-06,
+    "n_DN_changed_gt_1pct_of_rate": 0,
+    "n_DN_changed_gt_5pct_of_rate": 0,
+    "frac_DN_change_positive": 0.4123
+   },
+   "top_DNs_by_abs_change": [
+    {
+     "type": "DNae001",
+     "side": "L",
+     "change": -0.001961,
+     "base_rate": 0.7654,
+     "change_when_only_MBON11_dosed": -0.001914
+    },
+    {
+     "type": "DNb05",
+     "side": "R",
+     "change": -0.001775,
+     "base_rate": 3.841,
+     "change_when_only_MBON11_dosed": -0.001966
+    },
+    {
+     "type": "DNae001",
+     "side": "R",
+     "change": -0.001742,
+     "base_rate": 0.6799,
+     "change_when_only_MBON11_dosed": -0.001684
+    },
+    {
+     "type": "DNpe050",
+     "side": "L",
+     "change": -0.001533,
+     "base_rate": 0.5944,
+     "change_when_only_MBON11_dosed": -0.00149
+    },
+    {
+     "type": "DNge151",
+     "side": "other",
+     "change": -0.001486,
+     "base_rate": 0.9367,
+     "change_when_only_MBON11_dosed": -0.001465
+    },
+    {
+     "type": "DNp46",
+     "side": "L",
+     "change": -0.001477,
+     "base_rate": 0.4359,
+     "change_when_only_MBON11_dosed": -0.001432
+    },
+    {
+     "type": "DNp46",
+     "side": "R",
+     "change": -0.001404,
+     "base_rate": 0.4688,
+     "change_when_only_MBON11_dosed": -0.001361
+    },
+    {
+     "type": "DNp29",
+     "side": "L",
+     "change": -0.001396,
+     "base_rate": 0.6993,
+     "change_when_only_MBON11_dosed": -0.001394
+    }
+   ]
+  },
+  {
+   "seed": 2,
+   "state_dark_plus_trained_odour": {
+    "frac_dynamic_at_ceiling": 0.001675,
+    "frac_dynamic_silent": 0.03604,
+    "mean_rate_dynamic": 0.6107,
+    "frac_MBON_at_ceiling": 0.0,
+    "frac_DN_at_ceiling": 0.0,
+    "frac_DN_silent": 0.0,
+    "mean_rate_DN": 0.5706
+   },
+   "paired_drop_MBON11": 0.6529,
+   "unpaired_drop_MBON11_mean": 0.06398,
+   "paired_drop_MBON11_when_only_MBON11_is_dosed": 0.6534,
+   "depression": {
+    "n_live_plastic_edges": 1640,
+    "removed_drive_total": 3.284,
+    "share_in_readout_type": 0.9643,
+    "share_by_MBON_type_top": {
+     "MBON11": 0.9643,
+     "MBON30": 0.02165,
+     "MBON05": 0.007148,
+     "MBON20": 0.00273,
+     "MBON32": 0.002072,
+     "MBON35": 0.002033,
+     "MBON25-like": 3.436e-05
+    },
+    "removed_drive_matched_nulls": [
+     3.006,
+     3.089,
+     3.051
+    ],
+    "removed_drive_weight_space_null": 0.1855,
+    "removed_drive_MBON11_only": 3.167
+   },
+   "odour_itself_MB_route_only": {
+    "pooled_L1_rel_change_vs_dark": 0.0006194,
+    "max_abs_change_vs_dark": 0.02667,
+    "n_DN_changed_gt_5pct_of_rate": 0
+   },
+   "memory": {
+    "pooled_L1_rel_change": 0.0001042,
+    "max_abs_change": 0.00195,
+    "max_frac_of_own_rate": 0.003921,
+    "median_frac_of_own_rate": 2.181e-05,
+    "p95_frac_of_own_rate": 0.0006108,
+    "max_frac_of_dynamic_range": 0.00039,
+    "n_DN_changed_gt_1pct_of_rate": 0,
+    "n_DN_changed_gt_5pct_of_rate": 0,
+    "frac_DN_change_positive": 0.4611,
+    "left_right": {
+     "n_bilateral_types": 470,
+     "sum_abs_common_mode": 0.03334,
+     "sum_abs_right_minus_left": 0.009253,
+     "right_minus_left_over_common": 0.2775
+    },
+    "readout_set_only": {
+     "pooled_L1_rel_change": 0.0007687,
+     "max_abs_change": 0.00174,
+     "max_frac_of_own_rate": 0.003522,
+     "median_frac_of_own_rate": 0.0002389,
+     "p95_frac_of_own_rate": 0.002831,
+     "max_frac_of_dynamic_range": 0.000348,
+     "n_DN_changed_gt_1pct_of_rate": 0,
+     "n_DN_changed_gt_5pct_of_rate": 0,
+     "frac_DN_change_positive": 0.4706
+    },
+    "memory_over_odour_MB_route": 0.1682,
+    "transfer_pooled_DN_change_per_unit_MBON11_rate_change": 0.04534,
+    "MBON11_abs_rate_change": 1.72,
+    "named_mean_abs": {
+     "DNa02": 0.001101,
+     "DNa03": 0.0002251
+    },
+    "named_sum_abs": {
+     "DNa02": 0.002202,
+     "DNa03": 0.0004502
+    },
+    "named_n_cells": {
+     "DNa02": 2,
+     "DNa03": 2
+    }
+   },
+   "memory_MBON11_only": {
+    "pooled_L1_rel_change": 0.0001036,
+    "max_abs_change": 0.00192,
+    "max_frac_of_own_rate": 0.003802,
+    "median_frac_of_own_rate": 2.093e-05,
+    "p95_frac_of_own_rate": 0.0006561,
+    "max_frac_of_dynamic_range": 0.0003841,
+    "n_DN_changed_gt_1pct_of_rate": 0,
+    "n_DN_changed_gt_5pct_of_rate": 0,
+    "frac_DN_change_positive": 0.4558,
+    "cos_with_full_memory": 0.9967,
+    "pooled_share_of_full_memory": 0.9949
+   },
+   "generalisation_to_untouched_odours": {
+    "note": "deterministic sim: this is the same memory scaled by Kenyon-cell overlap, not noise",
+    "kc_overlap_with_trained": [
+     0.06417,
+     0.08556,
+     0.04278
+    ],
+    "pooled_L1_rel_change": [
+     1.09e-05,
+     1.45e-05,
+     7.974e-06
+    ],
+    "cos_with_trained_pattern": [
+     0.9925,
+     0.9912,
+     0.9921
+    ]
+   },
+   "matched_null_same_cells_random_outputs": {
+    "pooled_L1_rel_change": [
+     5.755e-05,
+     4.992e-05,
+     5.11e-05
+    ],
+    "max_abs_change": [
+     0.00169,
+     0.001186,
+     0.001023
+    ],
+    "cos_with_trained_pattern": [
+     0.3076,
+     0.5304,
+     0.4809
+    ],
+    "paired_drop_MBON11": [
+     0.07185,
+     0.1166,
+     0.1176
+    ]
+   },
+   "weight_space_null_mostly_silent_cells": {
+    "pooled_L1_rel_change": 5.939e-06,
+    "max_abs_change": 0.0001469,
+    "max_frac_of_own_rate": 0.0005211,
+    "median_frac_of_own_rate": 1.18e-06,
+    "p95_frac_of_own_rate": 3.603e-05,
+    "max_frac_of_dynamic_range": 2.939e-05,
+    "n_DN_changed_gt_1pct_of_rate": 0,
+    "n_DN_changed_gt_5pct_of_rate": 0,
+    "frac_DN_change_positive": 0.407
+   },
+   "top_DNs_by_abs_change": [
+    {
+     "type": "DNae001",
+     "side": "L",
+     "change": -0.00195,
+     "base_rate": 0.7654,
+     "change_when_only_MBON11_dosed": -0.001905
+    },
+    {
+     "type": "DNb05",
+     "side": "R",
+     "change": -0.00174,
+     "base_rate": 3.84,
+     "change_when_only_MBON11_dosed": -0.00192
+    },
+    {
+     "type": "DNae001",
+     "side": "R",
+     "change": -0.001729,
+     "base_rate": 0.6798,
+     "change_when_only_MBON11_dosed": -0.001675
+    },
+    {
+     "type": "DNpe050",
+     "side": "L",
+     "change": -0.001524,
+     "base_rate": 0.5943,
+     "change_when_only_MBON11_dosed": -0.001482
+    },
+    {
+     "type": "DNp46",
+     "side": "L",
+     "change": -0.001468,
+     "base_rate": 0.4359,
+     "change_when_only_MBON11_dosed": -0.001426
+    },
+    {
+     "type": "DNge151",
+     "side": "other",
+     "change": -0.001465,
+     "base_rate": 0.9365,
+     "change_when_only_MBON11_dosed": -0.001445
+    },
+    {
+     "type": "DNp29",
+     "side": "L",
+     "change": -0.001396,
+     "base_rate": 0.6993,
+     "change_when_only_MBON11_dosed": -0.001395
+    },
+    {
+     "type": "DNp46",
+     "side": "R",
+     "change": -0.001395,
+     "base_rate": 0.4688,
+     "change_when_only_MBON11_dosed": -0.001354
+    }
+   ]
+  }
+ ],
+ "aggregate": {
+  "note": "spread over odour draws on ONE graph, gain and rule: odour-draw variability, not the uncertainty of the claim",
+  "paired_drop_MBON11": {
+   "mean": 0.6545,
+   "sd": 0.007474,
+   "min": 0.6479,
+   "max": 0.6626,
+   "n": 3
+  },
+  "unpaired_drop_MBON11": {
+   "mean": 0.05819,
+   "sd": 0.01753,
+   "min": 0.03849,
+   "max": 0.07209,
+   "n": 3
+  },
+  "share_of_depression_in_readout_type": {
+   "mean": 0.9647,
+   "sd": 0.002074,
+   "min": 0.9628,
+   "max": 0.9669,
+   "n": 3
+  },
+  "memory_pooled_L1": {
+   "mean": 0.0001067,
+   "sd": 3.602e-06,
+   "min": 0.0001042,
+   "max": 0.0001108,
+   "n": 3
+  },
+  "memory_pooled_L1_readout_set_only": {
+   "mean": 0.0007833,
+   "sd": 2.255e-05,
+   "min": 0.0007687,
+   "max": 0.0008093,
+   "n": 3
+  },
+  "memory_max_frac_of_own_rate_readout_set_only": {
+   "mean": 0.00359,
+   "sd": 0.0001012,
+   "min": 0.003522,
+   "max": 0.003706,
+   "n": 3
+  },
+  "memory_MBON11_only_pooled_L1": {
+   "mean": 0.0001064,
+   "sd": 3.723e-06,
+   "min": 0.0001036,
+   "max": 0.0001106,
+   "n": 3
+  },
+  "MBON11_only_share_of_full_memory": {
+   "mean": 0.9977,
+   "sd": 0.002479,
+   "min": 0.9949,
+   "max": 0.9995,
+   "n": 3
+  },
+  "MBON11_only_cos_with_full_memory": {
+   "mean": 0.9969,
+   "sd": 0.0007211,
+   "min": 0.9963,
+   "max": 0.9977,
+   "n": 3
+  },
+  "untouched_pooled_L1": {
+   "mean": 9.436e-06,
+   "sd": 4.032e-06,
+   "min": 4.523e-06,
+   "max": 1.681e-05,
+   "n": 9
+  },
+  "matched_null_pooled_L1": {
+   "mean": 4.964e-05,
+   "sd": 5.236e-06,
+   "min": 4.325e-05,
+   "max": 5.755e-05,
+   "n": 9
+  },
+  "matched_null_cos_with_trained_pattern": {
+   "mean": 0.4005,
+   "sd": 0.1007,
+   "min": 0.2791,
+   "max": 0.5304,
+   "n": 9
+  },
+  "weight_space_null_pooled_L1": {
+   "mean": 5.695e-06,
+   "sd": 3.091e-06,
+   "min": 2.49e-06,
+   "max": 8.657e-06,
+   "n": 3
+  },
+  "memory_max_abs_change": {
+   "mean": 0.001989,
+   "sd": 5.771e-05,
+   "min": 0.00195,
+   "max": 0.002055,
+   "n": 3
+  },
+  "memory_max_frac_of_own_rate": {
+   "mean": 0.004006,
+   "sd": 0.0001214,
+   "min": 0.003921,
+   "max": 0.004145,
+   "n": 3
+  },
+  "memory_p95_frac_of_own_rate": {
+   "mean": 0.0006181,
+   "sd": 1.106e-05,
+   "min": 0.0006108,
+   "max": 0.0006308,
+   "n": 3
+  },
+  "memory_max_frac_of_dynamic_range": {
+   "mean": 0.0003978,
+   "sd": 1.158e-05,
+   "min": 0.00039,
+   "max": 0.0004111,
+   "n": 3
+  },
+  "n_DN_gt_1pct": {
+   "mean": 0.0,
+   "sd": 0.0,
+   "min": 0.0,
+   "max": 0.0,
+   "n": 3
+  },
+  "n_DN_gt_5pct": {
+   "mean": 0.0,
+   "sd": 0.0,
+   "min": 0.0,
+   "max": 0.0,
+   "n": 3
+  },
+  "frac_DN_change_positive": {
+   "mean": 0.4586,
+   "sd": 0.002291,
+   "min": 0.4566,
+   "max": 0.4611,
+   "n": 3
+  },
+  "right_minus_left_over_common": {
+   "mean": 0.2827,
+   "sd": 0.00525,
+   "min": 0.2775,
+   "max": 0.288,
+   "n": 3
+  },
+  "odour_itself_MB_route_pooled_L1_vs_dark": {
+   "mean": 0.0006169,
+   "sd": 1.362e-05,
+   "min": 0.0006022,
+   "max": 0.0006291,
+   "n": 3
+  },
+  "memory_over_odour_MB_route": {
+   "mean": 0.173,
+   "sd": 0.009462,
+   "min": 0.1669,
+   "max": 0.1839,
+   "n": 3
+  },
+  "transfer_pooled_DN_change_per_unit_MBON11_rate_change": {
+   "mean": 0.0456,
+   "sd": 0.0003235,
+   "min": 0.04534,
+   "max": 0.04596,
+   "n": 3
+  },
+  "cross_draw_cosine_of_DN_pattern": {
+   "mean": 0.9993,
+   "sd": 0.0003215,
+   "min": 0.9991,
+   "max": 0.9997,
+   "n": 3
+  },
+  "named_DN_mean_abs_change": {
+   "DNa02": {
+    "mean": 0.001121,
+    "sd": 3.041e-05,
+    "min": 0.001101,
+    "max": 0.001156,
+    "n": 3
+   },
+   "DNa03": {
+    "mean": 0.0002299,
+    "sd": 9.494e-06,
+    "min": 0.0002237,
+    "max": 0.0002408,
+    "n": 3
+   }
+  },
+  "most_consistent_top5_types": [
+   [
+    "DNae001",
+    6
+   ],
+   [
+    "DNb05",
+    3
+   ],
+   [
+    "DNpe050",
+    3
+   ],
+   [
+    "DNge151",
+    2
+   ],
+   [
+    "DNp46",
+    1
+   ]
+  ]
+ },
+ "flags": {
+  "odour_specific_trained_gt_2x_untouched": true,
+  "memory_over_matched_null_pooled": 2.149,
+  "compartment_matters_ratio_outside_0.5_to_2": true,
+  "material_at_least_1pct_of_DNs_shift_gt_5pct_of_rate": false
+ },
+ "verdict": "Graph subgraph_v5.npz: 138,968 nodes, 4,639,332 edges, 1,312 descending neurons (by superclass). Size first: one pairing at lr 0.9 (dose from counts) changes the pooled DN rate by 0.0001067; the largest single cell moves 0.001989 = 0.004006 of its rate; 0.0 DNs per draw move more than 1% and 0.0 more than 5%. Material (>= 1% of DNs shifting by > 5%): no. The MBON11 rate drops 0.6545 (unpaired 0.05819); 0.9647 of the removed drive is in MBON11, and dosing MBON11 alone reproduces 0.9977 of the DN change (pattern cosine 0.9969). Untouched odours change by 9.436e-06 (the same memory through Kenyon-cell overlap, not noise): odour-specific yes. The matched null (same cells, random output cells) gives 4.964e-05, so memory/null = 2.149 before allowing for the null removing a little less drive (see removed_drive_* per draw). The DN pattern is one fixed footprint across odour draws (cosine 0.9993) and is 0.4586 positive; its right-minus-left part is 0.2827 of its common mode (a bilateral memory on a perfectly left-right symmetric brain would give 0; the asymmetry is the wiring's, e.g. one-sided contacts, not a learned turn signal). For scale, the odour itself reaches the DNs through the mushroom-body route by only 0.0006169 pooled (the lateral-horn route is not driven), and the memory is 0.173 of that. In the measured state 0.0 of DNs and 0.001675 of all dynamic cells sit at the rate ceiling.",
+ "elapsed_s": 4825.1
+}

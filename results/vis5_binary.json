@@ -1,0 +1,260 @@
+{
+ "circuit": {
+  "modality": "visual",
+  "n_input": 252,
+  "n_channels": 101,
+  "n_KC": 4064,
+  "n_drivable_KC": 332,
+  "kwta_k": 17,
+  "n_MBON": 97,
+  "n_plastic_KC_MBON_edges": 61210,
+  "n_punish_DAN": 2,
+  "n_reward_DAN": 316,
+  "MBON11_input_frac_from_KC": 0.8615,
+  "input_totals_source": "full connectome (mb_build cache)",
+  "wiring_build": {
+   "build_time": "2026-09-19T15:14:04",
+   "build_source_sha": "c82e39b4017c"
+  },
+  "punish_compartment_types": [
+   "MBON11"
+  ],
+  "reward_compartment_types": [
+   "MBON03",
+   "MBON05",
+   "MBON06"
+  ],
+  "delta_punish_MBON11": 1.0,
+  "delta_reward_MBON11": 0.0642
+ },
+ "kc_code": {
+  "sparsity": 0.05,
+  "binary": true,
+  "active_frac": [
+   0.0042,
+   0.0042,
+   0.0042,
+   0.0042
+  ],
+  "cross_odour_cos_mean": 0.0966,
+  "cross_odour_cos_max": 0.3529
+ },
+ "rule": {
+  "lr": 0.9,
+  "lr_calibrated": true,
+  "lr_calibration_note": null,
+  "target_drop_in_punish_compartment_p1": 0.9,
+  "lr_capped_at_stability_limit": false,
+  "recover_rate": 1.0,
+  "pairings": 1,
+  "strength": 1.0,
+  "note": "paired drop at p pairings = (S2/S1) * (1 - (1 - lr*delta)^p) by the rule; with lr calibrated it is not a prediction. Wiring-dependent endpoints: compartment map, unpaired/generalisation, coexistence."
+ },
+ "shuffle": null,
+ "punish": [
+  "PPL101"
+ ],
+ "reward": [
+  "PAM"
+ ],
+ "drop_vs_pairings_MBON11": {
+  "1": {
+   "paired_A_MBON11": 0.9,
+   "closed_form_MBON11": 0.9,
+   "unpaired_MBON11_mean": 0.0207,
+   "unpaired_closed_form": 0.0207
+  },
+  "2": {
+   "paired_A_MBON11": 0.99,
+   "closed_form_MBON11": 0.99,
+   "unpaired_MBON11_mean": 0.0228,
+   "unpaired_closed_form": 0.0228
+  },
+  "3": {
+   "paired_A_MBON11": 0.999,
+   "closed_form_MBON11": 0.999,
+   "unpaired_MBON11_mean": 0.023,
+   "unpaired_closed_form": 0.023
+  },
+  "4": {
+   "paired_A_MBON11": 0.9999,
+   "closed_form_MBON11": 0.9999,
+   "unpaired_MBON11_mean": 0.023,
+   "unpaired_closed_form": 0.023
+  },
+  "5": {
+   "paired_A_MBON11": 1.0,
+   "closed_form_MBON11": 1.0,
+   "unpaired_MBON11_mean": 0.023,
+   "unpaired_closed_form": 0.023
+  },
+  "6": {
+   "paired_A_MBON11": 1.0,
+   "closed_form_MBON11": 1.0,
+   "unpaired_MBON11_mean": 0.023,
+   "unpaired_closed_form": 0.023
+  },
+  "7": {
+   "paired_A_MBON11": 1.0,
+   "closed_form_MBON11": 1.0,
+   "unpaired_MBON11_mean": 0.023,
+   "unpaired_closed_form": 0.023
+  },
+  "8": {
+   "paired_A_MBON11": 1.0,
+   "closed_form_MBON11": 1.0,
+   "unpaired_MBON11_mean": 0.023,
+   "unpaired_closed_form": 0.023
+  }
+ },
+ "one_memory": {
+  "pairings": 1,
+  "paired_A_MBON11": 0.9,
+  "paired_A_compartment": 0.9,
+  "unpaired_MBON11_mean": 0.0207,
+  "unpaired_MBON11_each": [
+   0.0336,
+   0.0166,
+   0.0636,
+   0.0,
+   0.0,
+   0.0313,
+   0.0
+  ],
+  "unpaired_over_paired": 0.023,
+  "overlap_at_MBON11_mean": 0.023,
+  "per_type_drop_A": {
+   "MBON11": {
+    "drop": 0.9,
+    "share_of_total_depression": 0.9542
+   },
+   "MBON05": {
+    "drop": 0.0082,
+    "share_of_total_depression": 0.0128
+   },
+   "MBON20": {
+    "drop": 0.0362,
+    "share_of_total_depression": 0.0113
+   },
+   "MBON35": {
+    "drop": 0.0187,
+    "share_of_total_depression": 0.0105
+   },
+   "MBON32": {
+    "drop": 0.0074,
+    "share_of_total_depression": 0.0066
+   },
+   "MBON30": {
+    "drop": 0.0393,
+    "share_of_total_depression": 0.0031
+   },
+   "MBON33": {
+    "drop": 0.0016,
+    "share_of_total_depression": 0.0005
+   },
+   "MBON09": {
+    "drop": 0.0002,
+    "share_of_total_depression": 0.0004
+   }
+  },
+  "share_of_depression_in_MBON11": 0.9542,
+  "W_stats": {
+   "min": 0.1,
+   "mean": 0.9997,
+   "frac_depressed": 0.0011
+  }
+ },
+ "generalisation": {
+  "shared_5_of_6": {
+   "drop_MBON11": 0.7148,
+   "kc_cosine_to_A": 0.8265,
+   "overlap_at_MBON11": 0.7942
+  },
+  "shared_4_of_6": {
+   "drop_MBON11": 0.5171,
+   "kc_cosine_to_A": 0.6324,
+   "overlap_at_MBON11": 0.5745
+  },
+  "shared_3_of_6": {
+   "drop_MBON11": 0.1921,
+   "kc_cosine_to_A": 0.2776,
+   "overlap_at_MBON11": 0.2134
+  },
+  "shared_1_of_6": {
+   "drop_MBON11": 0.1411,
+   "kc_cosine_to_A": 0.1618,
+   "overlap_at_MBON11": 0.1568
+  },
+  "shared_0_of_6": {
+   "drop_MBON11": 0.0513,
+   "kc_cosine_to_A": 0.065,
+   "overlap_at_MBON11": 0.057
+  }
+ },
+ "dan_alone_no_KC_drop_A": {
+  "value": 0.0,
+  "note": "identically 0 by the rule; no time axis in this model"
+ },
+ "reward_memory": {
+  "paired_C_reward_compartments": 0.6504,
+  "paired_C_MBON11": 0.0578,
+  "per_type_drop_C": {
+   "MBON05": {
+    "drop": 0.6502,
+    "share_of_total_depression": 0.3533
+   },
+   "MBON09": {
+    "drop": 0.3439,
+    "share_of_total_depression": 0.2836
+   },
+   "MBON01": {
+    "drop": 0.4405,
+    "share_of_total_depression": 0.2368
+   },
+   "MBON27": {
+    "drop": 0.1146,
+    "share_of_total_depression": 0.0533
+   },
+   "MBON11": {
+    "drop": 0.0578,
+    "share_of_total_depression": 0.0248
+   },
+   "MBON21": {
+    "drop": 0.2181,
+    "share_of_total_depression": 0.016
+   },
+   "MBON04": {
+    "drop": 0.3319,
+    "share_of_total_depression": 0.0095
+   },
+   "MBON26": {
+    "drop": 0.2629,
+    "share_of_total_depression": 0.0094
+   }
+  },
+  "unpaired_reward_compartments_mean": 0.1242
+ },
+ "coexistence": {
+  "same_compartment_blocked_A_then_B": {
+   "A_alone": 0.9,
+   "A_after_B": 0.1465,
+   "B": 0.9034,
+   "A_retained_fraction": 0.1627,
+   "closed_form_retained_nonshared_KCs": 0.1
+  },
+  "same_compartment_interleaved": {
+   "A": 0.1465,
+   "B": 0.9034
+  },
+  "different_compartments_A_punish_C_reward": {
+   "A_MBON11": 0.8498,
+   "C_reward_compartments": 0.6505,
+   "C_MBON11": 0.0734,
+   "A_reward_compartments": 0.0374,
+   "D_untouched_MBON11": 0.0599
+  },
+  "note": "the rule's silent-KC term relaxes depressed synapses toward 1 whenever dopamine arrives, so a second memory in the same compartment erodes the first by (1 - lr*delta*recover_rate)^p on non-shared KCs; recover_rate 1 is the published rule"
+ },
+ "elapsed_s": 17.1,
+ "ground_truth": "Hige 2015: one pairing block ~80% (spikes) / ~90% (charge) at MBON-gamma1pedc; unpaired odour unchanged. Owald 2015: reward = depression in PAM compartments."
+}

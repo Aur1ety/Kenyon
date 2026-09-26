@@ -1,0 +1,25 @@
+[project]
+name = "kenyon"
+version = "0.1.0"
+description = "Kenyon: a fruit-fly memory circuit built from its own connectome (the MaleCNS mushroom body and a published dopamine learning rule)"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "numpy", "scipy", "pandas", "pyarrow", "torch", "psutil",
+  "Pillow>=10.1", "imageio-ffmpeg",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = ""
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["kenyon*"]

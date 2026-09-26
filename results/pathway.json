@@ -1,0 +1,216 @@
+{
+ "source_MBON": "MBON11",
+ "n_source_cells": 2,
+ "steering_DNs": [
+  "DNa02",
+  "DNa03"
+ ],
+ "n_steer_cells": 4,
+ "direct_MBON_to_steerDN_synapses": 0.0,
+ "n_bridging_interneurons": 19,
+ "n_bridging_types": 16,
+ "memory_throughput_total": 0.2861,
+ "memory_throughput_via_bridges": 0.2861,
+ "steerDN_total_input_synapses": 84206.0,
+ "steerDN_input_pct_memory_modulated": 0.00034,
+ "top_bridging_types_by_throughput": [
+  {
+   "type": "CRE021",
+   "memory_throughput": 0.13,
+   "share_of_throughput": 0.456,
+   "mbon_input_fraction_max": 0.0019,
+   "n_cells": 2,
+   "mbon_to_type_syn": 34.0,
+   "type_to_DN_syn": 72.0
+  },
+  {
+   "type": "AOTU019",
+   "memory_throughput": 0.08,
+   "share_of_throughput": 0.295,
+   "mbon_input_fraction_max": 0.0001,
+   "n_cells": 2,
+   "mbon_to_type_syn": 5.0,
+   "type_to_DN_syn": 1058.0
+  },
+  {
+   "type": "SMP148",
+   "memory_throughput": 0.02,
+   "share_of_throughput": 0.073,
+   "mbon_input_fraction_max": 0.0002,
+   "n_cells": 1,
+   "mbon_to_type_syn": 1.0,
+   "type_to_DN_syn": 120.0
+  },
+  {
+   "type": "CRE012",
+   "memory_throughput": 0.01,
+   "share_of_throughput": 0.043,
+   "mbon_input_fraction_max": 0.0002,
+   "n_cells": 2,
+   "mbon_to_type_syn": 2.0,
+   "type_to_DN_syn": 58.0
+  },
+  {
+   "type": "LAL160",
+   "memory_throughput": 0.01,
+   "share_of_throughput": 0.043,
+   "mbon_input_fraction_max": 0.0009,
+   "n_cells": 1,
+   "mbon_to_type_syn": 3.0,
+   "type_to_DN_syn": 14.0
+  },
+  {
+   "type": "SMP272",
+   "memory_throughput": 0.01,
+   "share_of_throughput": 0.023,
+   "mbon_input_fraction_max": 0.0022,
+   "n_cells": 1,
+   "mbon_to_type_syn": 6.0,
+   "type_to_DN_syn": 3.0
+  },
+  {
+   "type": "LAL161",
+   "memory_throughput": 0.0,
+   "share_of_throughput": 0.016,
+   "mbon_input_fraction_max": 0.0003,
+   "n_cells": 1,
+   "mbon_to_type_syn": 1.0,
+   "type_to_DN_syn": 16.0
+  },
+  {
+   "type": "AOTU017",
+   "memory_throughput": 0.0,
+   "share_of_throughput": 0.016,
+   "mbon_input_fraction_max": 0.0005,
+   "n_cells": 1,
+   "mbon_to_type_syn": 1.0,
+   "type_to_DN_syn": 9.0
+  },
+  {
+   "type": "CRE068",
+   "memory_throughput": 0.0,
+   "share_of_throughput": 0.014,
+   "mbon_input_fraction_max": 0.002,
+   "n_cells": 1,
+   "mbon_to_type_syn": 1.0,
+   "type_to_DN_syn": 2.0
+  },
+  {
+   "type": "LAL100",
+   "memory_throughput": 0.0,
+   "share_of_throughput": 0.006,
+   "mbon_input_fraction_max": 0.0018,
+   "n_cells": 1,
+   "mbon_to_type_syn": 7.0,
+   "type_to_DN_syn": 1.0
+  },
+  {
+   "type": "CRE005",
+   "memory_throughput": 0.0,
+   "share_of_throughput": 0.004,
+   "mbon_input_fraction_max": 0.0006,
+   "n_cells": 1,
+   "mbon_to_type_syn": 1.0,
+   "type_to_DN_syn": 2.0
+  },
+  {
+   "type": "LAL155",
+   "memory_throughput": 0.0,
+   "share_of_throughput": 0.003,
+   "mbon_input_fraction_max": 0.0009,
+   "n_cells": 1,
+   "mbon_to_type_syn": 2.0,
+   "type_to_DN_syn": 1.0
+  }
+ ],
+ "most_specific_bridges": [
+  {
+   "bodyId": 11329,
+   "type": "SMP272",
+   "mbon_input_fraction": 0.0022,
+   "mbon_to_i": 6.0,
+   "i_to_DN": 3.0
+  },
+  {
+   "bodyId": 71534,
+   "type": "CRE068",
+   "mbon_input_fraction": 0.002,
+   "mbon_to_i": 1.0,
+   "i_to_DN": 2.0
+  },
+  {
+   "bodyId": 10635,
+   "type": "CRE021",
+   "mbon_input_fraction": 0.0019,
+   "mbon_to_i": 17.0,
+   "i_to_DN": 33.0
+  },
+  {
+   "bodyId": 13450,
+   "type": "LAL100",
+   "mbon_input_fraction": 0.0018,
+   "mbon_to_i": 7.0,
+   "i_to_DN": 1.0
+  },
+  {
+   "bodyId": 10916,
+   "type": "CRE021",
+   "mbon_input_fraction": 0.0017,
+   "mbon_to_i": 17.0,
+   "i_to_DN": 39.0
+  },
+  {
+   "bodyId": 15689,
+   "type": "LAL160",
+   "mbon_input_fraction": 0.0009,
+   "mbon_to_i": 3.0,
+   "i_to_DN": 14.0
+  },
+  {
+   "bodyId": 17706,
+   "type": "LAL155",
+   "mbon_input_fraction": 0.0009,
+   "mbon_to_i": 2.0,
+   "i_to_DN": 1.0
+  },
+  {
+   "bodyId": 514677,
+   "type": "LAL185",
+   "mbon_input_fraction": 0.0008,
+   "mbon_to_i": 1.0,
+   "i_to_DN": 1.0
+  },
+  {
+   "bodyId": 11236,
+   "type": "CRE005",
+   "mbon_input_fraction": 0.0006,
+   "mbon_to_i": 1.0,
+   "i_to_DN": 2.0
+  },
+  {
+   "bodyId": 19331,
+   "type": "AOTU017",
+   "mbon_input_fraction": 0.0005,
+   "mbon_to_i": 1.0,
+   "i_to_DN": 9.0
+  },
+  {
+   "bodyId": 11659,
+   "type": "LAL161",
+   "mbon_input_fraction": 0.0003,
+   "mbon_to_i": 1.0,
+   "i_to_DN": 16.0
+  },
+  {
+   "bodyId": 16473,
+   "type": "CRE012",
+   "mbon_input_fraction": 0.0002,
+   "mbon_to_i": 1.0,
+   "i_to_DN": 31.0
+  }
+ ],
+ "prediction": "The connectome provides NO memory-specific route from MBON11 to the steering DNs ['DNa02', 'DNa03']: the direct path is 0.0 synapses; the strongest bridge by memory throughput is CRE021 (0.13 synapse-equivalents, MBON11 share of its input 0.0019); and even the most MBON11-specific bridge (SMP272) receives only 0.0022 (~0.22%) of its input from MBON11, so the total memory-modulated throughput is 3.40e-04% of the steering DNs' 84206 input synapses. This ANATOMICALLY confirms the model's section-9 finding that the memory does not reach the descending neurons. PREDICTION (testable): learned odour avoidance is NOT routed through a single dedicated interneuron from this compartment, so silencing the top candidates (CRE021, AOTU019, SMP148) should NOT selectively abolish learned avoidance. A null screen would support a diffuse-summation or longer/neuromodulatory route; a positive hit would mean the behavioural pathway uses a connection weaker than the connectome's confidence threshold captures. High-capacity cells like AOTU019 are especially POOR targets (MBON11 is a negligible fraction of their input, so a deficit would be non-specific to the memory).",
+ "caveat": "This is a CONNECTOME-ANATOMY prediction, not a model result. Section 9 of docs/RESULTS.md finds the memory does NOT measurably flow through this path IN THE MODEL (the behaviour there is read through the published valence map, not this route), and the throughput here is a tiny percent of steering input. So it names the strongest candidate cells only; a null silencing result would say learned avoidance is routed through cells this two-hop trace misses (longer or neuromodulatory paths). Full connectome, minconf 0.5. path_strength is CAPACITY not proven NECESSITY.",
+ "n_all_DN": 1314,
+ "elapsed_s": 14.1
+}

@@ -1,0 +1,260 @@
+{
+ "circuit": {
+  "modality": "visual",
+  "n_input": 252,
+  "n_channels": 101,
+  "n_KC": 4064,
+  "n_drivable_KC": 332,
+  "kwta_k": 17,
+  "n_MBON": 97,
+  "n_plastic_KC_MBON_edges": 61210,
+  "n_punish_DAN": 2,
+  "n_reward_DAN": 316,
+  "MBON11_input_frac_from_KC": 0.8615,
+  "input_totals_source": "full connectome (mb_build cache)",
+  "wiring_build": {
+   "build_time": "2026-09-19T15:14:04",
+   "build_source_sha": "c82e39b4017c"
+  },
+  "punish_compartment_types": [
+   "MBON10"
+  ],
+  "reward_compartment_types": [
+   "MBON12",
+   "MBON16",
+   "MBON25-like"
+  ],
+  "delta_punish_MBON11": 0.0004,
+  "delta_reward_MBON11": 0.0642
+ },
+ "kc_code": {
+  "sparsity": 0.05,
+  "binary": true,
+  "active_frac": [
+   0.0042,
+   0.0042,
+   0.0042,
+   0.0042
+  ],
+  "cross_odour_cos_mean": 0.0966,
+  "cross_odour_cos_max": 0.3529
+ },
+ "rule": {
+  "lr": 0.9,
+  "lr_calibrated": false,
+  "lr_calibration_note": "calibration impossible, lr left at 0.9: calibrate_lr: no reinforcement reaches the masked compartment (delta[mask] all zero); check the punish/reward DAN selection and the mask",
+  "target_drop_in_punish_compartment_p1": 0.9,
+  "lr_capped_at_stability_limit": false,
+  "recover_rate": 1.0,
+  "pairings": 1,
+  "strength": 1.0,
+  "note": "paired drop at p pairings = (S2/S1) * (1 - (1 - lr*delta)^p) by the rule; with lr calibrated it is not a prediction. Wiring-dependent endpoints: compartment map, unpaired/generalisation, coexistence."
+ },
+ "shuffle": "dan_mbon",
+ "punish": [
+  "PPL101"
+ ],
+ "reward": [
+  "PAM"
+ ],
+ "drop_vs_pairings_MBON11": {
+  "1": {
+   "paired_A_MBON11": 0.0004,
+   "closed_form_MBON11": 0.0004,
+   "unpaired_MBON11_mean": 0.0,
+   "unpaired_closed_form": 0.0
+  },
+  "2": {
+   "paired_A_MBON11": 0.0008,
+   "closed_form_MBON11": 0.0008,
+   "unpaired_MBON11_mean": 0.0,
+   "unpaired_closed_form": 0.0
+  },
+  "3": {
+   "paired_A_MBON11": 0.0012,
+   "closed_form_MBON11": 0.0012,
+   "unpaired_MBON11_mean": 0.0,
+   "unpaired_closed_form": 0.0
+  },
+  "4": {
+   "paired_A_MBON11": 0.0016,
+   "closed_form_MBON11": 0.0016,
+   "unpaired_MBON11_mean": 0.0,
+   "unpaired_closed_form": 0.0
+  },
+  "5": {
+   "paired_A_MBON11": 0.0019,
+   "closed_form_MBON11": 0.0019,
+   "unpaired_MBON11_mean": 0.0,
+   "unpaired_closed_form": 0.0
+  },
+  "6": {
+   "paired_A_MBON11": 0.0023,
+   "closed_form_MBON11": 0.0023,
+   "unpaired_MBON11_mean": 0.0001,
+   "unpaired_closed_form": 0.0001
+  },
+  "7": {
+   "paired_A_MBON11": 0.0027,
+   "closed_form_MBON11": 0.0027,
+   "unpaired_MBON11_mean": 0.0001,
+   "unpaired_closed_form": 0.0001
+  },
+  "8": {
+   "paired_A_MBON11": 0.0031,
+   "closed_form_MBON11": 0.0031,
+   "unpaired_MBON11_mean": 0.0001,
+   "unpaired_closed_form": 0.0001
+  }
+ },
+ "one_memory": {
+  "pairings": 1,
+  "paired_A_MBON11": 0.0004,
+  "paired_A_compartment": null,
+  "unpaired_MBON11_mean": 0.0,
+  "unpaired_MBON11_each": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "unpaired_over_paired": 0.023,
+  "overlap_at_MBON11_mean": 0.023,
+  "per_type_drop_A": {
+   "MBON32": {
+    "drop": 0.0393,
+    "share_of_total_depression": 0.8742
+   },
+   "MBON22": {
+    "drop": 0.0187,
+    "share_of_total_depression": 0.0947
+   },
+   "MBON11": {
+    "drop": 0.0004,
+    "share_of_total_depression": 0.0103
+   },
+   "MBON20": {
+    "drop": 0.0012,
+    "share_of_total_depression": 0.0091
+   },
+   "MBON26": {
+    "drop": 0.0074,
+    "share_of_total_depression": 0.0054
+   },
+   "MBON31": {
+    "drop": 0.0273,
+    "share_of_total_depression": 0.0028
+   },
+   "MBON30": {
+    "drop": 0.0014,
+    "share_of_total_depression": 0.0027
+   },
+   "MBON25-like": {
+    "drop": 0.0088,
+    "share_of_total_depression": 0.0009
+   }
+  },
+  "share_of_depression_in_MBON11": 0.0103,
+  "W_stats": {
+   "min": 0.9607,
+   "mean": 1.0,
+   "frac_depressed": 0.0005
+  }
+ },
+ "generalisation": {
+  "shared_5_of_6": {
+   "drop_MBON11": 0.0003,
+   "kc_cosine_to_A": 0.8265,
+   "overlap_at_MBON11": 0.7942
+  },
+  "shared_4_of_6": {
+   "drop_MBON11": 0.0002,
+   "kc_cosine_to_A": 0.6324,
+   "overlap_at_MBON11": 0.5745
+  },
+  "shared_3_of_6": {
+   "drop_MBON11": 0.0001,
+   "kc_cosine_to_A": 0.2776,
+   "overlap_at_MBON11": 0.2134
+  },
+  "shared_1_of_6": {
+   "drop_MBON11": 0.0001,
+   "kc_cosine_to_A": 0.1618,
+   "overlap_at_MBON11": 0.1568
+  },
+  "shared_0_of_6": {
+   "drop_MBON11": 0.0,
+   "kc_cosine_to_A": 0.065,
+   "overlap_at_MBON11": 0.057
+  }
+ },
+ "dan_alone_no_KC_drop_A": {
+  "value": 0.0,
+  "note": "identically 0 by the rule; no time axis in this model"
+ },
+ "reward_memory": {
+  "paired_C_reward_compartments": 0.7735,
+  "paired_C_MBON11": 0.0578,
+  "per_type_drop_C": {
+   "MBON09": {
+    "drop": 0.2523,
+    "share_of_total_depression": 0.5547
+   },
+   "MBON12": {
+    "drop": 0.7449,
+    "share_of_total_depression": 0.1219
+   },
+   "MBON32": {
+    "drop": 0.0937,
+    "share_of_total_depression": 0.0849
+   },
+   "MBON11": {
+    "drop": 0.0578,
+    "share_of_total_depression": 0.0662
+   },
+   "MBON20": {
+    "drop": 0.1937,
+    "share_of_total_depression": 0.0583
+   },
+   "MBON16": {
+    "drop": 0.9,
+    "share_of_total_depression": 0.038
+   },
+   "MBON27": {
+    "drop": 0.0251,
+    "share_of_total_depression": 0.0311
+   },
+   "MBON29": {
+    "drop": 0.2181,
+    "share_of_total_depression": 0.0173
+   }
+  },
+  "unpaired_reward_compartments_mean": 0.2353
+ },
+ "coexistence": {
+  "same_compartment_blocked_A_then_B": {
+   "A_alone": 0.0004,
+   "A_after_B": 0.0004,
+   "B": 0.0004,
+   "A_retained_fraction": 1.0621,
+   "closed_form_retained_nonshared_KCs": 0.9996
+  },
+  "same_compartment_interleaved": {
+   "A": 0.0004,
+   "B": 0.0004
+  },
+  "different_compartments_A_punish_C_reward": {
+   "A_MBON11": 0.0022,
+   "C_reward_compartments": 0.7735,
+   "C_MBON11": 0.0578,
+   "A_reward_compartments": 0.0234,
+   "D_untouched_MBON11": 0.0
+  },
+  "note": "the rule's silent-KC term relaxes depressed synapses toward 1 whenever dopamine arrives, so a second memory in the same compartment erodes the first by (1 - lr*delta*recover_rate)^p on non-shared KCs; recover_rate 1 is the published rule"
+ },
+ "elapsed_s": 20.2,
+ "ground_truth": "Hige 2015: one pairing block ~80% (spikes) / ~90% (charge) at MBON-gamma1pedc; unpaired odour unchanged. Owald 2015: reward = depression in PAM compartments."
+}
