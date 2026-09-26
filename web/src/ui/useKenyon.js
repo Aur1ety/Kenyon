@@ -18,16 +18,26 @@ export const BETA_TABLES = TABLES_BETA;
 export const BETA_WALKTHROUGH = DEFAULT_BETA;
 const N_GLOM_A = PRESET_ODOURS.A.channels.length;
 
-/** Short human names for the preset odours. */
+/** Short plain names for the preset odours, as labels ("smell A", "shares 5 of smell A's 6 channels"). */
 export function displayName(name) {
   if (!name) return '';
   const share = /^A_share(\d)$/.exec(name);
-  if (share) return `shares ${share[1]} of A's ${N_GLOM_A}`;
+  if (share) return `shares ${share[1]} of smell A's ${N_GLOM_A} channels`;
   const part = /^A_part(\d)$/.exec(name);
-  if (part) return `${part[1]} of A's ${N_GLOM_A} only`;
+  if (part) return `part of smell A (${part[1]} of ${N_GLOM_A} channels)`;
   if (/^v[A-H]$/.test(name)) return `object ${name.slice(1)}`;
-  return `odour ${name}`;
+  return `smell ${name}`;
 }
+
+/** The same names as a noun phrase that reads inside a sentence ("a smell sharing 5 of smell A's 6 channels"). */
+export function describeName(name) {
+  const share = /^A_share(\d)$/.exec(name || '');
+  if (share) return `a smell sharing ${share[1]} of smell A's ${N_GLOM_A} channels`;
+  return displayName(name);
+}
+
+/** The letter a chip shows ("vA" -> "A"). */
+export const letter = (name) => (name.startsWith('v') ? name.slice(1) : name);
 
 export function useKenyon() {
   const [status, setStatus] = useState('loading');

@@ -1,6 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ConnectomeScene } from './ConnectomeScene.js';
-import { buildLayout, describePoint, CLASSES } from './layout.js';
+import { buildLayout, describePoint, classText, CLASSES } from './layout.js';
+import './scene.css';
+
+const cells = (n) => n.toLocaleString('en-GB');
 
 const VIEWS = [
   { id: 'default', label: 'Reset view' },
@@ -8,11 +11,6 @@ const VIEWS = [
   { id: 'side', label: 'Side' },
   { id: 'top', label: 'Top' },
 ];
-
-function wide() {
-  // the legend starts open only where the stage has its own column (app.css: the two-column lab from 1000 px)
-  return typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(min-width: 1000px)').matches;
-}
 
 /**
  * The 3D view. Props:
@@ -31,8 +29,10 @@ export default function Scene3D({ circuit, activity, pulse, reducedMotion, capti
   const [autoRotate, setAutoRotate] = useState(!reducedMotion);
   const [linesOn, setLinesOn] = useState(true);
   const [labelsOn, setLabelsOn] = useState(true);
+  const [scienceNames, setScienceNames] = useState(false); // everyday names by default; technical names on request
   const [visible, setVisible] = useState(() => Object.fromEntries(CLASSES.map((c) => [c.id, true])));
-  const [legendOpen, setLegendOpen] = useState(wide);
+  // the key starts closed everywhere: the labels in the view already name the story's cells
+  const [legendOpen, setLegendOpen] = useState(false);
   const [flash, setFlash] = useState(null);
 
   const layout = useMemo(() => (circuit ? buildLayout(circuit) : null), [circuit]);
@@ -69,13 +69,15 @@ export default function Scene3D({ circuit, activity, pulse, reducedMotion, capti
     if (reducedMotion) setAutoRotate(false);
   }, [reducedMotion]);
 
-  useEffect(() => { onStatus?.(failed ? 'failed' : 'ok'); }, [failed]); // eslint-disable-line react-hooks/exhaustive-deps
+  // the page shows the view's text description while the 3D view can't be seen (never started, or lost)
+  useEffect(() => { onStatus?.(failed ? 'failed' : lost ? 'lost' : 'ok'); }, [failed, lost]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // vision's input neurons sit out in the optic lobes: frame everything for vision, the core for smell
   useEffect(() => { sceneRef.current?.setFit(modality === 'visual' ? 'all' : 'core'); }, [modality, layout]);
   useEffect(() => { sceneRef.current?.setAutoRotate(autoRotate); }, [autoRotate, layout]);
   useEffect(() => { sceneRef.current?.setLinesVisible(linesOn); }, [linesOn, layout]);
   useEffect(() => { sceneRef.current?.setLabelsVisible(labelsOn); }, [labelsOn, layout]);
+  useEffect(() => { sceneRef.current?.setScienceNames(scienceNames); }, [scienceNames, layout]);
   useEffect(() => {
     const s = sceneRef.current;
     if (!s) return;
@@ -123,7 +125,9 @@ export default function Scene3D({ circuit, activity, pulse, reducedMotion, capti
     }
   };
 
-  const hoverInfo = hover && layout ? describePoint(circuit, layout, hover.index) : null;
+  const hoverInfo = hover && layout ? describePoint(circuit, layout, hover.index, scienceNames) : null;
+  // the sense in use names the thing on the rig (the Smell / Sight switch lives under "For scientists")
+  const thing = modality === 'visual' ? 'object' : 'smell';
   const counts = layout ? layout.counts : null;
 
   if (failed) {
@@ -131,14 +135,16 @@ export default function Scene3D({ circuit, activity, pulse, reducedMotion, capti
     return (
       <div className="stage stage--nogl">
         <div className="stage__fallback" role="note">
-          <p><strong>The 3D view could not start</strong> (this browser or device did not give it WebGL).</p>
-          <p>Everything it would show is in the text and numbers beside it: see &ldquo;What the 3D view shows&rdquo;.</p>
+          <p><strong>The 3D view could not start.</strong> This browser or device doesn&apos;t support the 3D graphics it needs.</p>
+          <p>Everything it would show is in the text beside it.</p>
         </div>
       </div>
     );
   }
 
-  const dopamineText = flash ? (flash.us === 'punish' ? 'Dopamine: PPL1-γ1pedc (punishment)' : 'Dopamine: PAM (reward)') : null;
+  const dopamineText = flash ? (flash.us === 'punish' ? 'Punishment signal (dopamine)' : 'Reward signal (dopamine)') : null;
+  const ringKc = layout ? layout.standIns.kc : 0;
+  const ringMbon = layout ? layout.standIns.mbon : 0;
 
   return (
     <div className={`stage${flash ? ` stage--flash-${flash.us}` : ''}${legendOpen ? ' stage--legend-open' : ''}`}>
@@ -148,7 +154,7 @@ export default function Scene3D({ circuit, activity, pulse, reducedMotion, capti
         tabIndex={0}
         role="application"
         aria-roledescription="interactive 3D view"
-        aria-label={`The fly's mushroom-body circuit in 3D: ${layout ? layout.count.toLocaleString('en-GB') : ''} cells drawn at their scanned cell-body positions from the MaleCNS connectome. ${caption || ''}`}
+        aria-label={`3D view of the model's memory circuit: ${layout ? cells(layout.count) : ''} neurons, almost all placed where the brain scan found them. ${caption || ''}`.trim()}
         aria-describedby={`scene-keys ${describedBy || ''}`.trim()}
         onKeyDown={onKeyDown}
       />
@@ -163,8 +169,8 @@ export default function Scene3D({ circuit, activity, pulse, reducedMotion, capti
 
       <div className="stage__top">
         <p className="stage__caption">
-          <span className="stage__caption-main">{caption || 'Pick an odour to light up its Kenyon cells'}</span>
-          <span className="stage__caption-sub">Cell bodies at scanned positions · front view has the fly&apos;s left on your right</span>
+          <span className="stage__caption-main">{caption || `Pick ${modality === 'visual' ? 'an object' : 'a smell'} to light up its memory neurons`}</span>
+          <span className="stage__caption-sub">Each dot is one neuron from the scan · front view: the brain&apos;s left is on your right</span>
         </p>
         {flash && (
           // narrow stages: the same label, under the caption instead of in the (busy) bottom corner
@@ -186,10 +192,10 @@ export default function Scene3D({ circuit, activity, pulse, reducedMotion, capti
             title={reducedMotion ? 'Off because your system asks for reduced motion' : undefined}
             onClick={() => setAutoRotate((a) => !a)}
           >
-            Auto-rotate
+            Spin
           </button>
           <button type="button" className="tool" aria-pressed={linesOn} onClick={() => setLinesOn((v) => !v)}>
-            Wiring lines
+            Connections
           </button>
           <button type="button" className="tool" aria-pressed={labelsOn} onClick={() => setLabelsOn((v) => !v)}>
             Labels
@@ -198,36 +204,68 @@ export default function Scene3D({ circuit, activity, pulse, reducedMotion, capti
       </div>
 
       <div className="stage__bottom">
-        <details className="legend" open={legendOpen} onToggle={(e) => setLegendOpen(e.currentTarget.open)}>
-          <summary>Legend</summary>
-          <ul className="legend__list" aria-label="Cell classes: press one to show or hide it">
-            {CLASSES.map((c) => (
-              <li key={c.id}>
-                <button
-                  type="button"
-                  className="legend__item"
-                  aria-pressed={visible[c.id]}
-                  aria-label={`${c.label}, ${counts ? counts[c.id].toLocaleString('en-GB') : ''} cells`}
-                  title={c.label}
-                  onClick={() => setVisible((v) => ({ ...v, [c.id]: !v[c.id] }))}
-                  onMouseEnter={() => sceneRef.current?.setFocus(c.id)}
-                  onMouseLeave={() => sceneRef.current?.setFocus(null)}
-                  onFocus={() => sceneRef.current?.setFocus(c.id)}
-                  onBlur={() => sceneRef.current?.setFocus(null)}
-                >
-                  <span className="swatch" style={{ '--c': c.color }} aria-hidden="true" />
-                  <span className="legend__label">{c.short}</span>
-                  <span className="legend__count">{counts ? counts[c.id].toLocaleString('en-GB') : ''}</span>
-                </button>
+        <details className="legend key-box" open={legendOpen} onToggle={(e) => setLegendOpen(e.currentTarget.open)}>
+          <summary>Key</summary>
+          <div className="key">
+            <ul className="key__list" aria-label="Neuron groups: press one to show or hide it">
+              {/* everyday names: only the sense in use (the other sense's input neurons are not part of the story) */}
+              {CLASSES.filter((c) => scienceNames || c.id !== (modality === 'visual' ? 'pn' : 'vpn')).map((c) => {
+                const label = classText(c, layout, 'label');
+                return (
+                  <li key={c.id}>
+                    <button
+                      type="button"
+                      className="key__row"
+                      aria-pressed={visible[c.id]}
+                      title={label}
+                      onClick={() => setVisible((v) => ({ ...v, [c.id]: !v[c.id] }))}
+                      onMouseEnter={() => sceneRef.current?.setFocus(c.id)}
+                      onMouseLeave={() => sceneRef.current?.setFocus(null)}
+                      onFocus={() => sceneRef.current?.setFocus(c.id)}
+                      onBlur={() => sceneRef.current?.setFocus(null)}
+                    >
+                      <span className="swatch" style={{ '--c': c.color }} aria-hidden="true" />
+                      <span className="key__name">{scienceNames ? c.tech : c.short}</span>
+                      <span className="key__count">
+                        {counts ? cells(counts[c.id]) : ''}
+                        <span className="sr-only"> cells. </span>
+                      </span>
+                      <span className="key__line">{classText(c, layout, 'line')}</span>
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+            <ul className="key__notes">
+              <li>
+                <span className="swatch swatch--shared" aria-hidden="true" />
+                <span>Yellow: memory neurons shared with the punished {thing}.</span>
               </li>
-            ))}
-          </ul>
-          <p className="legend__note">
-            Points are cell bodies at their scanned positions. <span className="swatch swatch--ring" aria-hidden="true" /> Hollow
-            ring: no scanned cell body ({layout ? layout.standIns.kc : '–'} Kenyon cells, {layout ? layout.standIns.mbon : '–'} MBON),
-            drawn at the mean of its type. <span className="swatch swatch--shared" aria-hidden="true" /> Yellow: Kenyon cells
-            shared with the trained odour. Lines and pulses join cell bodies and are schematic.
-          </p>
+              {scienceNames && (
+                <li>
+                  <span className="swatch swatch--ring" aria-hidden="true" />
+                  <span>
+                    Hollow ring: no cell body in the scan, so placed at the average spot for its kind ({ringKc}{'\u00a0'}memory
+                    neuron{ringKc === 1 ? '' : 's'}, {ringMbon}{'\u00a0'}output{'\u00a0'}neuron{ringMbon === 1 ? '' : 's'}).
+                  </span>
+                </li>
+              )}
+              <li>
+                <span className="key__stroke" aria-hidden="true" />
+                <span>Lines and moving dots: a sketch of which neurons connect, not the real paths.</span>
+              </li>
+            </ul>
+          </div>
+          {/* after the key in reading order; drawn on the "Key" line so the open key stays short */}
+          <button
+            type="button"
+            className="key__names"
+            aria-pressed={scienceNames}
+            title="Swap in the technical names, and label both sides of the brain"
+            onClick={() => setScienceNames((v) => !v)}
+          >
+            Scientific names
+          </button>
         </details>
       </div>
 
@@ -236,20 +274,20 @@ export default function Scene3D({ circuit, activity, pulse, reducedMotion, capti
           <strong>{hoverInfo.kind}</strong>
           <span>{hoverInfo.type}{hoverInfo.side ? ` · ${hoverInfo.side}` : ''}</span>
           {hoverInfo.extra && <span>{hoverInfo.extra}</span>}
-          <span className="hovercard__meta">body {hoverInfo.body} · {hoverInfo.where}</span>
+          <span className="hovercard__meta">scan ID {hoverInfo.body} · position: {hoverInfo.where}</span>
         </div>
       )}
 
       {lost && (
         <div className="stage__lost" role="status">
-          The 3D view lost its graphics context and is blank for now; it comes back if the browser restores it.
-          Everything it shows is also in the text beside it.
+          The 3D view lost its graphics and is blank for now. It comes back if the browser restores it. Everything it
+          shows is also in the text beside it.
         </div>
       )}
 
       <p id="scene-keys" className="sr-only">
-        Keyboard: arrow keys rotate the view (hold Shift for bigger steps), plus and minus zoom, 0 resets, F, S and T
-        show the front, side and top. The text description of the view follows the controls panel.
+        Keyboard: arrow keys turn the view (hold Shift for bigger steps), plus and minus zoom, 0 resets, and F, S and T
+        show the front, side and top. A text description of the view is in the panel beside it.
       </p>
     </div>
   );

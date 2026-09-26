@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { REPO, repoFile } from './site.js';
 import { pct, int } from './format.js';
 import { HIGE_CHARGE_DROP } from '../engine/index.js';
@@ -17,20 +16,6 @@ const REFS = [
   ['Lin et al. 2014, Nature Neuroscience', 'Without APL inhibition, memories lose their odour specificity.', null],
 ];
 
-/** What the data export checked before the page could use it (public/data/manifest.json). */
-function useManifest() {
-  const [m, setM] = useState(null);
-  useEffect(() => {
-    let alive = true;
-    fetch(`${BASE}data/manifest.json`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((j) => alive && setM(j))
-      .catch(() => {});
-    return () => { alive = false; };
-  }, []);
-  return m;
-}
-
 function provenance(m) {
   if (!m) return null;
   const order = m.cell_order_check;
@@ -44,14 +29,14 @@ function provenance(m) {
   ].filter(Boolean);
 }
 
-export default function Credits() {
-  const manifest = useManifest();
+/** Data, sources and code. `manifest` is data/manifest.json (ui/useManifest.js), shared with "What I built". */
+export default function Credits({ manifest }) {
   const prov = provenance(manifest);
   return (
-    <section id="credits" className="section section--credits" aria-labelledby="credits-h">
+    <section id="credits" className="section section--sub section--credits" aria-labelledby="credits-h">
       <div className="section__inner">
         <p className="eyebrow">Credits</p>
-        <h2 id="credits-h" className="section__h">Data, sources and code</h2>
+        <h3 id="credits-h" className="section__h">Data, sources and code</h3>
         <ul className="refs">
           {REFS.map(([t, d, href, licence]) => (
             <li key={t}>
@@ -75,7 +60,7 @@ export default function Credits() {
         </div>
         {prov && prov.length > 0 && (
           <div className="provenance">
-            <h3 className="provenance__h">How the page&apos;s data was checked</h3>
+            <h4 className="provenance__h">How the page&apos;s data was checked</h4>
             <ul className="list">
               {prov.map((t) => <li key={t}>{t}</li>)}
             </ul>
@@ -86,10 +71,12 @@ export default function Credits() {
           </div>
         )}
         <p className="small muted">
-          The recurrent brain model and the data import come from the author&apos;s earlier project DOOM-x-Fly. The page&apos;s
-          engine re-implements the feedforward model of kenyon/model/mushroom_body.py in the browser and is tested against its
-          outputs; the full list of references is in the write-up. The page bundles React, three.js and the IBM Plex and
-          Space Grotesk fonts; their licences are in <a href={`${BASE}third-party-licenses.md`}>third-party-licenses.md</a>.
+          The recurrent brain model and the data import come from the author&apos;s earlier project DOOM-x-Fly. The
+          import&apos;s node and edge policy matches doomfly (nftechie/doomfly), so its row counts can be checked against
+          doomfly&apos;s ledger. The page&apos;s engine re-implements the feedforward model of kenyon/model/mushroom_body.py
+          in the browser and is tested against its outputs; the full list of references is in the write-up. The page
+          bundles React, three.js and the IBM Plex and Space Grotesk fonts; their licences are in{' '}
+          <a href={`${BASE}third-party-licenses.md`}>third-party-licenses.md</a>.
         </p>
       </div>
     </section>

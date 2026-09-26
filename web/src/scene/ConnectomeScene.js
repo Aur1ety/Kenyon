@@ -18,6 +18,10 @@ const REWARD_RGB = [0.41, 0.86, 0.49];
 const MAX_LINES = 4000;
 const PULSE_TRAIL = 5;
 const MAX_PULSES = 64;
+// a pinned label (a single story cell): its offset from the cell in px, and the radius of the ring drawn on the cell
+const PIN_DX = 22;
+const PIN_DY = 30;
+const PIN_R = 9;
 
 function hexRgb(hex) {
   const n = parseInt(hex.slice(1), 16);
@@ -214,22 +218,49 @@ export class ConnectomeScene {
   #buildLabels() {
     const A = this.layout.anchors;
     const right = (o) => (o.R ? o.R : o);
+    // Everyday names by default, and fewer of them: one label for each left-right pair (both on the brain's right
+    // side, so a punishment pulse runs between two labelled cells) and none for the sense not in use. With
+    // "Scientific names" on, every label shows, with its technical name and side.
+    const main = (list) => list.find((x) => x.side === 'R') || list[0];
+    const mbonMain = main(A.mbon11), pplMain = main(A.ppl101);
     const defs = [
-      { cls: 'kc', text: 'Kenyon cells', p: A.kc.L, key: 'kc' },
-      { cls: 'pn', text: 'Projection neurons (smell)', p: right(A.pn), key: 'pn' },
-      { cls: 'vpn', text: 'Visual projection neurons', p: A.vpn.L, key: 'vpn' },
-      { cls: 'pam', text: 'PAM (reward)', p: A.pam.L, key: 'pam' },
-      ...A.mbon11.map((m) => ({ cls: 'mbon', text: `MBON11 (${m.side})`, p: m.p, key: 'mbon', strong: true })),
-      ...A.ppl101.map((d) => ({ cls: 'ppl1', text: `PPL1-γ1pedc (${d.side})`, p: d.p, key: 'ppl1' })),
+      { cls: 'kc', plain: 'Memory neurons', tech: 'Kenyon cells', p: A.kc.L, key: 'kc' },
+      { cls: 'pn', plain: 'Smell input', tech: 'Projection neurons (smell)', p: right(A.pn), key: 'pn' },
+      { cls: 'vpn', plain: 'Sight input', tech: 'Visual projection neurons', p: A.vpn.L, key: 'vpn' },
+      { cls: 'pam', plain: 'Reward signal', tech: 'PAM (reward)', p: A.pam.L, key: 'pam' },
+      // the story's two single cells sit in front of or behind the memory-neuron cloud, so their labels stand off to
+      // one side with a ring on the cell and a leader line to it (pin), rather than lying on top of the cloud
+      ...A.mbon11.map((m) => ({
+        cls: 'mbon', plain: 'Go-toward neuron', tech: `MBON11 (${m.side})`, p: m.p, key: 'mbon', strong: true, pin: true, twin: m !== mbonMain,
+      })),
+      ...A.ppl101.map((d) => ({
+        cls: 'ppl1', plain: 'Punishment signal', tech: `PPL1-γ1pedc (${d.side})`, p: d.p, key: 'ppl1', pin: true, twin: d !== pplMain,
+      })),
     ];
     this.labels = defs.map((d) => {
       const el = document.createElement('div');
       el.className = `scene-label scene-label--${d.cls}${d.strong ? ' scene-label--strong' : ''}`;
-      el.textContent = d.text;
+      el.textContent = d.plain;
+      let ring = null, leader = null;
+      if (d.pin) {
+        ring = document.createElement('div');
+        ring.className = `scene-pin scene-pin--${d.cls}`;
+        leader = document.createElement('div');
+        leader.className = `scene-leader scene-leader--${d.cls}`;
+        this.labelLayer.appendChild(ring);
+        this.labelLayer.appendChild(leader);
+      }
       this.labelLayer.appendChild(el);
-      return { ...d, el, v: new THREE.Vector3(...d.p) };
+      return { ...d, el, ring, leader, v: new THREE.Vector3(...d.p) };
     });
     this.labelsOn = true;
+    this.scienceNames = false;
+  }
+
+  /** Label widths, for keeping labels inside the stage (only measurable while the label layer is displayed). */
+  #measureLabels() {
+    if (!this.labelsOn) return;
+    for (const l of this.labels) l.w = l.el.offsetWidth;
   }
 
   // ---------- public API ----------
@@ -243,7 +274,7 @@ export class ConnectomeScene {
     this.camera.aspect = w / h;
     this.camera.updateProjectionMatrix();
     this.pointUniforms.uSizeScale.value = Math.max(h, 420) / 215;
-    for (const l of this.labels) l.w = l.el.offsetWidth;
+    this.#measureLabels();
     this.width = w;
     this.height = h;
     this.requestRender();
@@ -352,6 +383,15 @@ export class ConnectomeScene {
   setLabelsVisible(on) {
     this.labelsOn = !!on;
     this.labelLayer.style.display = on ? '' : 'none';
+    this.#measureLabels(); // widths read while the layer was hidden are 0
+    this.requestRender();
+  }
+
+  /** Everyday label names, fewer of them (false), or every label with its technical name (true). */
+  setScienceNames(on) {
+    this.scienceNames = !!on;
+    for (const l of this.labels) l.el.textContent = this.scienceNames ? l.tech : l.plain;
+    this.#measureLabels();
     this.requestRender();
   }
 
@@ -621,17 +661,24 @@ export class ConnectomeScene {
     if (!this.labelsOn) return;
     const w = this.width, h = this.height;
     const v = new THREE.Vector3();
-    // on a narrow stage there is no room for the input neurons of the sense not in use
-    const idle = w < 700 ? (this.modality === 'visual' ? 'pn' : 'vpn') : null;
+    // the input neurons of the sense not in use go unlabelled with everyday names (and on a narrow stage, where
+    // there is no room for them); so does the second cell of each left-right pair
+    const idle = !this.scienceNames || w < 700 ? (this.modality === 'visual' ? 'pn' : 'vpn') : null;
     const placed = [];
     for (const l of this.labels) {
       v.copy(l.v).project(this.camera);
-      const off = l.hidden || l.cls === idle || v.z > 1 || v.x < -1.05 || v.x > 1.05 || v.y < -1.05 || v.y > 1.05;
-      if (off) { l.el.style.opacity = '0'; continue; }
-      // keep every label inside the stage
+      const off = l.hidden || l.cls === idle || (l.twin && !this.scienceNames)
+        || v.z > 1 || v.x < -1.05 || v.x > 1.05 || v.y < -1.05 || v.y > 1.05;
+      if (off) {
+        l.el.style.opacity = '0';
+        if (l.ring) { l.ring.style.opacity = '0'; l.leader.style.opacity = '0'; }
+        continue;
+      }
+      const ax = (v.x * 0.5 + 0.5) * w, ay = (-v.y * 0.5 + 0.5) * h;
+      // keep every label inside the stage; a pinned label stands off up and to the right of its cell
       const lw = l.w || 120;
-      const x = Math.min((v.x * 0.5 + 0.5) * w, w - lw - 18);
-      placed.push({ l, x, y: Math.max(12, (-v.y * 0.5 + 0.5) * h), w: lw });
+      const x = Math.min(l.ring ? ax + PIN_DX : ax, w - lw - 18);
+      placed.push({ l, x, y: Math.max(12, l.ring ? ay - PIN_DY : ay), w: lw, ax, ay });
     }
     // simple collision nudging: a label that would overlap one already placed moves down below it
     const LINE = 20;
@@ -653,7 +700,29 @@ export class ConnectomeScene {
     for (const p of placed) {
       p.l.el.style.opacity = '';
       p.l.el.style.transform = `translate(${p.x.toFixed(1)}px, ${p.y.toFixed(1)}px)`;
+      if (p.l.ring) this.#pin(p);
     }
+  }
+
+  /** A pinned label's ring on its cell, and the leader line from the ring to the nearest point of the label. */
+  #pin({ l, x, y, w: lw, ax, ay }) {
+    l.ring.style.opacity = '';
+    l.ring.style.transform = `translate(${ax.toFixed(1)}px, ${ay.toFixed(1)}px)`;
+    // the label box (app.css .scene-label): left edge x + 12, 18 px tall, centred on y
+    const left = x + 12, right = left + lw, top = y - 9, bottom = y + 9;
+    const tx = Math.min(Math.max(ax, left), right);
+    const ty = Math.min(Math.max(ay, top), bottom);
+    const dx = tx - ax, dy = ty - ay;
+    const len = Math.hypot(dx, dy) - PIN_R;
+    if (len < 3) {
+      l.leader.style.opacity = '0';
+      return;
+    }
+    const a = Math.atan2(dy, dx);
+    const sx = ax + Math.cos(a) * PIN_R, sy = ay + Math.sin(a) * PIN_R;
+    l.leader.style.opacity = '';
+    l.leader.style.width = `${len.toFixed(1)}px`;
+    l.leader.style.transform = `translate(${sx.toFixed(1)}px, ${sy.toFixed(1)}px) rotate(${a.toFixed(3)}rad)`;
   }
 
   #hover(e) {
@@ -687,7 +756,11 @@ export class ConnectomeScene {
       o.geometry.dispose();
       o.material.dispose();
     }
-    for (const l of this.labels) l.el.remove();
+    for (const l of this.labels) {
+      l.el.remove();
+      l.ring?.remove();
+      l.leader?.remove();
+    }
     this.renderer.dispose();
   }
 }

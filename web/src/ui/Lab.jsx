@@ -1,89 +1,139 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Badge, { STATUS } from './Badge.jsx';
-import MbonBars from './MbonBars.jsx';
 import TMaze from './TMaze.jsx';
-import Experiments from './Experiments.jsx';
 import Src from './Src.jsx';
-import { displayName, SIMILAR_TO_A, PARTS_OF_A, BETA_TABLES, BETA_WALKTHROUGH } from './useKenyon.js';
-import { int, pct, frac, dropAsChange, pm, words } from './format.js';
+import { displayName, describeName, letter, SIMILAR_TO_A, PARTS_OF_A, BETA_TABLES, BETA_WALKTHROUGH } from './useKenyon.js';
+import { int, pct, frac, dropAsChange, dropAsChangeUnder, pctUnder, pm, words, weakerText, fellText, downText } from './format.js';
+import { COPY, nouns, cap, lessonsText } from './copy.js';
+import { describeScene, sumMask, intersectCount } from './sceneText.js';
 import { CHANNELS_PER_ODOUR, HIGE_CHARGE_DROP, sharedChannels } from '../engine/index.js';
 
-const steps = (noun) => [
-  { n: 1, title: `Pick an ${noun}` },
-  { n: 2, title: 'Pair it with punishment' },
-  { n: 3, title: `Test another ${noun}` },
-  { n: 4, title: 'The T-maze choice' },
-];
+const S = COPY.steps;
+const S1 = COPY.step1;
+const S2 = COPY.step2;
 
-function intersectCount(a, b) {
-  if (!a || !b) return 0;
-  const s = new Set(a);
-  let n = 0;
-  for (const x of b) if (s.has(x)) n++;
-  return n;
-}
-
-const letter = (name) => (name.startsWith('v') ? name.slice(1) : name);
-
-export default function Lab({ model, step, setStep, selected, setSelected, beta, setBeta, announce, headlines, results, reducedMotion, onScrollToStage }) {
-  const { circuit, current, history, modality, actions, nDrivable, masks, odourSet, sim } = model;
+/**
+ * The guided lab: 1 teach it, 2 test other smells, 3 the choice test. Plain words in the default view; each step
+ * ends with "The science behind this step", which keeps the technical names, raw numbers and citations. Every
+ * number comes from the engine (through useKenyon) or a cited results file.
+ */
+export default function Lab({ model, step, goToStep, stepRequest, tryIt, selected, setSelected, beta, setBeta, announce, results, reducedMotion, showShared, sceneText }) {
+  const { circuit, current, history, modality, actions, nDrivable, masks, odourSet, sim, lastPair } = model;
   const [probeLog, setProbeLog] = useState([]);
+  const [nudge, setNudge] = useState(false); // "Try it": the step 1 button glows for a moment
+  const [reveal, setReveal] = useState(0); // a new result to bring into view
   const visual = modality === 'visual';
-  const noun = visual ? 'object' : 'odour';
+  const N = nouns(visual);
   const sparsity = sim.mb.sparsity;
   // one pairing multiplies each trained MBON11 synapse by (1 - lr * delta): the rule's closed form (MB 217-225)
   const keep = 1 - sim.mb.lr * sim.mb.deltaPunish[circuit.mbon11[0]];
 
-  // a new step replaces the panel's content: bring its heading into view and give it focus
-  const firstStep = useRef(true);
+  // a probe's numbers belong to the memory it was measured against: start the log afresh when the memory changes
+  const memoryKey = `${modality}|${history.length}|${lastPair?.id ?? 0}`;
+  useEffect(() => { setProbeLog([]); }, [memoryKey]);
+
+  // a step asked for by a button or link (a new request id): bring its heading into view and move focus there, or to
+  // the step's main button. Requests made before the lab mounted are ignored.
+  const handled = useRef(stepRequest?.id ?? 0);
   useEffect(() => {
-    if (firstStep.current) { firstStep.current = false; return; }
+    if (!stepRequest || stepRequest.id === handled.current) return;
+    handled.current = stepRequest.id;
     const h = document.getElementById(`step-${step}-h`);
     if (!h) return;
-    h.focus({ preventScroll: true });
     const top = h.getBoundingClientRect().top;
     // where scrollIntoView would put it: the page's scroll-padding (the top bar) plus the heading's scroll-margin
     // (on narrow screens, the sticky 3D view)
     const pad = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
     const margin = parseFloat(getComputedStyle(h).scrollMarginTop) || 0;
-    if (top < pad + margin - 1 || top > window.innerHeight * 0.55) {
-      h.scrollIntoView({ block: 'start', behavior: reducedMotion ? 'auto' : 'smooth' });
+    const main = stepRequest.focus === 'main' ? document.getElementById('step-main') : null;
+    // asked for the main button and it is already fully on screen (the hero's "Try it" on a wide screen): stay put
+    const mainBox = main?.getBoundingClientRect();
+    const mainInView = !!mainBox && mainBox.top >= pad + margin - 1 && mainBox.bottom <= window.innerHeight;
+    if (!mainInView && (top < pad + margin - 1 || top > window.innerHeight * 0.55)) {
+      // from far down the page (a link under "For scientists"), jump rather than glide through all of it
+      const far = Math.abs(top) > 2 * window.innerHeight;
+      h.scrollIntoView({ block: 'start', behavior: reducedMotion || far ? 'auto' : 'smooth' });
     }
-  }, [step]); // eslint-disable-line react-hooks/exhaustive-deps
+    (main || h).focus({ preventScroll: true });
+  }, [stepRequest, step, reducedMotion]);
 
   const lastPunished = [...history].reverse().find((h) => h.us === 'punish')?.odour || null;
   const trained = lastPunished && odourSet.includes(lastPunished) ? lastPunished : null;
   const target = selected || odourSet[0];
   const trainedKc = useMemo(() => (trained ? actions.kcOf(trained) : null), [trained, actions]);
+  const onRig = current?.odour?.name;
 
-  const channelNames = (frame) => frame?.odour?.names?.join(', ');
+  // each step shows the smell it is about: step 1 the smell its button punishes, step 3 the punished smell (the
+  // maze's arm). Step 2 keeps whatever was tested last. Runs when the step changes, not on every new frame.
+  const shownStep = useRef(step);
+  useEffect(() => {
+    if (shownStep.current === step) return;
+    shownStep.current = step;
+    if (step === 1 && current && current.odour.name !== target) actions.present(target);
+    if (step === 3 && current?.odour.name !== (trained || target)) actions.present(trained || target);
+  }, [step]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // a new result (after a lesson or a test): if its big number and sentence are below the fold, scroll just enough
+  // to show them, never pushing the result's top under the top bar or (on narrow screens) the sticky 3D view
+  useEffect(() => {
+    if (!reveal) return undefined;
+    const raf = requestAnimationFrame(() => {
+      const el = document.getElementById('step-result');
+      if (!el) return;
+      const top = el.getBoundingClientRect().top;
+      const limit = (parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0)
+        + (parseFloat(getComputedStyle(el).scrollMarginTop) || 0);
+      const end = (el.querySelector('.result__text') || el).getBoundingClientRect().bottom;
+      const dy = Math.min(end - window.innerHeight + 16, top - limit);
+      if (dy > 1) window.scrollBy({ top: dy, behavior: reducedMotion ? 'auto' : 'smooth' });
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [reveal]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // ---------------- step 1 ----------------
   const pick = (name) => {
     setSelected(name);
     const f = actions.present(name);
-    announce(`${displayName(name)} on the rig: ${f.kcActive.length} Kenyon cells fire, ${f.pnActive.length} projection neurons on.`);
+    announce(COPY.announce.picked({ name: displayName(name), nOn: int(f.kcActive.length) }));
   };
 
-  // ---------------- step 2 ----------------
-  const pairNow = (us = 'punish') => {
+  // "Try it" (the hero's button): light up the smell if nothing is on show yet, and make the punish button glow
+  const tried = useRef(tryIt ?? 0);
+  useEffect(() => {
+    if (!tryIt || tryIt === tried.current) return undefined;
+    tried.current = tryIt;
+    if (!current) pick(target);
+    setNudge(true);
+    const t = setTimeout(() => setNudge(false), reducedMotion ? 4000 : 2800);
+    return () => clearTimeout(t);
+  }, [tryIt]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const pairNow = () => {
     if (!current || current.odour.name !== target) actions.present(target);
-    const res = actions.pair(us, target);
-    const after = res.frames[res.frames.length - 1];
-    const r = after.readout;
-    announce(
-      us === 'punish'
-        ? `Paired ${displayName(target)} with punishment. Its drive onto MBON11 fell by ${pct(r.dropMBON11)}. That size is a calibration to Hige et al. 2015.`
-        : `Paired ${displayName(target)} with reward. Its drive onto the reward compartments fell by ${pct(r.dropRewardCompartment)}.`,
-    );
+    const res = actions.pair('punish', target);
+    const r = res.frames[res.frames.length - 1].readout;
+    announce(COPY.announce.punished({ name: displayName(target), drop: pctUnder(r.dropMBON11) }));
+    setNudge(false);
+    setReveal((n) => n + 1);
   };
+  const undo = () => {
+    actions.undo();
+    announce(COPY.announce.undone);
+  };
+  const startOver = (toStep1) => {
+    actions.reset();
+    announce(COPY.announce.cleared);
+    if (toStep1) goToStep(1);
+  };
+
   const pairingsOfTarget = history.filter((h) => h.odour === target && h.us === 'punish').length;
   const onlyTarget = history.every((h) => h.odour === target && h.us === 'punish');
-  const onRig = current?.odour?.name;
+  const taught = pairingsOfTarget > 0 && current && current.odour.name === target;
 
-  // ---------------- step 3 ----------------
+  // ---------------- step 2 ----------------
   const probe = (name) => {
     const f = actions.present(name);
+    setReveal((n) => n + 1);
     const shared = intersectCount(trainedKc, f.kcActive);
     const entry = {
       name,
@@ -94,59 +144,57 @@ export default function Lab({ model, step, setStep, selected, setSelected, beta,
       nGlom: f.odour.channels.length,
     };
     setProbeLog((log) => [entry, ...log.filter((e) => e.name !== name)].slice(0, 16));
-    announce(`${displayName(name)}: drive onto MBON11 ${dropAsChange(entry.drop)}. Shares ${shared} of ${trainedKc ? trainedKc.length : 0} Kenyon cells with ${displayName(trained)}.`);
+    announce(COPY.announce.probed({
+      name: describeName(name), change: downText(entry.drop), shared: int(shared), trained: displayName(trained), nKc: int(trainedKc ? trainedKc.length : 0),
+    }));
   };
   const probeFrame = current && trained && current.odour.name !== trained ? current : null;
   const trainedFrameDrop = trained ? actions.readout(trained).dropMBON11 : null;
 
   const others = odourSet.filter((n) => n !== trained);
   const ladderOk = !visual && trained === 'A';
-  // the generalisation ladder and the partial cues, described from the odours themselves
+  // the similar smells and the partial smells, described from the odours themselves
   const odourA = visual ? null : actions.odourObj('A');
   const nGlomA = odourA ? odourA.channels.length : 0;
   const ladder = odourA ? SIMILAR_TO_A.map((name) => ({ name, shared: sharedChannels(odourA, actions.odourObj(name)) })) : [];
   const parts = odourA ? PARTS_OF_A.map((name) => ({ name, n: actions.odourObj(name).channels.length })) : [];
+  const nChannels = visual ? circuit.visualChannels.length : circuit.glomeruli.length;
+  // the step 2 summary says only what the tests so far have shown
+  const probedDifferent = probeLog.some((e) => others.includes(e.name));
+  const probedSimilar = probeLog.some((e) => SIMILAR_TO_A.includes(e.name) || PARTS_OF_A.includes(e.name));
+  let summary = null;
+  if (probedDifferent && probedSimilar) summary = S2.summary({ N });
+  else if (probedDifferent) summary = ladderOk ? `${S2.summaryDifferent({ N })} ${S2.trySimilar}` : S2.summaryDifferent({ N });
+  else if (probedSimilar) summary = S2.summarySimilar({ N });
 
-  const scene = describeScene(model, trained);
+  const titles = S.titles({ N });
+  const chip = (name, onClick, big, label, sub) => (
+    <button
+      key={name}
+      type="button"
+      className={`chip ${sub ? 'chip--letter chip--tagged' : big.length > 1 ? 'chip--wide' : 'chip--letter'}`}
+      aria-pressed={onRig === name}
+      onClick={() => onClick(name)}
+      aria-label={label}
+    >
+      <span className="chip__big">{big}</span>
+      {sub && <span className="chip__sub">{sub}</span>}
+    </button>
+  );
 
   return (
     <div className="lab-panel">
-      <div className="modality" role="group" aria-label="Sense">
-        {[
-          ['olfactory', 'Smell', `odours: ${words(CHANNELS_PER_ODOUR)} glomeruli each`],
-          ['visual', 'Vision', `objects: ${words(CHANNELS_PER_ODOUR)} visual channels each`],
-        ].map(([id, label, sub]) => (
-          <button
-            key={id}
-            type="button"
-            aria-pressed={modality === id}
-            className="modality__opt"
-            onClick={() => {
-              if (modality === id) return;
-              actions.setModality(id);
-              setSelected(null);
-              setProbeLog([]);
-              setStep(1);
-              announce(`${label}: the same circuit through the ${id === 'visual' ? 'visual projection neurons' : 'olfactory projection neurons'}.`);
-            }}
-          >
-            <span>{label}</span>
-            <small>{sub}</small>
-          </button>
-        ))}
-      </div>
-
-      <ol className="steps" aria-label="Teach the fly, step by step">
-        {steps(noun).map((s) => (
-          <li key={s.n}>
+      <ol className="steps" aria-label={S.label}>
+        {titles.map((t, i) => (
+          <li key={t}>
             <button
               type="button"
               className="steps__btn"
-              aria-current={step === s.n ? 'step' : undefined}
-              onClick={() => setStep(s.n)}
+              aria-current={step === i + 1 ? 'step' : undefined}
+              onClick={() => goToStep(i + 1)}
             >
-              <span className="steps__n">{s.n}</span>
-              <span className="steps__t">{s.title}</span>
+              <span className="steps__n">{i + 1}</span>{' '}
+              <span className="steps__t">{t}</span>
             </button>
           </li>
         ))}
@@ -155,93 +203,123 @@ export default function Lab({ model, step, setStep, selected, setSelected, beta,
       <section className="step" aria-labelledby={`step-${step}-h`}>
         {step === 1 && (
           <>
-            <h2 id="step-1-h" className="step__h" tabIndex={-1}>1 · Pick an {noun}</h2>
-            <p className="step__lede">
-              Each {noun} switches on the projection neurons of {words(CHANNELS_PER_ODOUR)} random {visual ? 'visual channels' : 'glomeruli'}.
-              Their synapses onto the Kenyon cells decide which cells fire.
-            </p>
-            <div className="chips" role="group" aria-label={`${noun}s`}>
-              {odourSet.map((name) => {
-                const od = actions.odourObj(name);
-                return (
-                  <button
-                    key={name}
-                    type="button"
-                    className="chip"
-                    aria-pressed={onRig === name}
-                    onClick={() => pick(name)}
-                    title={od.names.join(', ')}
-                    aria-label={`${displayName(name)}: ${od.names.join(', ')}`}
-                  >
-                    <span className="chip__big">{letter(name)}</span>
-                    <span className="chip__sub">{od.names.slice(0, 3).join(' ')}…</span>
-                  </button>
-                );
-              })}
+            <h2 id="step-1-h" className="step__h" tabIndex={-1}>{S1.h({ N })}</h2>
+            <p className="step__lede">{S1.lede({ N })}</p>
+            <div className="chipgroup">
+              <p id="pick-label" className="chipgroup__label">{S1.pick({ N })}</p>
+              <div className="chips" role="group" aria-labelledby="pick-label">
+                {odourSet.map((name) => {
+                  const od = actions.odourObj(name);
+                  return (
+                    <button
+                      key={name}
+                      type="button"
+                      className="chip chip--letter"
+                      aria-pressed={onRig === name}
+                      onClick={() => pick(name)}
+                      title={S1.chipTitle({ N, channels: od.names.join(', ') })}
+                      aria-label={cap(displayName(name))}
+                    >
+                      <span className="chip__big">{letter(name)}</span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
             {current && (
-              <dl className="facts">
-                <div>
-                  <dt>Kenyon cells firing</dt>
-                  <dd>
-                    <span className="big mono">{int(current.kcActive.length)}</span> of {int(nDrivable)} that {visual ? 'vision' : 'smell'} can
-                    drive ({pct(current.kcActive.length / nDrivable, 1)}; {int(circuit.kc.n)} Kenyon cells in all)
-                    <span className="facts__tags">
-                      <Badge status="SET BY ME">top {pct(sparsity)} rule: set by me</Badge>
-                      <Badge status={STATUS.WIRING}>which cells: the wiring</Badge>
-                    </span>
-                  </dd>
-                </div>
-                <div>
-                  <dt>Input</dt>
-                  <dd>
-                    <span className="mono">{current.pnActive.length}</span> {visual ? 'visual' : 'olfactory'} projection neurons on, in
-                    the {visual ? 'channels' : 'glomeruli'} {channelNames(current)}.{' '}
-                    {visual
-                      ? `Synthetic: ${words(current.odour.channels.length)} visual projection-neuron types are switched on directly, bypassing the eye and the optic-lobe circuits upstream of them.`
-                      : 'Synthetic: the antennal lobe is bypassed.'}
-                  </dd>
-                </div>
-              </dl>
+              <p className="step__fact">
+                {S1.on({ name: describeName(current.odour.name), nOn: int(current.kcActive.length), nAll: int(circuit.kc.n) })}
+              </p>
             )}
-            <div className="step__nav">
-              <button type="button" className="btn btn--primary" onClick={() => { if (!current) pick(target); setStep(2); }}>
-                Next: pair {displayName(target)} with punishment
-              </button>
-            </div>
-          </>
-        )}
-
-        {step === 2 && (
-          <>
-            <h2 id="step-2-h" className="step__h" tabIndex={-1}>2 · Pair {displayName(target)} with punishment</h2>
-            <p className="step__lede">
-              One pairing block: the {noun} arrives together with the punishment dopamine neuron PPL1-γ1pedc. Where
-              its dopamine meets active Kenyon cells, their synapses onto the output neurons it reaches weaken, above
-              all onto MBON11 (the published rule of Gkanias et al. 2022).
-            </p>
             <div className="btnrow">
-              <button type="button" className="btn btn--punish" onClick={() => pairNow('punish')}>
-                {pairingsOfTarget ? 'Pair again' : `Pair ${displayName(target)} with punishment`}
+              <button id="step-main" type="button" className={`btn btn--punish btn--big${nudge ? ' btn--nudge' : ''}`} onClick={pairNow}>
+                {pairingsOfTarget ? S1.punishAgain({ name: displayName(target) }) : S1.punish({ name: displayName(target) })}
               </button>
-              <button type="button" className="btn" onClick={() => actions.undo()} disabled={!history.length}>Undo last pairing</button>
-              <button type="button" className="btn" onClick={() => { actions.reset(); announce('Memory reset: every synapse back to rest.'); }} disabled={!history.length}>
-                Reset memory
-              </button>
+              <button type="button" className="btn" onClick={undo} disabled={!history.length}>{S1.undo}</button>
+              <button type="button" className="btn" onClick={() => startOver(false)} disabled={!history.length}>{S.startOver}</button>
             </div>
-            {pairingsOfTarget > 0 && current && current.odour.name === target && (
-              <div className="result">
-                <p className="result__head">
-                  MBON11&apos;s drive from {displayName(target)}
-                </p>
-                <p className="result__big">
-                  <span className="mono">{int(sumMask(current.mbonUntrained, masks.MBON11))}</span>
-                  <span className="arrow" aria-hidden="true">→</span>
-                  <span className="mono">{int(sumMask(current.mbonDrive, masks.MBON11))}</span>
-                  <span className="result__chg">{dropAsChange(current.readout.dropMBON11)}</span>
+            {taught && (
+              <div id="step-result" className="result">
+                <p className="result__num mono">{dropAsChangeUnder(current.readout.dropMBON11)}</p>
+                <p className="result__label">{S1.bigLabel({ name: displayName(target) })}</p>
+                <p className="result__text">
+                  {(onlyTarget ? S1.sentence : S1.sentenceMixed)({
+                    name: displayName(target),
+                    lessons: lessonsText(onlyTarget ? pairingsOfTarget : history.length),
+                    weaker: weakerText(current.readout.dropMBON11),
+                  })}
+                  {current.readout.dropMBON11 > 0 && ` ${S1.soWhat({ name: displayName(target) })}`}
                 </p>
                 <p className="callout callout--calibration">
                   <Badge status={STATUS.CALIBRATION} />
+                  <span>
+                    {onlyTarget ? S1.setByMe({ target: pct(HIGE_CHARGE_DROP) }) : S1.setByMeMixed({ target: pct(HIGE_CHARGE_DROP) })}
+                    {onlyTarget && pairingsOfTarget > 1
+                      ? ` ${S1.setByMeRepeat({ drop: pctUnder(current.readout.dropMBON11), lessons: lessonsText(pairingsOfTarget) })}`
+                      : null}
+                  </span>
+                </p>
+                <p className="callout callout--wiring">
+                  <Badge status={STATUS.WIRING} />
+                  <span>{S1.wiring({ share: pct(current.readout.shareOfLostDriveMBON11) })}</span>
+                </p>
+              </div>
+            )}
+            <div className="step__nav">
+              <button type="button" className="btn btn--primary" onClick={() => { if (!current) pick(target); goToStep(2); }}>
+                {S1.next({ N })}
+              </button>
+            </div>
+            <details className="stepmore">
+              <summary>{S.details}</summary>
+              <div className="stepmore__body">
+                {current && (
+                  <dl className="facts">
+                    <div>
+                      <dt>Memory neurons (Kenyon cells, <abbr title="Kenyon cells">KCs</abbr>) on</dt>
+                      <dd>
+                        <span className="big mono">{int(current.kcActive.length)}</span> of {int(nDrivable)} that {visual ? 'vision' : 'smell'} can
+                        drive ({pct(current.kcActive.length / nDrivable, 1)}; {int(circuit.kc.n)} Kenyon cells in all)
+                        <span className="facts__tags">
+                          <Badge status="SET BY ME" technical>top {pct(sparsity)} rule: set by me</Badge>
+                          <Badge status={STATUS.WIRING} technical>which cells: the wiring</Badge>
+                        </span>
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>Input</dt>
+                      <dd>
+                        <span className="mono">{current.pnActive.length}</span>{' '}
+                        {visual
+                          ? <>sight-input neurons (visual projection neurons, <abbr title="visual projection neurons">VPNs</abbr>)</>
+                          : <>smell-input neurons (olfactory projection neurons, <abbr title="projection neurons">PNs</abbr>)</>}{' '}
+                        on, in the {visual ? 'sight channels (visual projection-neuron types)' : 'smell channels (glomeruli)'}{' '}
+                        {current.odour.names.join(', ')}.{' '}
+                        {visual
+                          ? `Synthetic: ${words(current.odour.channels.length)} visual projection-neuron types are switched on directly, bypassing the eye and the optic-lobe circuits upstream of them.`
+                          : 'Synthetic: the antennal lobe is bypassed.'}
+                      </dd>
+                    </div>
+                  </dl>
+                )}
+                <p>
+                  How a lesson works: the {N.one} arrives together with the punishment signal, the dopamine neurons
+                  PPL1-γ1pedc ({circuit.dan.punishIdx.length} cells). Where their dopamine meets active Kenyon cells, those
+                  cells&apos; synapses onto the output neurons (mushroom-body output neurons, <abbr title="mushroom-body output neurons">MBONs</abbr>)
+                  it reaches weaken, above all onto the go-toward neuron, MBON11 (MBON-γ1pedc&gt;α/β). The
+                  learning rule is the published one of Gkanias et al. 2022.
+                </p>
+                {taught && (
+                  <p>
+                    MBON11&apos;s summed drive from {displayName(target)} (model units):{' '}
+                    <span className="mono">
+                      {int(sumMask(current.mbonUntrained, masks.MBON11))} → {int(sumMask(current.mbonDrive, masks.MBON11))}
+                    </span>{' '}
+                    <strong className="mono">{dropAsChange(current.readout.dropMBON11)}</strong>
+                  </p>
+                )}
+                <p className="callout callout--calibration">
+                  <Badge status={STATUS.CALIBRATION} technical />
                   <span>
                     <strong>Set to match Hige et al. 2015: a calibration.</strong> One learning rate is chosen so one pairing
                     gives the measured {pct(HIGE_CHARGE_DROP)} drop. It is not a result.
@@ -249,113 +327,125 @@ export default function Lab({ model, step, setStep, selected, setSelected, beta,
                   </span>
                 </p>
                 <p className="callout callout--wiring">
-                  <Badge status={STATUS.WIRING} />
+                  <Badge status={STATUS.WIRING} technical />
                   <span>
-                    <strong>{pct(current.readout.shareOfLostDriveMBON11)} of all the drive {displayName(target)} lost was lost at MBON11.</strong>{' '}
-                    Where the memory lands is decided by the dopamine-to-MBON wiring; it could have landed anywhere.
+                    Which Kenyon cells fire is set by the projection-neuron-to-Kenyon-cell synapses; where the memory lands
+                    is decided by the dopamine-to-MBON wiring. It could have landed anywhere.
                   </span>
                 </p>
+                <p className="small"><a href="#glossary">Plain words and their technical names</a></p>
               </div>
-            )}
-            <div className="step__nav">
-              <button type="button" className="btn" onClick={() => setStep(1)}>Back</button>
-              <button type="button" className="btn btn--primary" onClick={() => setStep(3)}>Next: test another {noun}</button>
-            </div>
+            </details>
           </>
         )}
 
-        {step === 3 && (
+        {step === 2 && (
           <>
-            <h2 id="step-3-h" className="step__h" tabIndex={-1}>3 · Test a similar or a different {noun}</h2>
+            <h2 id="step-2-h" className="step__h" tabIndex={-1}>{S2.h({ N })}</h2>
             {!trained ? (
               <div className="empty">
-                <p>No {noun} has been punished yet, so there is no memory to test.</p>
-                <button type="button" className="btn btn--punish" onClick={() => { pairNow('punish'); }}>
-                  Pair {displayName(target)} with punishment now
+                <p>{S2.empty}</p>
+                <button type="button" className="btn btn--punish btn--big" onClick={pairNow}>
+                  {S2.punishNow({ name: displayName(target) })}
                 </button>
               </div>
             ) : (
               <>
-                <p className="step__lede">
-                  The memory lives on the synapses of {displayName(trained)}&apos;s Kenyon cells. Another {noun} loses drive
-                  only through the Kenyon cells it shares with {displayName(trained)}; shared cells glow yellow.
-                </p>
+                <p className="step__lede">{S2.lede({ N, trained: displayName(trained) })}</p>
+                <p className="small step__explain">{S2.explain({ N, per: CHANNELS_PER_ODOUR, total: nChannels })}</p>
                 <div className="chipgroup">
-                  <h3>Other {noun}s</h3>
-                  <div className="chips" role="group" aria-label={`Other ${noun}s`}>
-                    {others.map((n) => (
-                      <button key={n} type="button" className="chip chip--small" aria-pressed={onRig === n} onClick={() => probe(n)} aria-label={displayName(n)}>
-                        <span className="chip__big">{letter(n)}</span>
-                      </button>
-                    ))}
-                    <button type="button" className="chip chip--small" aria-pressed={onRig === trained} onClick={() => probe(trained)}>
-                      <span className="chip__big">{letter(trained)}</span><span className="chip__sub">trained</span>
-                    </button>
+                  <h3 id="grp-different">{S2.different({ N })}</h3>
+                  <div className="chips" role="group" aria-labelledby="grp-different">
+                    {others.map((n) => chip(n, probe, letter(n), cap(displayName(n))))}
+                    {chip(trained, probe, letter(trained), `${cap(displayName(trained))}, ${S2.punishedTag}`, S2.punishedTag)}
                   </div>
                 </div>
                 {ladderOk ? (
                   <>
                     <div className="chipgroup">
-                      <h3>Similar to A: sharing {ladder.map((l) => l.shared).join(', ')} of its glomeruli</h3>
-                      <div className="chips" role="group" aria-label="Odours similar to A">
-                        {ladder.map((l) => (
-                          <button key={l.name} type="button" className="chip chip--small" aria-pressed={onRig === l.name} onClick={() => probe(l.name)} aria-label={`An odour sharing ${l.shared} of A's ${nGlomA} glomeruli`}>
-                            <span className="chip__big">{l.shared}/{nGlomA}</span>
-                          </button>
-                        ))}
+                      <h3 id="grp-similar">{S2.similar({ trained: displayName(trained) })}</h3>
+                      <p id="grp-similar-sub" className="chipgroup__sub">{S2.similarSub({ per: nGlomA })}</p>
+                      <div className="chips" role="group" aria-labelledby="grp-similar" aria-describedby="grp-similar-sub">
+                        {/* each name starts with the visible label, so voice control can say "5 of 6" */}
+                        {ladder.map((l) => chip(l.name, probe, `${l.shared} of ${nGlomA}`, `${l.shared} of ${nGlomA}: ${describeName(l.name)}`))}
                       </div>
                     </div>
                     <div className="chipgroup">
-                      <h3>Part of A only (a partial cue)</h3>
-                      <div className="chips" role="group" aria-label="Partial cues of A">
-                        {parts.map((l) => (
-                          <button key={l.name} type="button" className="chip chip--small" aria-pressed={onRig === l.name} onClick={() => probe(l.name)} aria-label={`Only ${l.n} of A's ${nGlomA} glomeruli`}>
-                            <span className="chip__big">{l.n} of {nGlomA}</span>
-                          </button>
-                        ))}
+                      <h3 id="grp-part">{S2.part({ trained: displayName(trained) })}</h3>
+                      <p id="grp-part-sub" className="chipgroup__sub">{S2.partSub({ per: nGlomA })}</p>
+                      <div className="chips" role="group" aria-labelledby="grp-part" aria-describedby="grp-part-sub">
+                        {parts.map((l) => chip(l.name, probe, `${l.n} of ${nGlomA}`, `${l.n} of ${nGlomA}: ${displayName(l.name)}`))}
                       </div>
                     </div>
                   </>
                 ) : (
-                  !visual && <p className="muted small">The similarity ladder and the partial cues are built around odour A. Train A to try them.</p>
+                  !visual && <p className="muted small">{S2.notA}</p>
                 )}
 
                 {probeFrame && (
-                  <div className="result">
-                    <p className="result__head">{displayName(probeFrame.odour.name)} against the memory of {displayName(trained)}</p>
-                    <p className="result__big">
-                      <span className="result__chg">{dropAsChange(probeFrame.readout.dropMBON11)}</span>
-                      <span className="result__vs">at MBON11 (the trained {noun}: {dropAsChange(trainedFrameDrop)})</span>
-                    </p>
-                    <p className="small">
-                      Shares <strong className="mono">{intersectCount(trainedKc, probeFrame.kcActive)}</strong> of {displayName(trained)}&apos;s{' '}
-                      {trainedKc?.length} Kenyon cells ({probeFrame.kcActive.length} fire for it).
+                  <div id="step-result" className="result">
+                    <p className="result__num mono">{dropAsChangeUnder(probeFrame.readout.dropMBON11)}</p>
+                    <p className="result__label">{S2.bigLabel({ name: displayName(probeFrame.odour.name) })}</p>
+                    <p className="result__text">
+                      {S2.sentence({
+                        name: describeName(probeFrame.odour.name),
+                        change: fellText(probeFrame.readout.dropMBON11),
+                        trainedDrop: pctUnder(trainedFrameDrop),
+                        trained: displayName(trained),
+                        shared: int(intersectCount(trainedKc, probeFrame.kcActive)),
+                        nKc: int(trainedKc?.length),
+                      })}
                     </p>
                     <p className="callout callout--wiring">
                       <Badge status={STATUS.WIRING} />
-                      <span>
-                        <strong>Decided by the wiring.</strong> How far the memory spreads depends on how many Kenyon cells the two{' '}
-                        {noun}s share, which the projection-neuron-to-Kenyon-cell synapses set.
-                      </span>
+                      <span>{S2.wiring({ N, target: pct(HIGE_CHARGE_DROP) })}</span>
                     </p>
                     {/_part/.test(probeFrame.odour.name) && (
                       <p className="callout callout--negative">
                         <Badge status={STATUS.NEGATIVE} />
-                        <span>
-                          <strong>No pattern completion.</strong> Part of A recalls part of the memory, in proportion to the
-                          Kenyon cells it shares. In a feedforward circuit that is forced by construction, so this could not
-                          have shown completion.
-                        </span>
+                        <span>{S2.partial}</span>
                       </p>
                     )}
                   </div>
                 )}
-
+                {summary && <p className="step__summary">{summary}</p>}
+              </>
+            )}
+            <div className="step__nav">
+              <button type="button" className="btn" onClick={() => goToStep(1)}>{S.back}</button>
+              <button type="button" className="btn btn--primary" onClick={() => goToStep(3)}>{S2.next}</button>
+            </div>
+            <details className="stepmore">
+              <summary>{S.details}</summary>
+              <div className="stepmore__body">
+                <p className="callout callout--wiring">
+                  <Badge status={STATUS.WIRING} technical />
+                  <span>
+                    The memory lives on the synapses of the trained {N.one}&apos;s Kenyon cells (<abbr title="Kenyon cells">KCs</abbr>). Another{' '}
+                    {N.one} loses drive onto MBON11 only through the Kenyon cells it shares with it, and which cells it
+                    shares is set by the projection-neuron-to-Kenyon-cell synapses (the generalisation of the write-up).
+                  </span>
+                </p>
+                {!visual && (
+                  <p className="callout callout--negative">
+                    <Badge status={STATUS.NEGATIVE} technical />
+                    <span>
+                      <strong>No pattern completion.</strong> Part of A (a partial cue) recalls part of the memory, in
+                      proportion to the Kenyon cells it shares with A. In a feedforward circuit that is forced by
+                      construction, so this could not have shown completion.
+                    </span>
+                  </p>
+                )}
                 {probeLog.length > 0 && (
                   <table className="table table--compact">
-                    <caption>Tested so far (one pairing of {displayName(trained)} unless you paired more)</caption>
+                    <caption>Tested so far, against the memory now in the model</caption>
                     <thead>
-                      <tr><th scope="col">{noun}</th><th scope="col">{visual ? 'channels' : 'glomeruli'} shared</th><th scope="col">KCs shared</th><th scope="col">MBON11 drop</th></tr>
+                      <tr>
+                        <th scope="col">{N.One}</th>
+                        <th scope="col">{visual ? 'Sight channels' : 'Smell channels (glomeruli)'} shared</th>
+                        <th scope="col">Kenyon cells shared</th>
+                        <th scope="col">Drop at MBON11</th>
+                      </tr>
                     </thead>
                     <tbody>
                       {[...probeLog].sort((a, b) => (b.drop ?? 0) - (a.drop ?? 0)).map((e) => (
@@ -373,7 +463,7 @@ export default function Lab({ model, step, setStep, selected, setSelected, beta,
                   <p className="small muted">
                     {visual
                       ? <>Objects A to H are one draw (the results&apos; seed 0).</>
-                      : <>Odours A to H are one odour draw (the results&apos; seed 0); the similar odours and partial cues are one per level, drawn for this page, not the results&apos; own.</>}{' '}
+                      : <>Smells A to H are one odour draw (the results&apos; seed 0); the similar smells and partial cues are one per level, drawn for this page, not the results&apos; own.</>}{' '}
                     Over {results.seeds.n} draws the unpaired{' '}
                     {visual
                       ? <>objects lose {pm(results.seeds.visual.unpaired)} on average, against {pm(results.seeds.unpaired)} for odours: vision is coarser, because only {int(circuit.kc.nDrivable.visual)} Kenyon cells take visual input.</>
@@ -381,18 +471,15 @@ export default function Lab({ model, step, setStep, selected, setSelected, beta,
                     <Src path={results.seeds.src} />
                   </p>
                 )}
-              </>
-            )}
-            <div className="step__nav">
-              <button type="button" className="btn" onClick={() => setStep(2)}>Back</button>
-              <button type="button" className="btn btn--primary" onClick={() => setStep(4)}>Next: the T-maze choice</button>
-            </div>
+                <p className="small"><a href="#glossary">Plain words and their technical names</a></p>
+              </div>
+            </details>
           </>
         )}
 
-        {step === 4 && (
+        {step === 3 && (
           <>
-            <h2 id="step-4-h" className="step__h" tabIndex={-1}>4 · The T-maze choice</h2>
+            <h2 id="step-3-h" className="step__h" tabIndex={-1}>{COPY.step3.h({ N })}</h2>
             <TMaze
               model={model}
               results={results}
@@ -401,87 +488,24 @@ export default function Lab({ model, step, setStep, selected, setSelected, beta,
               beta={beta}
               setBeta={setBeta}
               betas={[BETA_TABLES, BETA_WALKTHROUGH]}
-            />
-            <div className="step__nav">
-              <button type="button" className="btn" onClick={() => setStep(3)}>Back</button>
-              <button type="button" className="btn" onClick={() => { setStep(1); onScrollToStage?.(); }}>Start again</button>
-            </div>
+              onGoStep1={() => goToStep(1, 'main')}
+            >
+              <div className="step__nav">
+                <button type="button" className="btn" onClick={() => goToStep(2)}>{S.back}</button>
+                <button type="button" className="btn" onClick={() => startOver(true)}>{S.startOver}</button>
+              </div>
+            </TMaze>
           </>
         )}
       </section>
 
-      <section className="panel-block" aria-labelledby="mbon-h">
-        <h2 id="mbon-h" className="panel-block__h">What the output neurons receive</h2>
-        <MbonBars circuit={circuit} frame={current} masks={masks} odourLabel={current ? displayName(current.odour.name) : ''} />
+      {/* the canvas's text description (its aria-describedby). Shown only when the 3D view is not there to see;
+          otherwise it is kept for screen readers, and the per-group table is under "For scientists". */}
+      <section className={`panel-block${sceneText ? '' : ' sr-only'}`} aria-labelledby="view-h">
+        <h2 id="view-h" className="panel-block__h">{COPY.scene.h}</h2>
+        <p id="scene-summary" className="scene-summary">{describeScene(model, showShared)}</p>
+        {sceneText && <p className="small"><a href="#scene-text">{COPY.scene.tableLink}</a></p>}
       </section>
-
-      <section className="panel-block" aria-labelledby="view-h">
-        <h2 id="view-h" className="panel-block__h">What the 3D view shows</h2>
-        <p id="scene-summary" className="scene-summary">{scene.summary}</p>
-        <details className="textview">
-          <summary>Text view of the 3D scene</summary>
-          <table className="table table--compact">
-            <caption>Cells drawn, at their scanned cell-body positions (MaleCNS v1.0)</caption>
-            <thead><tr><th scope="col">Cells</th><th scope="col">Drawn</th><th scope="col">Lit now</th></tr></thead>
-            <tbody>
-              {scene.rows.map((r) => (
-                <tr key={r.label}><th scope="row">{r.label}</th><td className="mono">{int(r.n)}</td><td>{r.lit}</td></tr>
-              ))}
-            </tbody>
-          </table>
-          <p className="small muted">
-            Positions are raw MaleCNS voxel coordinates (x toward the fly&apos;s left, y ventral, z posterior).{' '}
-            {int(flagged(circuit.kc, 2))} Kenyon cells and {int(flagged(circuit.mbon, 2))} MBON have no scanned cell body and sit at the
-            mean of their type; {int(flagged(circuit.kc, 1, 1))} Kenyon cells and {int(flagged(circuit.pn, 1, 1))} projection neurons
-            sit at a scanned point on the neurite.
-          </p>
-          <p className="small muted">
-            Single cells: with a mouse, hovering a point shows that cell&apos;s type, side, body ID and position source.
-            There is no keyboard or touch equivalent for single cells; this table gives the counts per class, and
-            &ldquo;What the output neurons receive&rdquo; above lists every MBON type.
-          </p>
-        </details>
-      </section>
-
-      <Experiments model={model} beta={beta} announce={announce} headlines={headlines} results={results} setStep={setStep} setSelected={setSelected} />
     </div>
   );
-}
-
-/** How many cells of a population have a position flag in [lo, hi] (0 scanned soma, 1 neurite point, 2+ stand-in). */
-function flagged(pop, lo, hi = Infinity) {
-  let n = 0;
-  for (const f of pop.posFlag) if (f >= lo && f <= hi) n++;
-  return n;
-}
-
-function sumMask(a, mask) {
-  let s = 0;
-  for (let i = 0; i < a.length; i++) if (mask[i]) s += a[i];
-  return s;
-}
-
-/** A plain-text description of what the canvas shows right now (the canvas points to it). */
-function describeScene(model, trained) {
-  const { circuit, current, masks, modality, lastPair } = model;
-  if (!circuit) return { summary: 'Loading the circuit…', rows: [] };
-  const rows = [
-    { label: 'Kenyon cells', n: circuit.kc.n, lit: current ? `${current.kcActive.length} firing` : 'none' },
-    { label: 'Olfactory projection neurons', n: circuit.pn.n, lit: current && modality === 'olfactory' ? `${current.pnActive.length} on` : 'none' },
-    { label: 'Visual projection neurons', n: circuit.vpn.n, lit: current && modality === 'visual' ? `${current.pnActive.length} on` : 'none' },
-    { label: 'MBONs (output neurons)', n: circuit.mbon.n, lit: current ? 'brightness = drive now' : 'resting' },
-    { label: `PPL1 dopamine neurons (PPL1-γ1pedc, ${circuit.dan.punishIdx.length} cells, is the punishment signal)`, n: circuit.dan.family.filter((f) => f === 'PPL1').length, lit: lastPair?.us === 'punish' ? 'PPL1-γ1pedc flashed at the last pairing' : 'resting' },
-    { label: 'PAM dopamine neurons (the reward signal)', n: circuit.dan.family.filter((f) => f === 'PAM').length, lit: lastPair?.us === 'reward' ? 'flashed at the last pairing' : 'resting' },
-    { label: 'APL', n: circuit.apl.n, lit: 'anatomy only' },
-  ];
-  if (!current) {
-    return { summary: `${circuit.kc.n.toLocaleString('en-GB')} Kenyon cells and ${circuit.mbon.n + circuit.dan.n + circuit.pn.n + circuit.vpn.n + circuit.apl.n} other circuit cells, all resting. Nothing is on the rig.`, rows };
-  }
-  const m11now = sumMask(current.mbonDrive, masks.MBON11);
-  const m11before = sumMask(current.mbonUntrained, masks.MBON11);
-  const shared = trained && current.odour.name !== trained ? ' Kenyon cells it shares with the trained odour glow yellow.' : '';
-  return {
-    summary: `${displayName(current.odour.name)} on the rig: ${current.kcActive.length} Kenyon cells light up, fed by ${current.pnActive.length} projection neurons (lines). MBON11 receives ${int(m11now)}${Math.abs(m11now - m11before) > 0.5 ? ` (${int(m11before)} before learning)` : ''}.${shared}`,
-    rows,
-  };
 }

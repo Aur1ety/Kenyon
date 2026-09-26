@@ -39,10 +39,10 @@ export default function VideoSection({ headlines, results }) {
   const dropB = headlines?.items.find((i) => i.id === 'unpaired_drop')?.perOdour?.B;
   const wild = results?.q?.behaviour.wildType || null;
   return (
-    <section id="video" className="section" aria-labelledby="video-h" ref={sectionRef}>
+    <section id="video" className="section section--sub" aria-labelledby="video-h" ref={sectionRef}>
       <div className="section__inner section__inner--narrow">
         <p className="eyebrow">The video</p>
-        <h2 id="video-h" className="section__h">The same model, rendered by the Python code</h2>
+        <h3 id="video-h" className="section__h">The same model, rendered by the Python code</h3>
         <p className="section__lede">
           An odour lights up its Kenyon cells at their scanned positions, punishment dopamine arrives, the output
           cell&apos;s response to that odour drops{paired != null ? <> to about {pct(1 - paired)}</> : null} while an

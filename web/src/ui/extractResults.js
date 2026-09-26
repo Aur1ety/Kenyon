@@ -85,6 +85,9 @@ function motor(raw) {
     src: { full: resultPath('motorFull'), v5: resultPath('motorV5'), cut: resultPath('motorCut'), anatomyFull: resultPath('anatomyFull'), anatomyV5: resultPath('anatomyV5') },
     nDN: full.dn_selection.n_DN,
     nDNv5: v5.dn_selection.n_DN,
+    // the size of the whole-brain graph each run used (neurons and connections)
+    graph: { nodes: full.graph.n_nodes, edges: full.graph.n_edges },
+    graphV5: { nodes: v5.graph.n_nodes, edges: v5.graph.n_edges },
     nDraws: full.per_seed.length,
     nStored: Math.min(...full.per_seed.map((x) => x.top_DNs_by_abs_change.length), ...cut.per_seed.map((x) => x.top_DNs_by_abs_change.length)),
     threshold: THRESH,

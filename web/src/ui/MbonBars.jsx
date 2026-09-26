@@ -31,7 +31,7 @@ export default function MbonBars({ circuit, frame, masks, odourLabel }) {
   }, [circuit, frame, masks]);
 
   if (!frame) {
-    return <p className="muted">Pick an odour to see how strongly it drives each output neuron.</p>;
+    return <p className="muted">Pick a smell in step 1 to see how strongly it drives each output neuron (MBON).</p>;
   }
 
   const max = Math.max(1, ...rows.map((r) => Math.max(r.before, r.now)));
@@ -41,8 +41,8 @@ export default function MbonBars({ circuit, frame, masks, odourLabel }) {
     <div className="mbon">
       <table className="mbon__table">
         <caption>
-          Drive onto each MBON type for {odourLabel}: synapse-weighted input from the firing Kenyon cells (model
-          units). The faint bar is the untrained circuit.
+          Drive onto each output-neuron (MBON) type for {odourLabel}: synapse-weighted input from the firing Kenyon cells
+          (the memory neurons), in model units. The faint bar is the untrained circuit.
         </caption>
         <thead>
           <tr>

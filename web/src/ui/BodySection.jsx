@@ -100,7 +100,7 @@ export default function BodySection({ results }) {
 
         <div className="twocol">
           <div className="card">
-            <h3 className="card__h">What it is</h3>
+            <h4 className="card__h">What it is</h4>
             <ul className="list">
               <li>
                 <strong>Faint.</strong> Across all {int(m.nDN)} descending neurons the pooled change is {sci(m.pooled)},{' '}
@@ -123,7 +123,7 @@ export default function BodySection({ results }) {
             </ul>
           </div>
           <div className="card">
-            <h3 className="card__h">Pruned against unpruned</h3>
+            <h4 className="card__h">Pruned against unpruned</h4>
             <table className="table table--compact">
               <caption className="sr-only">The Doom graph against the unpruned graph</caption>
               <thead><tr><th scope="col" /><th scope="col">Doom graph (small connections dropped)</th><th scope="col">Unpruned</th></tr></thead>
@@ -141,7 +141,7 @@ export default function BodySection({ results }) {
         </div>
 
         <div className="card card--negative caveats">
-          <h3 className="card__h"><Badge status={STATUS.NEGATIVE}>caveats</Badge> Read it narrowly (worst first)</h3>
+          <h4 className="card__h"><Badge status={STATUS.NEGATIVE} technical>caveats</Badge> Read it narrowly (worst first)</h4>
           <ol className="list">
             <li>
               It rests on {words(m.synapses)} synapses in one reconstruction, in connections of {connText}, every one below the
@@ -174,19 +174,20 @@ export default function BodySection({ results }) {
   }
 
   return (
-    <section id="body" className="section" aria-labelledby="body-h">
+    <section id="body" className="section section--sub" aria-labelledby="body-h">
       <div className="section__inner">
         <p className="eyebrow">Does it reach the body?</p>
-        <h2 id="body-h" className="section__h">
+        <h3 id="body-h" className="section__h">
           Barely. The {q ? `${words(q.motor.nAbove)} ` : ''}cells that move are reached through a side door.
-        </h2>
+        </h3>
         <p className="section__lede">
-          The choice in step 4 is read through a rule of thumb. The stricter test is the descending neurons, the cells that
-          carry commands from the brain to the body. For that the memory goes back inside the full recurrent brain model
-          that DOOM-x-Fly runs, and is read at every descending neuron.
+          The choice in step 3 is read through a rule of thumb. The stricter test is the descending neurons (the
+          movement-command neurons), the cells that carry commands from the brain to the body. For that the memory goes
+          back inside the full recurrent brain model that DOOM-x-Fly runs (the whole-brain model), and is read at every
+          descending neuron.
         </p>
         <p className="callout callout--quoted">
-          <Badge status={STATUS.QUOTED}>quoted</Badge>
+          <Badge status={STATUS.QUOTED} technical>quoted</Badge>
           <span>
             Computed by the recurrent whole-brain model, not by this page. Every number below is read from its stored
             outputs, cited under each block; the few that need the per-cell file say so.

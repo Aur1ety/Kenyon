@@ -1,6 +1,7 @@
 import Badge, { STATUS } from './Badge.jsx';
 import Src from './Src.jsx';
 import { STATUS_MEANING, CHANNELS_PER_ODOUR, HIGE_CHARGE_DROP } from '../engine/index.js';
+import { PLAIN_MEANING } from './copy.js';
 import { frac, pct, pm, int, words } from './format.js';
 
 /** What the scan gives, counted from the circuit the page runs on. */
@@ -106,10 +107,10 @@ export default function RealVsMine({ headlines, results, circuit, sparsity }) {
   const q = results?.q;
   const scan = fromScan(circuit);
   return (
-    <section id="real" className="section" aria-labelledby="real-h">
+    <section id="real" className="section section--sub" aria-labelledby="real-h">
       <div className="section__inner">
         <p className="eyebrow">Honesty is the point</p>
-        <h2 id="real-h" className="section__h">What is real, and what is set by me</h2>
+        <h3 id="real-h" className="section__h">What is real, and what is set by me</h3>
         <p className="section__lede">
           The size of the memory is a calibration, and I don&apos;t count it as a result. What the wiring decides is where
           the memory lands, how specific it is, how it spreads to similar odours, and which way the choice goes. Those
@@ -118,7 +119,7 @@ export default function RealVsMine({ headlines, results, circuit, sparsity }) {
 
         <div className="twocol">
           <div className="card">
-            <h3 className="card__h"><Badge status="FROM THE SCAN">from the scan</Badge> MaleCNS v1.0 connectome</h3>
+            <h4 className="card__h"><Badge status="FROM THE SCAN" technical>from the scan</Badge> MaleCNS v1.0 connectome (the brain scan)</h4>
             {scan ? (
               <ul className="list">
                 {scan.map((t) => <li key={t}>{t}</li>)}
@@ -128,7 +129,7 @@ export default function RealVsMine({ headlines, results, circuit, sparsity }) {
             )}
           </div>
           <div className="card">
-            <h3 className="card__h"><Badge status="SET BY ME">set by me</Badge> chosen or fitted</h3>
+            <h4 className="card__h"><Badge status="SET BY ME" technical>set by me</Badge> chosen or fitted</h4>
             {sparsity != null ? (
               <ul className="list">
                 {setByMe(sparsity).map(([a, b]) => <li key={a}><strong>{a}</strong>: {b}</li>)}
@@ -175,7 +176,7 @@ export default function RealVsMine({ headlines, results, circuit, sparsity }) {
                       ) : results?.status === 'error' ? '–' : '…'}
                     </td>
                     <td>
-                      <Badge status={it.status} />
+                      <Badge status={it.status} technical />
                       <span className="table__note">{it.note}</span>
                     </td>
                   </tr>
@@ -190,9 +191,17 @@ export default function RealVsMine({ headlines, results, circuit, sparsity }) {
 
         <details className="more">
           <summary>What each label means</summary>
-          <dl className="kv kv--wide">
+          <p className="small muted">
+            The default view of the page shows each label in plain words (left); this part shows the technical label
+            (middle).
+          </p>
+          <dl className="kv kv--wide kv--labels">
             {[STATUS.CALIBRATION, STATUS.WIRING, STATUS.NEGATIVE, STATUS.FITTED, STATUS.MODELLED_CHOICE, STATUS.CONTROL, STATUS.RULE_CHANGE, STATUS.QUOTED].map((s) => (
-              <div key={s}><dt><Badge status={s} /></dt><dd>{STATUS_MEANING[s]}</dd></div>
+              <div key={s}>
+                <dt><Badge status={s} /></dt>
+                <dt><Badge status={s} technical /></dt>
+                <dd>{STATUS_MEANING[s]} <span className="muted">In plain words: {PLAIN_MEANING[s]}</span></dd>
+              </div>
             ))}
           </dl>
         </details>

@@ -6,16 +6,49 @@
 // posterior. The scene maps them to three.js as (x, -y, -z), which is a proper rotation (no mirror): with
 // the camera on +Z you see the brain from the front, dorsal up, the fly's left on your right.
 
+// Per cell class: label = the full name (key tooltip and screen readers), everyday words first and the technical
+// name in brackets; short = the key's everyday name; tech = the technical short name (shown when "Scientific
+// names" is on); line = one plain line on what the colour stands for. A text that needs a count is a function of
+// the layout (read it with classText), so no number is typed here.
 export const CLASSES = [
-  { id: 'kc', label: 'Kenyon cells', short: 'Kenyon cells', color: '#5fd4f0', size: 12 },
-  { id: 'pn', label: 'Olfactory projection neurons', short: 'Smell PNs', color: '#ffa94d', size: 16 },
-  { id: 'vpn', label: 'Visual projection neurons', short: 'Vision PNs', color: '#b197fc', size: 15 },
-  { id: 'mbon', label: 'Mushroom-body output neurons (MBONs)', short: 'MBONs', color: '#f1f3f5', size: 24 },
-  { id: 'ppl1', label: "PPL1 dopamine neurons (the PPL1-γ1pedc cells among them are the model's punishment signal)", short: 'PPL1', color: '#ff6b6b', size: 20 },
-  { id: 'pam', label: "PAM dopamine neurons (the model's reward signal)", short: 'PAM', color: '#69db7c', size: 13 },
-  { id: 'apl', label: 'APL (feedback inhibition, anatomy only)', short: 'APL', color: '#adb5bd', size: 26 },
+  {
+    id: 'kc', label: 'Memory neurons (Kenyon cells)', short: 'Memory neurons', tech: 'Kenyon cells',
+    line: 'Store the memory. A smell switches on a small set.', color: '#5fd4f0', size: 12,
+  },
+  {
+    id: 'pn', label: 'Smell-input neurons (olfactory projection neurons)', short: 'Smell input', tech: 'Smell PNs',
+    line: 'Carry a smell to the memory neurons.', color: '#ffa94d', size: 16,
+  },
+  {
+    id: 'vpn', label: 'Sight-input neurons (visual projection neurons)', short: 'Sight input', tech: 'Vision PNs',
+    line: 'Carry sight to the memory neurons.', color: '#b197fc', size: 15,
+  },
+  {
+    id: 'mbon', label: 'Output neurons (mushroom-body output neurons, MBONs)', short: 'Output neurons', tech: 'MBONs',
+    line: 'Read the memory neurons; brighter means a stronger signal.', color: '#f1f3f5', size: 24,
+  },
+  {
+    id: 'ppl1',
+    label: (L) => `Punishment group: ${L.counts.ppl1} dopamine neurons (PPL1); ${L.ppl101.length} of them (PPL1-γ1pedc) are the model's punishment signal`,
+    short: 'Punishment group', tech: 'PPL1',
+    line: (L) => `The ${L.ppl101.length} big ones carry the punishment signal.`, color: '#ff6b6b', size: 20,
+  },
+  {
+    id: 'pam', label: 'Reward signal: dopamine neurons (PAM)', short: 'Reward signal', tech: 'PAM',
+    line: 'Carry the reward signal.', color: '#69db7c', size: 13,
+  },
+  {
+    id: 'apl', label: 'Brake neuron (APL): keeps only a few memory neurons on; drawn, not simulated', short: 'Brake neuron', tech: 'APL',
+    line: 'Keeps most memory neurons quiet. Drawn, not simulated.', color: '#adb5bd', size: 26,
+  },
 ];
 export const CLASS_INDEX = Object.fromEntries(CLASSES.map((c, i) => [c.id, i]));
+
+/** A CLASSES text field, filled in from the layout when it needs a count. */
+export function classText(c, layout, field) {
+  const v = c[field];
+  return typeof v === 'function' ? (layout ? v(layout) : '') : v;
+}
 
 export const SCALE = 1 / 10000; // voxels -> scene units
 
@@ -114,7 +147,7 @@ export function buildLayout(circuit) {
 
   // enlarge the story's cells so they read at a glance
   for (const m of mbon11) sizes[offset.mbon + m] = 34;
-  for (const d of ppl101) sizes[offset.dan + d] = 28;
+  for (const d of ppl101) sizes[offset.dan + d] = 32;
 
   // label anchors: population centroids per side, and the named cells
   const bySide = (key, list, sideArr) => {
@@ -158,11 +191,16 @@ export function buildLayout(circuit) {
   };
 }
 
-/** Human-readable description of one drawn point (hover card and text view). */
-export function describePoint(circuit, layout, i) {
+/**
+ * Description of one drawn point for the hover card: everyday words first, the technical name in brackets.
+ * `side` is the brain's own left or right; `where` says how the point was placed. `science` (the "Scientific
+ * names" switch) swaps the plain extra line of output and signal neurons for their compartment and transmitter.
+ */
+export function describePoint(circuit, layout, i, science = false) {
   const { offset } = layout;
   const flagText = (f) =>
-    f === 0 ? 'scanned soma' : f === 1 ? 'scanned point on the neurite (soma missing)' : 'display stand-in (mean of its type)';
+    f === 0 ? 'scanned cell body' : f === 1 ? 'a scanned point on its branch (no cell body)' : 'average spot for its type';
+  const sideText = (s) => (s === 'L' ? 'left side' : s === 'R' ? 'right side' : s);
   const pick = (key) => i - offset[key];
   let key = 'kc';
   for (const k of ['apl', 'dan', 'mbon', 'vpn', 'pn', 'kc']) {
@@ -170,19 +208,44 @@ export function describePoint(circuit, layout, i) {
   }
   const j = pick(key);
   const g = circuit[key];
-  const base = { body: g.body[j], side: g.side[j], where: flagText(g.posFlag[j]) };
+  const base = { body: g.body[j], side: sideText(g.side[j]), where: flagText(g.posFlag[j]) };
   switch (key) {
     case 'kc':
-      return { ...base, kind: 'Kenyon cell', type: g.type[j], index: j };
+      return { ...base, kind: 'Memory neuron (Kenyon cell)', type: g.type[j], index: j };
     case 'pn':
-      return { ...base, kind: 'Olfactory projection neuron', type: g.type[j], extra: `glomerulus ${circuit.glomeruli[g.channel[j]]}`, index: j };
+      return {
+        ...base, kind: 'Smell-input neuron (olfactory projection neuron)', type: g.type[j],
+        extra: `smell channel ${circuit.glomeruli[g.channel[j]]} (glomerulus)`, index: j,
+      };
     case 'vpn':
-      return { ...base, kind: 'Visual projection neuron', type: circuit.visualChannels[g.channel[j]], index: j };
-    case 'mbon':
-      return { ...base, kind: 'MBON', type: g.type[j], extra: `${g.compartmentLabel[j]} · ${g.nt[j]} (${g.valence[j] > 0 ? 'approach' : 'avoid'} by the rule of thumb)`, index: j };
-    case 'dan':
-      return { ...base, kind: g.family[j] === 'PAM' ? 'PAM dopamine neuron' : 'PPL1 dopamine neuron', type: g.type[j], extra: g.compartmentLabel[j] || '', index: j };
+      return { ...base, kind: 'Sight-input neuron (visual projection neuron)', type: circuit.visualChannels[g.channel[j]], extra: 'sight channel', index: j };
+    case 'mbon': {
+      const way = g.valence[j] > 0 ? '‘go toward’' : '‘stay away’';
+      const mbon11 = g.type[j] === 'MBON11';
+      // plain words: what its signal counts as (the author's rule of thumb, not a measured fact), and for the
+      // go-toward neuron why a lesson turns the model away
+      const rule = `its signal counts as ${way} (a rule of thumb from studies of real flies)`;
+      const plain = mbon11 && g.valence[j] > 0
+        ? `${rule}; a lesson weakens it, so the model turns away from what was punished`
+        : rule;
+      return {
+        ...base,
+        kind: mbon11 ? 'Go-toward neuron (MBON11)' : 'Output neuron (MBON)',
+        type: g.type[j],
+        extra: science ? `${g.compartmentLabel[j]} · ${g.nt[j]} · counts as ${way} by the transmitter rule` : plain,
+        index: j,
+      };
+    }
+    case 'dan': {
+      const punish = Array.prototype.includes.call(g.punishIdx, j);
+      const pam = g.family[j] === 'PAM';
+      const kind = pam
+        ? 'Reward-signal neuron (PAM dopamine)'
+        : punish ? 'Punishment-signal neuron (PPL1-γ1pedc)' : 'Punishment-group neuron (PPL1 dopamine)';
+      const plain = pam ? 'fires with the reward' : punish ? 'fires with the punishment' : '';
+      return { ...base, kind, type: g.type[j], extra: science ? g.compartmentLabel[j] || '' : plain, index: j };
+    }
     default:
-      return { ...base, kind: 'APL', type: 'APL', index: j };
+      return { ...base, kind: 'Brake neuron (APL)', type: 'APL', index: j };
   }
 }

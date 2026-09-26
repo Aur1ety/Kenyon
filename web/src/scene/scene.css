@@ -1,0 +1,157 @@
+/* The 3D view's key (inside the legend box): one row per neuron group with a plain line on what its colour means,
+   the three drawing conventions, and the "Scientific names" switch. New class names only: the stage, the legend
+   box and the swatches are styled in styles/app.css. The open key is kept short, so it hides little of the view. */
+
+.key-box {
+  position: relative;
+}
+
+.key {
+  /* stays inside the stage, so the "Key" summary that closes it never scrolls out of reach */
+  max-height: max(200px, calc(100vh - 216px));
+  max-height: max(200px, calc(100dvh - 216px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.key__list {
+  list-style: none;
+  margin: 0;
+  padding: 0 6px 4px;
+  display: grid;
+  gap: 2px;
+}
+.key__row {
+  display: grid;
+  grid-template-columns: 10px 8.6em 3.4em minmax(0, 1fr);
+  align-items: center;
+  column-gap: 8px;
+  width: 100%;
+  min-height: 24px; /* WCAG 2.2 target size */
+  padding: 1px 6px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-1);
+  font: inherit;
+  font-size: 0.76rem;
+  line-height: 1.25;
+  text-align: left;
+  cursor: pointer;
+}
+.key__row:hover {
+  background: var(--bg-4);
+}
+.key__row:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: -2px;
+}
+.key__name {
+  font-weight: 500;
+}
+.key__count {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-2);
+  text-align: right;
+}
+.key__line {
+  color: var(--text-2);
+}
+/* a hidden group: dimmed swatch, struck-through name */
+.key__row[aria-pressed='false'] {
+  color: var(--text-3);
+}
+.key__row[aria-pressed='false'] .swatch {
+  opacity: 0.35;
+  box-shadow: none;
+}
+.key__row[aria-pressed='false'] .key__name {
+  text-decoration: line-through;
+}
+.key__row[aria-pressed='false'] .key__line,
+.key__row[aria-pressed='false'] .key__count {
+  color: var(--text-3);
+}
+
+.key__notes {
+  list-style: none;
+  margin: 0;
+  padding: 5px 12px 8px;
+  display: grid;
+  gap: 2px;
+  border-top: 1px solid var(--line);
+  color: var(--text-2);
+  font-size: 0.72rem;
+  line-height: 1.4;
+}
+.key__notes li {
+  display: grid;
+  grid-template-columns: 10px minmax(0, 1fr);
+  column-gap: 8px;
+  align-items: start;
+}
+.key__notes .swatch {
+  margin-top: 0.32em;
+}
+/* a connection line: from an input neuron's colour to a memory neuron's */
+.key__stroke {
+  display: inline-block;
+  width: 10px;
+  height: 2px;
+  margin-top: 0.62em;
+  border-radius: 1px;
+  background: linear-gradient(90deg, var(--pn), var(--kc));
+}
+
+/* the "Scientific names" switch, on the right of the "Key" line */
+.key__names {
+  position: absolute;
+  top: 4px;
+  right: 8px;
+  min-height: 24px;
+  padding: 1px 10px;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  background: rgba(3, 5, 10, 0.5);
+  color: var(--text-2);
+  font: inherit;
+  font-size: 0.72rem;
+  cursor: pointer;
+}
+.key__names:hover {
+  color: var(--text-1);
+  background: var(--bg-4);
+}
+.key__names[aria-pressed='true'] {
+  color: var(--text-1);
+  border-color: rgba(95, 212, 240, 0.6);
+  background: rgba(95, 212, 240, 0.14);
+}
+.key__names:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+@media (max-width: 999px) {
+  /* the stage is a short band above the text here (app.css .lab__stage) */
+  .key {
+    max-height: calc(min(44vh, 440px) - 64px);
+  }
+}
+@media (max-width: 999px) and (max-height: 700px) {
+  .key {
+    max-height: calc(clamp(180px, 60vh, 440px) - 64px);
+  }
+}
+@media (max-width: 600px) {
+  /* narrow: the plain line moves under the name */
+  .key__row {
+    grid-template-columns: 10px minmax(0, 1fr) auto;
+    padding: 3px 6px;
+  }
+  .key__line {
+    grid-column: 2 / -1;
+    font-size: 0.72rem;
+  }
+}

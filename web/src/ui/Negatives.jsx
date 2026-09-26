@@ -6,25 +6,25 @@ const WAIT = '…';
 
 /** The honest negatives, reported next to the successes. The page's own numbers come from its engine; the rest
  * are read from the stored result files, each cited. */
-export default function Negatives({ headlines, results, circuit, sparsity }) {
+export default function Negatives({ headlines, results, circuit, sparsity, onGoToStep }) {
   const h = headlines ? Object.fromEntries(headlines.items.map((i) => [i.id, i])) : {};
   const q = results?.q;
   const overwrite = h.overwrite;
   const partial = h.partial_cue;
 
   return (
-    <section id="fails" className="section" aria-labelledby="fails-h">
+    <section id="fails" className="section section--sub" aria-labelledby="fails-h">
       <div className="section__inner">
         <p className="eyebrow">Where it fails</p>
-        <h2 id="fails-h" className="section__h">The honest negatives</h2>
+        <h3 id="fails-h" className="section__h">The honest negatives</h3>
         <p className="section__lede">
           A model that only succeeds tells you little. These are the places Kenyon fails, or cannot test the claim at all.
         </p>
 
         <div className="grid3">
-          <article className="card card--negative">
-            <Badge status={STATUS.NEGATIVE} />
-            <h3 className="card__h">Two memories in the same compartment overwrite each other</h3>
+          <article id="fails-overwrite" className="card card--negative">
+            <Badge status={STATUS.NEGATIVE} technical />
+            <h4 className="card__h">Two memories in the same compartment overwrite each other</h4>
             <p>
               Train odour B after A, both punished, and A keeps only{' '}
               <strong className="mono">{overwrite ? frac(overwrite.value) : WAIT}</strong> of its memory on this page
@@ -32,12 +32,12 @@ export default function Negatives({ headlines, results, circuit, sparsity }) {
               published rule&apos;s recovery term; turning that term down fixes it, but that is a rule change.
             </p>
             {q && <Src path={q.seeds.src} />}
-            <a className="card__link" href="#exp-h">Try it in the lab</a>
+            <a className="card__link" href="#exp-h">Try it in the lab in detail</a>
           </article>
 
-          <article className="card card--negative">
-            <Badge status={STATUS.NEGATIVE} />
-            <h3 className="card__h">No pattern completion</h3>
+          <article id="fails-partial" className="card card--negative">
+            <Badge status={STATUS.NEGATIVE} technical />
+            <h4 className="card__h">No pattern completion</h4>
             <p>
               Give it part of a trained odour and it recalls part of the memory
               {(() => {
@@ -55,12 +55,12 @@ export default function Negatives({ headlines, results, circuit, sparsity }) {
               overlap; it is not a test that could have shown completion.
             </p>
             {q && <Src path={q.recall.src} section="section 4.3" />}
-            <a className="card__link" href="#lab">Try a partial cue in step 3</a>
+            <a className="card__link" href="#lab" onClick={(e) => { if (onGoToStep) { e.preventDefault(); onGoToStep(2); } }}>Try a partial smell in step 2</a>
           </article>
 
           <article className="card card--negative">
-            <Badge status={STATUS.NEGATIVE} />
-            <h3 className="card__h">The size of the memory can&apos;t be made a prediction</h3>
+            <Badge status={STATUS.NEGATIVE} technical />
+            <h4 className="card__h">The size of the memory can&apos;t be made a prediction</h4>
             {q ? (
               <p>
                 {words(q.magnitude.nCandidates)[0].toUpperCase() + words(q.magnitude.nCandidates).slice(1)} ways the dopamine
@@ -74,8 +74,8 @@ export default function Negatives({ headlines, results, circuit, sparsity }) {
           </article>
 
           <article className="card card--negative">
-            <Badge status={STATUS.NEGATIVE} />
-            <h3 className="card__h">The APL loop doesn&apos;t make the odour code</h3>
+            <Badge status={STATUS.NEGATIVE} technical />
+            <h4 className="card__h">The APL loop (the brake neuron) doesn&apos;t make the odour code</h4>
             {q ? (
               <p>
                 Computing the Kenyon code from the real APL feedback wiring sets how many cells fire, but a uniform
@@ -87,8 +87,8 @@ export default function Negatives({ headlines, results, circuit, sparsity }) {
           </article>
 
           <article className="card card--negative">
-            <Badge status={STATUS.NEGATIVE} />
-            <h3 className="card__h">The recurrent brain model can&apos;t make a sparse code</h3>
+            <Badge status={STATUS.NEGATIVE} technical />
+            <h4 className="card__h">The recurrent brain model can&apos;t make a sparse code</h4>
             {q ? (
               <p>
                 Inside the full recurrent network, at each of the {words(q.sparse.nThresholds)} Kenyon-cell thresholds tried,
@@ -102,8 +102,8 @@ export default function Negatives({ headlines, results, circuit, sparsity }) {
           </article>
 
           <article className="card">
-            <Badge status={STATUS.WIRING}>limit</Badge>
-            <h3 className="card__h">Vision is coarser than smell</h3>
+            <Badge status={STATUS.WIRING} technical>limit</Badge>
+            <h4 className="card__h">Vision is coarser than smell</h4>
             {q ? (
               <p>
                 The same circuit learns visual objects, but less specifically: over {q.seeds.n} draws unpaired objects lose{' '}
