@@ -178,7 +178,7 @@ export default function Experiments({ model, beta, announce, headlines, results,
             <thead><tr><th scope="col">Change</th><th scope="col">Result</th></tr></thead>
             <tbody>
               <tr>
-                <th scope="row">Dopamine-to-MBON map shuffled</th>
+                <th scope="row">Dopamine-to-MBON map shuffled (one random shuffle)</th>
                 <td>T-maze index at β {h.shuffled_map_control.beta}: <span className="mono">{frac(h.shuffled_map_control.value[0])} → {frac(h.shuffled_map_control.value[1])}</span>; punishment lands on {h.shuffled_map_control.punishLandsOn.join(', ')}</td>
               </tr>
               <tr>

@@ -28,3 +28,6 @@ videos/
 *.fls
 
 .DS_Store
+
+# Vercel CLI project link (project/org ids)
+.vercel/

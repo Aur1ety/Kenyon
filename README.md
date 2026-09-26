@@ -2,7 +2,7 @@
 
 A fruit-fly memory circuit built from its own connectome.
 
-I took the fly's learning centre, the mushroom body, out of the MaleCNS brain scan (Janelia and Google), wired it exactly as the scan says, and added the published dopamine learning rule. Then I taught it things. It learns that an odour predicts punishment or reward, the memory stays with that odour, it holds a punishment and a reward memory at the same time, and it changes a simulated choice. It also fails in several places, and those are reported next to the successes.
+I took the fly's learning centre, the mushroom body, out of the MaleCNS brain scan (Janelia and Google), built it from the scan's real synapse counts (the parts I had to choose myself are labelled as mine), and added the published dopamine learning rule. Then I taught it things. It learns that an odour predicts punishment or reward, the memory stays with that odour, it holds a punishment and a reward memory at the same time, and it changes a simulated choice. It also fails in several places, and those are reported next to the successes.
 
 The name comes from the Kenyon cells, the roughly 4,000 neurons in the mushroom body that carry the odour code the memory is written on.
 
@@ -20,7 +20,7 @@ One pairing is one training block: odour A arrives together with the punishment 
 | odour sharing 5, 4, 3, 1, 0 of A's 6 glomeruli | 0.60, 0.41, 0.29, 0.12, 0.05 | the wiring |
 | A punished and C rewarded at the same time: A / C | 0.85 / 0.70 | the wiring (different compartments) |
 | T-maze performance index (wild type 0.44 to 0.53) | 0.34 ± 0.03 at motor gain 8 (the wild-type range is met near the fitted gain, 10 to 11) | sign and order from the wiring, size from one fitted gain |
-| same index for one odour pair, dopamine-to-MBON map shuffled | 0.35 → 0.02 | the control that can fail |
+| same index for one odour pair, dopamine-to-MBON map shuffled (one random shuffle) | 0.35 → 0.02 | the control that can fail |
 
 So the size of the memory is a calibration, and I don't count it as a result. What the wiring decides is where the memory lands, how specific it is, how it spreads to similar odours, and which way the choice goes. Those could have come out wrong.
 

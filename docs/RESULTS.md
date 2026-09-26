@@ -20,7 +20,7 @@ and 3.2 mention as superseded are in `results/superseded/`. DOOM-x-Fly's `mb_*.p
 `kenyon/experiments/*.py` here, with the circuit in `kenyon/model/mushroom_body.py`, the recurrent plasticity in
 `kenyon/model/plasticity.py` and the cache builder in `kenyon/connectome/mb_build.py`. The builder's source hash
 that the `olf5_*`, `vis5_*` and `beh5_*` files record (`build_source_sha` c82e39b4017c) is that of DOOM-x-Fly's
-`flybrain/eval/mb_build.py` at commit df2ea01, which built the cache they ran on; the moved copy here hashes
+`flybrain/eval/mb_build.py` at commit 519d464, which built the cache they ran on; the moved copy here hashes
 differently.
 
 ## 1. Memory in the fly's own mushroom body (2026-09-16/17)
@@ -47,8 +47,8 @@ Sections 1, 2 and 4 were regenerated after two adversarial code reviews, and the
 rerun on the CPU after them on 2026-09-20 (`results/kcsparse2_*_cpu.json`, `results/embed2_cpu.json`; the
 pre-review files they replace are kept in `results/superseded/`). The first review found a Kenyon-cell code that
 drifted between the recurrent model's substeps and a k-winners-take-all threshold sized to the whole Kenyon-cell
-pool rather than the driven subset. The second (2026-09-19, eight reviewers, every finding independently
-re-verified) found that the generalisation tables had been read after eight pairings while labelled as one
+pool rather than the driven subset. The second (2026-09-19, an automated eight-agent code review, every finding
+independently re-verified) found that the generalisation tables had been read after eight pairings while labelled as one
 (1.3, 2.2), that the section 3.1 decodability test could only ever return zero, that the visual pathway was
 described as reaching one Kenyon-cell type when the cache reaches three (2.1), that two behavioural comparisons
 between smell and vision said the opposite of what the outputs contain (2.3), that one table cell had no source

@@ -212,7 +212,7 @@ export const COPY = {
     items: {
       scan: {
         h: 'Brain scan to working model',
-        text: ({ nodes, edges, nCircuit }) => `I turned a public scan of a fruit fly's whole brain (the MaleCNS dataset, from the Janelia Research Campus and Google) into a working simulation: ${nodes} neurons and ${edges} connections. This page draws ${nCircuit} of those neurons, wired exactly as the scan shows, and runs the memory circuit among them live.`,
+        text: ({ nodes, edges, nCircuit }) => `I turned a public scan of a fruit fly's whole brain (the MaleCNS dataset, from the Janelia Research Campus and Google) into a working simulation: ${nodes} neurons and ${edges} connections. This page draws ${nCircuit} of those neurons, joined by the connections the scan counted, and runs the memory circuit among them live. The parts I chose myself are labelled.`,
       },
       parity: {
         h: 'Exact-match testing, Python to browser',
@@ -258,7 +258,7 @@ export function glossary({ c, q, k }) {
   const mbonTypes = c ? new Set(c.mbon.type).size : null;
   const ppl1 = c ? c.dan.family.filter((f) => f === 'PPL1').length : null;
   return [
-    ['brain scan (wiring map)', 'connectome: MaleCNS v1.0 (HHMI Janelia Research Campus and Google Research, CC BY 4.0)', "A map of one fly's neurons and every connection between them. The model is wired exactly as it says."],
+    ['brain scan (wiring map)', 'connectome: MaleCNS v1.0 (HHMI Janelia Research Campus and Google Research, CC BY 4.0)', "A map of one fly's neurons and every connection between them. The model uses its real synapse counts; the parts I chose myself are labelled."],
     ['memory circuit', 'mushroom body', 'The part of the fly brain where smell memories are stored. This page runs it live.'],
     ['memory neurons', 'Kenyon cells (KCs)', `${n(k.kc)} neurons. Each smell switches on a small set of them, and the memory is written on their connections.`],
     ['smell-input neurons', 'olfactory projection neurons (uniglomerular, excitatory PNs)', `The ${n(k.pn)} neurons that carry a smell to the memory neurons.`],
@@ -284,7 +284,7 @@ export function glossary({ c, q, k }) {
     ['set by me', `CALIBRATION (learning rate set so one pairing gives the ${n(k.target)} of Hige et al. 2015)`, "A number I chose. I don't count it as a result."],
     ['decided by the wiring', 'WIRING (the scanned wiring plus the published rule)', 'It could have come out wrong. This is what the model actually predicts.'],
     ["tuned by me / the model's choice", 'FITTED / MODELLED CHOICE', "Direction from the wiring, size from one tuned number. A readout of the model, not a fly's behaviour."],
-    ['a check that could fail', 'CONTROL (for example the dopamine-to-MBON map shuffled)', 'Scramble part of the wiring and see if the result goes away. It does.'],
+    ['a check that could fail', 'CONTROL (for example the dopamine-to-MBON map shuffled)', 'Scramble part of the wiring and see if the result goes away. It does (the shuffled map is one random shuffle so far).'],
     ['changed rule', 'RULE CHANGE (recovery term switched off)', 'A tweak to the published rule, shown only to explain a failure, not as a fix.'],
     ['from the whole-brain model', 'QUOTED (results/*.json)', 'Read from the saved results of the whole-brain model, not worked out on this page.'],
     ['movement-command neurons', `descending neurons (DNs), ${n(q?.motor.nDN)} in the unpruned graph`, 'The cells that carry commands from the brain to the body.'],
